@@ -3,56 +3,112 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Página Básica</title>
+  <title>AirBNB - El Hospedaje que Buscas, al Mejor Precio</title>
   
+  <style>
+	  
+	  .marquee-wrapper {
+		display: flex;
+		width: max-content;
+		animation: mover 25s linear infinite;
+	  }
+
+	  .marquee-text {
+		display: inline-block;
+		white-space: nowrap;
+		color: white;
+		font-weight: bold;
+		font-size: 24px;
+		padding-right: 100px;
+	  }
+	  @keyframes mover {
+		0% {
+		  transform: translateX(-100%);
+		}
+		100% {
+		  transform: translateX(300%); 
+		}
+	  }
+
+	</style>
   
 </head>
-<body>
+<body style="margin: 20px;">
+	<br> 
+	<table width="100%" style="color: white; font-weight: bold; border-collapse: collapse;" bgcolor="darkblue" cellpadding="15">
+	  <tr>
+		<td style="padding: 15px; overflow: hidden;">
+			<div class="marquee-wrapper">
+				<h1 class="marquee-text"> << -- 🏠   🏡 -- AirBNB - El Hospedaje que Buscas, al Mejor Precio -- 🏡   🏠 -- >></h1>
+			</div>
+		</td>
+	  </tr>
+	</table>
 	<br> 
 	<button onclick="history.back()">Volver</button>
-	<br> 
-    <h1>AIRBNB</h1>
-
-    <h2>Alojamiento 2</h2>
-	
-	<img src="alojamiento2.jpeg" alt="Alojamiento 2" style="cursor:pointer;">
-	<br> 
-	<p>direccion: Belisario y, Picaflor, B8160 Villa Ventana, Provincia de Buenos Aires</p>
-	
-	<p>
-		El paraiso en las sierras…<br>
-
-        “La Gran Cabaña” brinda el alojamiento en habitaciones de tronco, village y penthouse, 
-        con todos los servicios y confort de las posadas de Montaña en un marco natural único y  rodeadas de un parque arbolado de 7.000 metros frente al arroyo Belisario.<br> 
-	</p>
-
-	<p>	Servicios:<br> <br> 
-	
-        Piscina exterior climatizada <br> 
-        Restaurante <br> 
-        Desayuno buffet <br> 
-        Internet Wifi <br> 
-        Aire acondicionado <br> 
-        Heladera frigobar <br> 
-        Lcd 32" <br> 
-        Directv <br> 
-        Jacuzzi <br> 
-        Calefacción <br> 
-        Queen sommiers <br> 
-        Solarium y reposeras <br> 
-        Muebles de jardin <br> 
+	<table cellspacing="20">
+		<tr>
+			<td width="40%" valign="middle" style="text-align:justify;">
 				
-	</p>
+				<h2>La Gran Cabaña - Posada, Spa y Restaurante de Montaña</h2><br>
+				<p>
+					El paraiso en las sierras…<br><br>
+
+					“La Gran Cabaña” brinda el alojamiento en habitaciones de tronco, village y penthouse, 
+					con todos los servicios y confort de las posadas de Montaña en un marco natural único y  rodeadas de un parque arbolado de 7.000 metros frente al arroyo Belisario.<br>
+				</p>
+				<br>
+				<p>	Servicios:<br> <br> 
+		
+					Piscina exterior climatizada <br> 
+					Restaurante <br> 
+					Desayuno buffet <br> 
+					Internet Wifi <br> 
+					Aire acondicionado <br> 
+					Heladera frigobar <br> 
+					Lcd 32" <br> 
+					Directv <br> 
+					Jacuzzi <br> 
+					Calefacción <br> 
+					Queen sommiers <br> 
+					Solarium y reposeras <br> 
+					Muebles de jardin <br> 
+							
+				</p>
+				
+			</td>
+				
+			<td width="20%"></td>
+			
+			
+			<td style="width: 0%; vertical-align: middle; text-align: right;">
+				<br>
+				<div style="width: 605px; text-align: left;">
+					<img src="alojamiento2.jpeg" alt="La Gran Cabaña" width="605" height="454" style="cursor:pointer; display:block;">
+					Dirección: Belisario y, Picaflor, B8160 Villa Ventana, Provincia de Buenos Aires
+				</div>
+				
+			</td>
+			
+			
+		  
+		</tr>
+		
+		
+	 </table>
+	
+	
+	
 	
 	<p> Fotos: <br>
 	
 	</p>
 	<p>
-	<img src="fotos_alojamiento2/sala.jpg" alt="Sala"  width="640" height="480"style="cursor:pointer;"> <br>
-	<img src="fotos_alojamiento2/dormitorio.jpeg" alt="Dormitorio" width="640" height="480"style="cursor:pointer;"> <br>
-	<img src="fotos_alojamiento2/restaurante.jpeg" alt="Restaurantr" "width="640" height="480"style="cursor:pointer;"> <br>
-	<img src="fotos_alojamiento2/banio.jpeg" alt="Baño" "width="640" height="480"style="cursor:pointer;"> <br>
-	<img src="fotos_alojamiento2/pileta.jpeg" alt="Pileta" "width="640" height="480"style="cursor:pointer;"> <br>
+		<img src="fotos_alojamiento2/sala.jpg" alt="Sala"  width="640" height="480"style="cursor:pointer;"> 
+		<img src="fotos_alojamiento2/dormitorio.jpeg" alt="Dormitorio" width="640" height="480"style="cursor:pointer;"> 
+		<img src="fotos_alojamiento2/restaurant.jpeg" alt="Restaurante" "width="640" height="480"style="cursor:pointer;"> 
+		<img src="fotos_alojamiento2/banio.jpeg" alt="Baño" "width="640" height="480"style="cursor:pointer;"> 
+		<img src="fotos_alojamiento2/pileta.jpeg" alt="Pileta" "width="640" height="480"style="cursor:pointer;"> 
 	</p>
 	
 	
