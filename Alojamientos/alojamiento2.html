@@ -1,39 +1,15 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AirBNB - El Hospedaje que Buscas, al Mejor Precio</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <style>
-	  
-	  .marquee-wrapper {
-		display: flex;
-		width: max-content;
-		animation: mover 25s linear infinite;
-	  }
-
-	  .marquee-text {
-		display: inline-block;
-		white-space: nowrap;
-		color: white;
-		font-weight: bold;
-		font-size: 24px;
-		padding-right: 100px;
-	  }
-	  @keyframes mover {
-		0% {
-		  transform: translateX(-100%);
-		}
-		100% {
-		  transform: translateX(300%); 
-		}
-	  }
-
-	</style>
+	<title>AirBNB - El Hospedaje que Buscas, al Mejor Precio</title>
+  
+	<link rel="stylesheet" href="../css/styles.css">
   
 </head>
-<body style="margin: 20px;">
+<body>
 	<br> 
 	<table width="100%" style="color: white; font-weight: bold; border-collapse: collapse;" bgcolor="darkblue" cellpadding="15">
 	  <tr>
@@ -84,8 +60,12 @@
 			<td style="width: 0%; vertical-align: middle; text-align: right;">
 				<br>
 				<div style="width: 605px; text-align: left;">
-					<img src="alojamiento2.jpeg" alt="La Gran Cabaña" width="605" height="454" style="cursor:pointer; display:block;">
+					<img src="alojamiento2.jpeg" alt="La Gran Cabaña" width="605" height="454" style="cursor:pointer; display:block;"><br>
 					Dirección: Belisario y, Picaflor, B8160 Villa Ventana, Provincia de Buenos Aires
+					<br><br>
+					<a href="../reservas/reserva.html?alojamiento=2">
+					  <button>Reservar</button>
+					</a>
 				</div>
 				
 			</td>
