@@ -3,13 +3,25 @@
   const fechaFin = document.getElementById("fechaFin");
   const precioNocheField = document.getElementById("precioNoche");
   const precioTotalField = document.getElementById("precioTotal");
+  const cantidadPersonasField = document.querySelector("input[name='cantidadPersonas']");
+  const telefono = document.getElementById("telefono");
 
   if (!fechaInicio || !fechaFin) return;
 
-  // --- Obtener precio por noche desde la URL ---
+  // --- Leer parámetros de la URL ---
   const params = new URLSearchParams(window.location.search);
   const precioPorNoche = parseInt(params.get("precio")) || 0;
+  const nombreAlojamiento = params.get("nombre");
 
+  // --- Mostrar alojamiento elegido ---
+  if (nombreAlojamiento) {
+    const h2 = document.querySelector("form h2");
+    if (h2) {
+      h2.textContent = `Formulario de Reserva: ${nombreAlojamiento.replace(/_/g, " ")}`;
+    }
+  }
+
+  // --- Mostrar precio por noche ---
   if (precioNocheField) {
     precioNocheField.value = precioPorNoche > 0
       ? "$ " + precioPorNoche.toLocaleString("es-AR")
@@ -47,6 +59,7 @@
 
     const inicio = fechaInicio.value;
     const fin = fechaFin.value;
+    const cantidadPersonas = cantidadPersonasField ? parseInt(cantidadPersonasField.value) : 1;
 
     if (inicio && fin) {
       const fechaInicioObj = new Date(inicio);
@@ -56,9 +69,9 @@
 
       if (diffTime >= 0) {
         const diffDias = Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1; // +1 día
-        const total = diffDias * precioPorNoche;
+        const total = diffDias * precioPorNoche * cantidadPersonas;
         precioTotalField.value =
-          "$ " + total.toLocaleString("es-AR") + " (" + diffDias + " noches)";
+          "$ " + total.toLocaleString("es-AR") + ` (${diffDias} noches)`;
       } else {
         precioTotalField.value = "⚠️ Fechas inválidas";
       }
@@ -73,22 +86,22 @@
   fechaFin.addEventListener("change", calcularPrecio);
   fechaFin.addEventListener("input", calcularPrecio);
 
+  if (cantidadPersonasField) {
+    cantidadPersonasField.addEventListener("input", calcularPrecio);
+  }
+
   // Inicializar
   syncEndDate();
-  
+
   // --- Validación y formateo del teléfono ---
-  const telefono = document.getElementById("telefono");
   if (telefono) {
-    // Bloquear letras mientras escribe
     telefono.addEventListener("input", function () {
       this.value = this.value.replace(/[^0-9]/g, "");
     });
 
-    // Formatear al salir del campo
     telefono.addEventListener("blur", function () {
-      let val = this.value.replace(/\D/g, ""); // solo dígitos
-      if (val.length === 11) { 
-        // Formato: 011 1234 5678
+      let val = this.value.replace(/\D/g, "");
+      if (val.length === 11) {
         this.value = val.replace(/(\d{3})(\d{4})(\d{4})/, "$1 $2 $3");
       }
     });
