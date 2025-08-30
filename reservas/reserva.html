@@ -22,20 +22,23 @@
 	<br><br> 
 	<button onclick="history.back()">Volver</button>
 	
+	<!-- Aquí se insertará dinámicamente el nombre del alojamiento -->
+	<div id="alojamientoSeleccionado"></div>
+
 	<form action="confirmacion.html" method="POST">
 		<h2 style="text-align:center;">Formulario de Reserva</h2>
 		<table cellpadding="5">
 			<tr>
 				<td align="right"><label>Nombre:</label></td>
-				<td><input type="text" name="nombre" required></td>
+				<td><input type="text" name="nombre" placeholder="Ej: Juan" required></td>
 			</tr>
 			<tr>
 				<td align="right"><label>Apellido:</label></td>
-				<td><input type="text" name="apellido" required></td>
+				<td><input type="text" name="apellido" placeholder="Ej: Lopez" required></td>
 			</tr>
 			<tr>
 				<td align="right"><label>Email:</label></td>
-				<td><input type="email" name="email" required></td>
+				<td><input type="email" name="email" placeholder="Ej: ejemplo@mail.com" required></td>
 			</tr>
 			<tr>
 			  <td align="right"><label for="telefono">Teléfono:</label></td>
@@ -47,7 +50,7 @@
 			    </td>
 			</tr>
 
-						<tr>
+			<tr>
 				<td align="right"><label>Periodo de reserva:</label></td>
 				<td>
 					<input type="date" id="fechaInicio" name="fechaInicio" required>
