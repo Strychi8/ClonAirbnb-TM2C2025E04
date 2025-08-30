@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+	<title>AirBNB - El Hospedaje que Buscas, al Mejor Precio</title>
+  
+	<link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+	<table width="100%" style="color: white; font-weight: bold; border-collapse: collapse;" bgcolor="darkblue" cellpadding="15">
+	  <tr>
+		<td style="padding: 15px; overflow: hidden;">
+			<div class="marquee-wrapper">
+				<h1 class="marquee-text"> -- 🏠   🏡 -- AirBNB - El Hospedaje que Buscas, al Mejor Precio -- 🏡   🏠 -- </h1>
+			</div>
+		</td>
+	  </tr>
+	</table>
+    
+	<br><br> 
+	<button onclick="history.back()">Volver</button>
+	
+	<form action="confirmacion.html" method="POST">
+		<h2 style="text-align:center;">Formulario de Reserva</h2>
+		<table cellpadding="5">
+			<tr>
+				<td align="right"><label>Nombre:</label></td>
+				<td><input type="text" name="nombre" required></td>
+			</tr>
+			<tr>
+				<td align="right"><label>Apellido:</label></td>
+				<td><input type="text" name="apellido" required></td>
+			</tr>
+			<tr>
+				<td align="right"><label>Email:</label></td>
+				<td><input type="email" name="email" required></td>
+			</tr>
+			<tr>
+			  <td align="right"><label for="telefono">Teléfono:</label></td>
+				<td>
+					<input type="tel" id="telefono" name="telefono" 
+					   pattern="[0-9]{11}" 
+					   placeholder="Ej: 1145678901" 
+					   required>
+			    </td>
+			</tr>
+
+						<tr>
+				<td align="right"><label>Periodo de reserva:</label></td>
+				<td>
+					<input type="date" id="fechaInicio" name="fechaInicio" required>
+					<input type="date" id="fechaFin" name="fechaFin" required>
+				</td>
+			</tr>
+			<tr>
+				<td align="right"><label>Cantidad de personas:</label></td>
+				<td><input type="number" name="cantidadPersonas" min="1" value="1" required ></td>
+			</tr>
+			<tr>
+				<td align="right"><label>Precio por noche:</label></td>
+				<td><input type="text" id="precioNoche" name="precioNoche" readonly style="font-weight:bold;"></td>
+			</tr>
+			<tr>
+				<td align="right"><label>Precio total:</label></td>
+				<td><input type="text" id="precioTotal" name="precioTotal" readonly style="font-weight:bold;"></td>
+			</tr>
+			<tr>
+				<td colspan="2" align="center">
+					<button type="submit">Reservar</button>
+				</td>
+			</tr>
+		</table>
+	</form>
+	
+	<script src="validacion.js"></script>
+</body>
+</html>
