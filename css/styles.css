@@ -1,11 +1,11 @@
 body {
-  background-color: lightblue;
+  background-color: #E7CBB0;
 }
 
 .marquee-wrapper {
   display: flex;
   width: max-content;
-  animation: mover 20s linear infinite;
+  animation: mover 30s linear infinite;
 }
 
 .marquee-text {
@@ -19,9 +19,9 @@ body {
 
 @keyframes mover {
   0% {
-    transform: translateX(-100%);
+    transform: translateX(220%);
   }
   100% {
-    transform: translateX(220%);
+    transform: translateX(-100%);
   }
 }
