@@ -9,7 +9,7 @@
 	<link rel="stylesheet" href="../css/styles.css">
 </head>
 <body>
-	<table width="100%" style="color: white; font-weight: bold; border-collapse: collapse;" bgcolor="darkblue" cellpadding="15">
+	<table width="100%" style="color: white; font-weight: bold; border-collapse: collapse;" bgcolor="#DBA77A" cellpadding="15">
 	  <tr>
 		<td style="padding: 15px; overflow: hidden;">
 			<div class="marquee-wrapper">
@@ -44,8 +44,8 @@
 			  <td align="right"><label for="telefono">Teléfono:</label></td>
 				<td>
 					<input type="tel" id="telefono" name="telefono" 
-					   pattern="[0-9]{11}" 
-					   placeholder="Ej: 1145678901" 
+					   pattern="[0-9]{10,11}" 
+					   placeholder="Ej: 01145678901" 
 					   required>
 			    </td>
 			</tr>
@@ -62,7 +62,7 @@
 				<td><input type="number" name="cantidadPersonas" min="1" value="1" required ></td>
 			</tr>
 			<tr>
-				<td align="right"><label>Precio por noche:</label></td>
+				<td align="right"><label>Nochr por Persona:</label></td>
 				<td><input type="text" id="precioNoche" name="precioNoche" readonly style="font-weight:bold;"></td>
 			</tr>
 			<tr>

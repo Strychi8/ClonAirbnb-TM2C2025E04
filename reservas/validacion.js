@@ -99,12 +99,7 @@
       this.value = this.value.replace(/[^0-9]/g, "");
     });
 
-    telefono.addEventListener("blur", function () {
-      let val = this.value.replace(/\D/g, "");
-      if (val.length === 11) {
-        this.value = val.replace(/(\d{3})(\d{4})(\d{4})/, "$1 $2 $3");
-      }
-    });
+    
   }
 
 })();
