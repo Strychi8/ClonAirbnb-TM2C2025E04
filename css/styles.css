@@ -1,5 +1,6 @@
 body {
   background-color: #E7CBB0;
+  color: white;    
 }
 
 .marquee-wrapper {
@@ -7,6 +8,22 @@ body {
   width: max-content;
   animation: mover 30s linear infinite;
 }
+
+button {
+    background-color: #DBA77A; 
+    color: white;            
+    border: none;              
+    padding: 10px 20px;        
+    font-weight: bold;         
+    cursor: pointer;       
+    border-radius: 5px;        
+    transition: background-color 0.3s; 
+}
+
+button:hover {
+    background-color: #c9945f; 
+}
+
 
 .marquee-text {
   display: inline-block;
@@ -24,4 +41,5 @@ body {
   100% {
     transform: translateX(-100%);
   }
+
 }
