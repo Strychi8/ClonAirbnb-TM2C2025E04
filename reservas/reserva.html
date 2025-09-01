@@ -9,75 +9,131 @@
 	<link rel="stylesheet" href="../css/styles.css">
 </head>
 <body>
-	<table width="100%" style="color: white; font-weight: bold; border-collapse: collapse;" bgcolor="#DBA77A" cellpadding="15">
-	  <tr>
-		<td style="padding: 15px; overflow: hidden;">
-			<div class="marquee-wrapper">
-				<h1 class="marquee-text"> -- 🏠   🏡 -- AirBNB - El Hospedaje que Buscas, al Mejor Precio -- 🏡   🏠 -- </h1>
-			</div>
-		</td>
-	  </tr>
-	</table>
-    
-	<br><br> 
-	<button onclick="history.back()">Volver</button>
+
+	  <!-- Estilos locales sólo para maquetar el form -->
+  <style>
+    .form-card{
+      max-width: 500px;
+      margin: 24px 24px 48px; 
+      padding: 24px;
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+    .form-grid{
+      display: grid;
+      gap: 16px;
+    }
+    .form-grid .full{ grid-column: 1 / -1; }
+    .form-grid label{ font-weight: 600; color: var(black); display:block; margin-bottom:6px; }
+    .form-grid input, .form-grid select{
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1px solid #ddd;
+      font: inherit;
+      background: #fff;
+    }
+    .actions{ display:flex; gap:12px; justify-content:flex-end; margin-top: 8px; }
+    @media (max-width: 720px){ .form-grid{ grid-template-columns: 1fr; } }
+  
+	.periodo{
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	}
+	.periodo .sep{
+	user-select: none;
+	font-weight: 700;
+	color: var(--muted);
+	}
+	@media (max-width: 720px){
+	.periodo{ flex-direction: column; align-items: stretch; }
+	.periodo .sep{ display: none; }
+	}
+ </style>
 	
-	<!-- Aquí se insertará dinámicamente el nombre del alojamiento -->
+  <!-- Header unificado -->
+  <header>
+    <div class="marquee-wrapper">
+      <h1 class="marquee-text"> -- 🏠 🏡 -- AirBNB - El Hospedaje que Buscas, al Mejor Precio -- 🏡 🏠 -- </h1>
+    </div>
+  </header>
+
+	
+  <main>
+    <section style="max-width:1400px; margin:24px auto 8px; padding:0 24px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; gap:16px;">
+        <button type="button" class="btn btn-primary" onclick="history.back()">Volver</button>
+      </div>
+	
+
 	<div id="alojamientoSeleccionado"></div>
 
-	<form action="confirmacion.html" method="POST">
-		<h2 style="text-align:center;">Formulario de Reserva</h2>
-		<table cellpadding="5">
-			<tr>
-				<td align="right"><label>Nombre:</label></td>
-				<td><input type="text" name="nombre" placeholder="Ej: Juan" required></td>
-			</tr>
-			<tr>
-				<td align="right"><label>Apellido:</label></td>
-				<td><input type="text" name="apellido" placeholder="Ej: Lopez" required></td>
-			</tr>
-			<tr>
-				<td align="right"><label>Email:</label></td>
-				<td><input type="email" name="email" placeholder="Ej: ejemplo@mail.com" required></td>
-			</tr>
-			<tr>
-			  <td align="right"><label for="telefono">Teléfono:</label></td>
-				<td>
-					<input type="tel" id="telefono" name="telefono" 
-					   pattern="[0-9]{10,11}" 
-					   placeholder="Ej: 01145678901" 
-					   required>
-			    </td>
-			</tr>
+	  <form action="confirmacion.html" method="POST">
+    <h2 style="margin-top:0; text-align:center;">Formulario de Reserva</h2>
+	<section class="form-card">
 
-			<tr>
-				<td align="right"><label>Periodo de reserva:</label></td>
-				<td>
-					<input type="date" id="fechaInicio" name="fechaInicio" required>
-					<input type="date" id="fechaFin" name="fechaFin" required>
-				</td>
-			</tr>
-			<tr>
-				<td align="right"><label>Cantidad de personas:</label></td>
-				<td><input type="number" name="cantidadPersonas" min="1" value="1" required ></td>
-			</tr>
-			<tr>
-				<td align="right"><label>Noche por Persona:</label></td>
-				<td><input type="text" id="precioNoche" name="precioNoche" readonly style="font-weight:bold;"></td>
-			</tr>
-			<tr>
-				<td align="right"><label>Precio total:</label></td>
-				<td><input type="text" id="precioTotal" name="precioTotal" readonly style="font-weight:bold;"></td>
-			</tr>
-			<tr>
-				<td colspan="2" align="center">
-					<button type="submit">Reservar</button>
-				</td>
-			</tr>
-		</table>
-	</form>
-	
-	<script src="validacion.js"></script>
+
+    <input type="hidden" name="alojamiento_id" id="alojamiento_id">
+
+    <div class="form-grid">
+      <div>
+        <label for="nombre">Nombre</label>
+        <input type="text" name="nombre" id="nombre" placeholder="Ej: Juan" required>
+      </div>
+
+      <div>
+        <label for="apellido">Apellido</label>
+        <input type="text" name="apellido" id="apellido" placeholder="Ej: López" required>
+      </div>
+
+      <div>
+        <label for="email">Email</label>
+        <input type="email" name="email" id="email" placeholder="Ej: persona@mail.com" required>
+      </div>
+
+      <div>
+        <label for="telefono">Teléfono</label>
+        <input type="tel" id="telefono" name="telefono" pattern="[0-9]{10,11}" placeholder="Ej: 01145678901" required>
+      </div>
+
+      <div class="full">
+        <label for="fechaInicio">Periodo de reserva</label>
+        <div class="periodo">
+          <input type="date" id="fechaInicio" name="fechaInicio" required>
+          <span class="sep">→</span>
+          <input type="date" id="fechaFin" name="fechaFin" required>
+        </div>
+      </div>
+
+      <div>
+        <label for="cantidadPersonas">Cantidad de personas</label>
+        <input type="number" name="cantidadPersonas" id="cantidadPersonas" min="1" value="1" required>
+      </div>
+
+      <div>
+        <label for="precioNoche">Noche por persona</label>
+        <input type="text" id="precioNoche" name="precioNoche" readonly style="font-weight:bold;">
+      </div>
+
+      <div>
+        <label for="precioTotal">Precio total</label>
+        <input type="text" id="precioTotal" name="precioTotal" readonly style="font-weight:bold;">
+      </div>
+      <div class="full actions">
+        <button type="submit" class="btn btn-primary">Reservar</button>
+      </div>
+    </div>
+
+</section>
+  </form>
+	</div>
+	<script src="../js/validacion.js"></script>
+  </main>
+
+
+
 </body>
 </html>
 
