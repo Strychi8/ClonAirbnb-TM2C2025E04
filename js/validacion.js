@@ -6,6 +6,14 @@
   const cantidadPersonasField = document.querySelector("input[name='cantidadPersonas']");
   const telefono = document.getElementById("telefono");
 
+  
+  const seg1 = document.getElementById("seg1");
+  const seg2 = document.getElementById("seg2");
+  const seg3 = document.getElementById("seg3");
+  const seg4 = document.getElementById("seg4");
+  const numeroTarjeta = document.getElementById("numeroTarjeta");
+  
+
   if (!fechaInicio || !fechaFin) return;
 
   const params = new URLSearchParams(window.location.search);
@@ -100,5 +108,34 @@
 
     
   }
+
+  
+    const form = document.querySelector("form");
+	form.addEventListener("submit", function (e) {
+	// Concatenar los segmentos en el hidden
+	numeroTarjeta.value = seg1.value + seg2.value + seg3.value + seg4.value;
+
+	// Validar que todos los segmentos tengan contenido
+	if (!seg1.value || !seg2.value || !seg3.value || !seg4.value) {
+	  e.preventDefault(); // Evita enviar el form
+	  alert("Por favor completa todos los campos del número de tarjeta.");
+	  return false;
+	}
+
+	// Validar que sean solo números
+	const regexNum = /^\d+$/;
+	if (!regexNum.test(numeroTarjeta.value)) {
+	  e.preventDefault();
+	  alert("El número de tarjeta debe contener solo números.");
+	  return false;
+	}
+	
+	if (numeroTarjeta.value.length !== 16) {
+	  e.preventDefault();
+	  alert("El número de tarjeta debe tener 16 dígitos.");
+	  return false;
+	}
+	});
+
 
 })();
