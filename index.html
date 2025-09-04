@@ -1,50 +1,45 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
   <title>AirBNB - El Hospedaje que Buscas, al Mejor Precio</title>
-  
-  <!-- CSS externo -->
-  <link rel="stylesheet" href="css/styles.css">
+
+  <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
 
-  
-	<table width="100%" style="color: white; font-weight: bold; border-collapse: collapse;" bgcolor="#DBA77A" cellpadding="15">
-	  <tr>
-		<td style="padding: 15px; overflow: hidden;">
-			<div class="marquee-wrapper">
-				<h1 class="marquee-text"> -- 🏠   🏡 -- AirBNB - El Hospedaje que Buscas, al Mejor Precio -- 🏡   🏠 -- </h1>
-				
-			</div>
-		</td>
-	  </tr>
-	</table>
-	
-  <table width="90%" style="color: white;" cellspacing="30">
-    <tr>
-      <td>
-        <a href="alojamientos/alojamiento1.html">
-          <img src="alojamientos/alojamiento1.jpeg" alt="Alojamiento 1" width="320" height="240" style="cursor:pointer;">
-        </a>
-        <br>
-        <h2 style="font-weight: bold;">Del Rosario</h2>
-		<p>Sierra de la Ventana<br> Precio: $7.000.-</p>
-		
-      </td>
-      
-      <td>
-        <a href="alojamientos/alojamiento2.html">
-          <img src="alojamientos/alojamiento2.jpeg" alt="Alojamiento 2" width="320" height="240" style="cursor:pointer;">
-        </a>
-        <h2 style="font-weight: bold;">La Gran Cabaña</h2>
-		<p>Villa Ventana<br> Precio: $20.000.-</p>
-      </td>
-	  
-    </tr>
-  </table>
-  
+  <!-- Header con marquee -->
+  <header>
+    <div class="marquee-wrapper">
+      <h1 class="marquee-text">
+        -- 🏠 🏡 -- AirBNB - El Hospedaje que Buscas, al Mejor Precio -- 🏡 🏠 --
+      </h1>
+    </div>
+  </header>
+
+  <main>
+    <!-- Encabezado -->
+    <section style="max-width:1400px; margin:24px auto 8px; padding:0 24px;">
+      <div style="display:flex; gap:16px; justify-content:space-between; align-items:end; flex-wrap:wrap;">
+        <div>
+          <h2 style="margin:0 0 6px; color:var(--primary);">Alojamientos</h2>
+          <p style="margin:0; color:var(--muted);">Elegí tu lugar y reservá en minutos.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Listado de cards (lo completa home.js) -->
+    <section>
+      <div id="listado" class="cards" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <script src="js/home.js"></script>
+
+
 </body>
+
 </html>
 

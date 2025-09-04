@@ -5,15 +5,13 @@
   const precioTotalField = document.getElementById("precioTotal");
   const cantidadPersonasField = document.querySelector("input[name='cantidadPersonas']");
   const telefono = document.getElementById("telefono");
+
   
   const seg1 = document.getElementById("seg1");
   const seg2 = document.getElementById("seg2");
   const seg3 = document.getElementById("seg3");
   const seg4 = document.getElementById("seg4");
   const numeroTarjeta = document.getElementById("numeroTarjeta");
-  
-  
-  
   
 
   if (!fechaInicio || !fechaFin) return;
@@ -110,6 +108,7 @@
 
     
   }
+
   
     const form = document.querySelector("form");
 	form.addEventListener("submit", function (e) {
@@ -138,6 +137,5 @@
 	}
 	});
 
-  
 
 })();
