@@ -1,0 +1,80 @@
+
+	form .form-card {
+	  max-width: 500px;
+	  margin: 24px 24px 48px;
+	  padding: 24px;
+	  background: var(--card);
+	  border-radius: var(--radius);
+	  box-shadow: var(--shadow);
+	}
+    form .form-grid{
+      display: grid;
+      gap: 16px;
+    }
+    .form-grid .full{ grid-column: 1 / -1; }
+    .form-grid label{ font-weight: 600; color: var(black); display:block; margin-bottom:6px; }
+    .form-grid input, .form-grid select{
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1px solid #ddd;
+      font: inherit;
+      background: #fff;
+    }
+    .actions{ display:flex; gap:12px; justify-content:flex-end; margin-top: 8px; }
+    @media (max-width: 720px){ .form-grid{ grid-template-columns: 1fr; } }
+  
+	.periodo{
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	}
+	.periodo .sep{
+	user-select: none;
+	font-weight: 700;
+	color: var(--muted);
+	}
+	@media (max-width: 720px){
+	.periodo{ flex-direction: column; align-items: stretch; }
+	.periodo .sep{ display: none; }
+	}
+	.card-inputs {
+	  display: flex;
+	  flex-direction: row;
+	  align-items: center;
+	  gap: 5px;
+	  flex-wrap: nowrap;
+	  width: 100%;
+	}
+
+	.card-inputs input {
+	  flex: 0 0 auto;     
+	  text-align: center;
+	  padding: 4px 6px;
+	  font-size: 16px;
+	  box-sizing: border-box;
+	  margin: 0;
+	  border: 1px solid #ddd;
+	  outline: none;
+	  transition: none !important;
+	}
+
+	.card-inputs input:hover,
+	.card-inputs input:focus {
+	  border: 1px solid #ddd;
+	  box-shadow: 0 0 1px #aaa; /* efecto visual muy ligero */
+	}
+	#seg1 { width: 120px; }
+	#seg2 { width: 60px; }
+	#seg3 { width: 100px; }
+	#seg4 { width: 100px; }
+
+	#seg1[readonly] {
+	  cursor: not-allowed;
+	}
+
+	.card-inputs span {
+	  flex: none;
+	  margin: 0 2px;
+	}
+

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <title>AirBNB - El Hospedaje que Buscas, al Mejor Precio</title>
+
+  <link rel="stylesheet" href="../css/styles.css" />
+	<link rel="stylesheet" href="../css/formularios.css">
+</head>
+<body>
+
+  <!-- Header con marquee -->
+  <header>
+    <div class="marquee-wrapper">
+      <h1 class="marquee-text">
+        -- 🏠 🏡 -- Erbienbi - El Hospedaje que Buscas, al Mejor Precio -- 🏡 🏠 --
+      </h1>
+    </div>
+  </header>
+
+
+<main>
+	<section style="max-width:1400px; margin:24px auto 8px; padding:0 24px;">
+			
+		<button type="button" class="btn btn-primary" onclick="history.back()">Volver</button>
+	  <form action="../index.html" method="POST">
+	  
+	  
+		<h2 style="margin:20; text-align:center;">Crear Cuenta</h2>
+		<h3 style="margin:20; text-align:center;">Complete el siguiente formulario para registrar un nuevo usuario.</h3>
+		<section class="form-card">
+
+
+
+			<div class="form-grid">
+			  <div>
+				<label for="username">Usuario</label>
+				<input type="text" name="nombre" id="nombre" placeholder="Ej: Juan" required>
+			  </div>
+
+			  <div>
+				<label for="email">Email</label>
+				<input type="email" name="email" id="email" placeholder="Ej: persona@mail.com" required>
+			  </div>
+			  
+			  <div>
+				<label for="password">Contraseña</label>
+				<input type="password" name="Contraseña" id="password" placeholder="Ej: Hola1234" required>
+			  </div>
+
+				<label for="password">Confirmar Contraseña</label>
+				<input type="password" name="Contraseña" id="password" placeholder="Ej: Hola1234" required>
+			  </div>
+
+			  
+			  <div class="full actions">
+				<button type="submit" class="btn btn-primary">Reservar</button>
+			  </div>
+			</div>
+
+		</section>
+	  </form>
+	</section>
+</body>
+
+</html>
