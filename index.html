@@ -1,50 +1,48 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>AirBNB - El Hospedaje que Buscas, al Mejor Precio</title>
+    <title>Erbienbi - El Hospedaje que Buscas, al Mejor Precio</title>
 
-  <link rel="stylesheet" href="css/styles.css" />
-</head>
-<body>
-
-  <!-- Header con marquee -->
-  <header>
-    <div class="marquee-wrapper">
-      <h1 class="marquee-text">
-        -- 🏠 🏡 -- Erbienbi - El Hospedaje que Buscas, al Mejor Precio -- 🏡 🏠 --
-      </h1>
-    </div>
-  </header>
-
-  <main>
-	<br>
-	<div style="display: flex; justify-content: flex-end; gap: 10px; margin-right: 20px;">
-	  <a class="btn btn-primary" href="autenticacion/signin.html">Iniciar Sesión</a>
-	  <a class="btn btn-primary" href="autenticacion/signup.html">Registrarse</a>
-	</div>
-    <!-- Encabezado -->
-    <section style="max-width:1400px; margin:24px auto 8px; padding:0 24px;">
-      <div style="display:flex; gap:16px; justify-content:space-between; align-items:end; flex-wrap:wrap;">
-        <div>
-          <h2 style="margin:0 0 6px; color:var(--primary);">Alojamientos</h2>
-          <p style="margin:0; color:var(--muted);">Elegí tu lugar y reservá en minutos.</p>
-        </div>
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <!-- Header con marquee -->
+    <header>
+      <div class="marquee-wrapper">
+        <h1 class="marquee-text">
+          -- 🏠 🏡 -- Erbienbi - El Hospedaje que Buscas, al Mejor Precio -- 🏡
+          🏠 --
+        </h1>
       </div>
-    </section>
+    </header>
 
-    <!-- Listado de cards (lo completa home.js) -->
-    <section>
-      <div id="listado" class="cards" aria-live="polite"></div>
-    </section>
-  </main>
+    <main>
+      <br />
+      <div style="display: flex; justify-content: flex-end; gap: 10px; margin-right: 20px;">
+        <a class="btn btn-primary" href="autenticacion/signin.html">Iniciar Sesión</a>
+        <a class="btn btn-primary" href="autenticacion/signup.html">Registrarse</a>
+      </div>
+      <!-- Encabezado -->
+      <section style="max-width: 1400px; margin: 24px auto 8px; padding: 0 24px">
+        <div style="display: flex; gap: 16px; justify-content: space-between; align-items: end; flex-wrap: wrap;">
+          <div>
+            <h2 style="margin: 0 0 6px; color: var(--primary)">Alojamientos</h2>
+            <p style="margin: 0; color: var(--muted)">
+              Elegí tu lugar y reservá en minutos.
+            </p>
+          </div>
+        </div>
+      </section>
 
-  <script src="js/home.js"></script>
+      <!-- Listado de cards (lo completa home.js) -->
+      <section>
+        <div id="listado" class="cards" aria-live="polite"></div>
+      </section>
+    </main>
 
-
-</body>
-
+    <script src="js/home.js"></script>
+  </body>
 </html>
-
