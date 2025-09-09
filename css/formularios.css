@@ -1,8 +1,8 @@
 
 form .form-card {
-  width: 100%;
-  margin: 24px 0 48px; /* Margen superior e inferior, 0 a los lados para que el width funcione */
-  padding: 24px;
+  max-width: 500px;
+	margin: 24px 24px 48px;
+	padding: 24px;
   background: var(--card);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
