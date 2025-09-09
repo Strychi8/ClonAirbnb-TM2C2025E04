@@ -1,39 +1,25 @@
 <?php
-
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
-
-require __DIR__ . '/db.php';
-
-// Traer todos los alojamientos
-$sql = "SELECT 
-          id,
-          nombre,
-          direccion,
-          descripcion,
-          precio_noche,
-          direccion,
-          servicios,
-          imagen_principal
-        FROM alojamientos
-        ORDER BY id";
-
-$res = $conn->query($sql);
-$alojamientos = [];
-
-if ($res) {
-  while ($row = $res->fetch_assoc()) {
-    $row['precio_noche'] = isset($row['precio_noche']) ? (float)$row['precio_noche'] : 0.0;
-
-    if (!empty($row['imagenes_secundarias'])) {
-      $row['imagenes_secundarias'] = array_map('trim', explode(',', $row['imagenes_secundarias']));
-    } else {
-      $row['imagenes_secundarias'] = [];
-    }
-
-    $alojamientos[] = $row;
-  }
-}
-
+declare(strict_types=1);
 header('Content-Type: application/json; charset=utf-8');
-echo json_encode($alojamientos, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+
+try {
+  require __DIR__ . '/db.php';
+
+  if (!isset($pdo) || !($pdo instanceof PDO)) {
+    throw new RuntimeException('No hay conexión PDO (revise db.php).');
+  }
+
+  $sql = "SELECT id, nombre, descripcion, precio_noche, direccion, servicios, imagen_principal
+          FROM alojamientos
+          ORDER BY id";
+  $st = $pdo->query($sql);
+  $rows = $st->fetchAll(PDO::FETCH_ASSOC);
+
+  echo json_encode($rows, JSON_UNESCAPED_UNICODE);
+} catch (Throwable $e) {
+  http_response_code(500);
+  echo json_encode([
+    'error' => 'server_error',
+    'message' => $e->getMessage()
+  ], JSON_UNESCAPED_UNICODE);
+}

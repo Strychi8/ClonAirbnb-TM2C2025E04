@@ -20,6 +20,11 @@
   const precioPorNoche = parseInt(params.get("precio")) || 0;
   const nombreAlojamiento = params.get("nombre");
 
+   const alojamientoIdField = document.getElementById("alojamiento_id");
+  if (alojamientoIdField) {
+    alojamientoIdField.value = parseInt(params.get("alojamiento") || "0", 10) || 0;
+  }
+
   // --- Mostrar alojamiento elegido ---
   if (nombreAlojamiento) {
     const h2 = document.querySelector("form h2");
@@ -68,25 +73,32 @@
     const fin = fechaFin.value;
     const cantidadPersonas = cantidadPersonasField ? parseInt(cantidadPersonasField.value) : 1;
 
+    const precioNocheNumField = document.getElementById("precio_noche_num");
+    const precioTotalNumField = document.getElementById("precio_total_num");
+
     if (inicio && fin) {
       const fechaInicioObj = new Date(inicio);
       const fechaFinObj = new Date(fin);
-
       const diffTime = fechaFinObj - fechaInicioObj;
 
       if (diffTime >= 0) {
-        const diffDias = Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1; // +1 día
+        const diffDias = Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1;
         const total = diffDias * precioPorNoche * cantidadPersonas;
-        precioTotalField.value =
-          "$ " + total.toLocaleString("es-AR") + ` (${diffDias} noches)`;
+
+        if (precioTotalField) {
+          precioTotalField.value = "$ " + total.toLocaleString("es-AR") + ` (${diffDias} noches)`;
+        }
+        if (precioNocheNumField) precioNocheNumField.value = precioPorNoche || 0;
+        if (precioTotalNumField) precioTotalNumField.value = total || 0;
       } else {
-        precioTotalField.value = "⚠️ Fechas inválidas";
+        if (precioTotalField) precioTotalField.value = "⚠️ Fechas inválidas";
+        if (precioTotalNumField) precioTotalNumField.value = 0;
       }
     } else {
-      precioTotalField.value = "";
+      if (precioTotalField) precioTotalField.value = "";
+      if (precioTotalNumField) precioTotalNumField.value = 0;
     }
   }
-
   // --- Eventos ---
   fechaInicio.addEventListener("change", syncEndDate);
   fechaInicio.addEventListener("input", syncEndDate);
