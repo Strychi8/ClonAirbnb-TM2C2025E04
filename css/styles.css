@@ -1,40 +1,51 @@
 /* ===== Variables globales ===== */
-:root{
-  --bg: #E7CBB0;            /* fondo */
-  --text: #000;             /* texto principal */
+:root {
+  --bg: #e7cbb0; /* fondo */
+  --text: #000; /* texto principal */
   --muted: #6b6b6b;
-  --primary: #a56300;       /* usado para el header */
+  --primary: #a56300; /* usado para el header */
   --primary-600: #ca6040;
   --card: #ca801117;
-  --shadow: 0 10px 24px rgba(0,0,0,.08);
+  --shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
   --radius: 18px;
 }
 
-* { box-sizing: border-box; }
-html, body { margin: 0; padding: 0; overflow-x: hidden; }
+* {
+  box-sizing: border-box;
+}
+html,
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
 
-body{
+body {
   background: var(--bg);
   color: var(--text);
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
 }
 
 /* ===== Header + Marquee ===== */
-header, .header, #header{
+header,
+.header,
+#header {
   background: var(--primary);
   color: #fff;
 }
-header{ overflow: hidden; }          /* clave para ocultar el desborde del marquee */
+header {
+  overflow: hidden;
+} /* clave para ocultar el desborde del marquee */
 
-.marquee-wrapper{
-  display: inline-block;             /* evita expandir el layout */
-  padding: 12px 0;                   /* altura pareja */
+.marquee-wrapper {
+  display: inline-block; /* evita expandir el layout */
+  padding: 12px 0; /* altura pareja */
   line-height: 1;
   animation: mover 20s linear infinite;
   will-change: transform;
 }
 
-.marquee-text{
+.marquee-text {
   display: inline-block;
   white-space: nowrap;
   color: #fff;
@@ -44,13 +55,17 @@ header{ overflow: hidden; }          /* clave para ocultar el desborde del marqu
 }
 
 @keyframes mover {
-  0%   { transform: translateX(220%); }
-  100% { transform: translateX(-100%); }
+  0% {
+    transform: translateX(220%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
 }
 
 /* ===== Grid de cards ===== */
-.cards{
-  max-width: 1400px;                 /* ancho para que entren 4 */
+.cards {
+  max-width: 1400px; /* ancho para que entren 4 */
   margin: 32px auto 64px;
   padding: 0 24px;
   display: grid;
@@ -59,73 +74,81 @@ header{ overflow: hidden; }          /* clave para ocultar el desborde del marqu
 }
 
 /* A partir de 1280px, fija 4 columnas */
-@media (min-width: 1280px){
-  .cards{
+@media (min-width: 1280px) {
+  .cards {
     grid-template-columns: repeat(4, 1fr);
   }
 }
 
 /* En tablets medianas → 3 columnas */
-@media (max-width: 1279px) and (min-width: 900px){
-  .cards{
+@media (max-width: 1279px) and (min-width: 900px) {
+  .cards {
     grid-template-columns: repeat(3, 1fr);
   }
 }
 
 /* En móviles grandes → 2 columnas */
-@media (max-width: 899px) and (min-width: 520px){
-  .cards{
+@media (max-width: 899px) and (min-width: 520px) {
+  .cards {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
 /* En móviles chicos → 1 columna */
-@media (max-width: 519px){
-  .cards{ grid-template-columns: 1fr; }
+@media (max-width: 519px) {
+  .cards {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* ===== Card ===== */
-.card{
+.card {
   background: var(--card);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  transition: transform .18s ease, box-shadow .18s ease;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
 }
-.card:hover{ transform: translateY(-3px); }
+.card:hover {
+  transform: translateY(-3px);
+}
 
 /* Imagen 16:9 */
-.card-media img{
+.card-media img {
   width: 100%;
   aspect-ratio: 16/9;
   object-fit: cover;
 }
 
 /* Contenido */
-.card-content{ padding: 16px 18px 18px; }
-.card-title{
+.card-content {
+  padding: 16px 18px 18px;
+}
+.card-title {
   font-size: 20px;
   line-height: 1.2;
   margin: 0 0 6px;
   color: var(--primary);
 }
-.card-sub{
+.card-sub {
   margin: 0 0 12px;
   color: var(--muted);
   font-size: 14px;
 }
 
 /* Footer: precio + botón */
-.card-footer{
+.card-footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
 }
-.price{ font-weight: 700; }
-.price small{
+.price {
+  font-weight: 700;
+}
+.price small {
   font-weight: 500;
   color: var(--muted);
   margin-left: 4px;
@@ -133,24 +156,28 @@ header{ overflow: hidden; }          /* clave para ocultar el desborde del marqu
 }
 
 /* Botones */
-.btn{
+.btn {
   display: inline-block;
   text-decoration: none;
   padding: 10px 16px;
   border-radius: 10px;
   font-weight: 700;
 }
-.btn-primary{
+.btn-primary {
   background: var(--primary);
   color: #fff;
-  transition: background .18s ease, transform .06s ease;
+  transition: background 0.18s ease, transform 0.06s ease;
 }
-.btn-primary:hover{ background: var(--primary-600); }
-.btn-primary:active{ transform: translateY(1px); }
+.btn-primary:hover {
+  background: var(--primary-600);
+}
+.btn-primary:active {
+  transform: translateY(1px);
+}
 
 /* Botón genérico <button> (colores originales) */
 button {
-  background-color: #DBA77A;
+  background-color: #dba77a;
   color: white;
   border: none;
   padding: 10px 20px;
@@ -159,10 +186,16 @@ button {
   border-radius: 5px;
   transition: background-color 0.3s;
 }
-button:hover { background-color: #c9945f; }
+button:hover {
+  background-color: #c9945f;
+}
 
 /* Ajustes responsive pequeños */
-@media (max-width: 480px){
-  .card-content{ padding: 14px; }
-  .card-title{ font-size: 18px; }
+@media (max-width: 480px) {
+  .card-content {
+    padding: 14px;
+  }
+  .card-title {
+    font-size: 18px;
+  }
 }
