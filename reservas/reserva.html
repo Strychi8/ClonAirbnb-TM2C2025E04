@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-	<title>AirBNB - El Hospedaje que Buscas, al Mejor Precio</title>
+	<title>Erbienbi - El Hospedaje que Buscas, al Mejor Precio</title>
   
 	<link rel="stylesheet" href="../css/styles.css">
 	<link rel="stylesheet" href="../css/formularios.css">
@@ -18,23 +18,20 @@
       <h1 class="marquee-text"> -- 🏠 🏡 -- Erbienbi - El Hospedaje que Buscas, al Mejor Precio -- 🏡 🏠 -- </h1>
     </div>
   </header>
-
 	
   <main>
     <section style="max-width:1400px; margin:24px auto 8px; padding:0 24px;">
       <div style="display:flex; justify-content:space-between; align-items:center; gap:16px;">
         <button type="button" class="btn btn-primary" onclick="history.back()">Volver</button>
-      </div>
-	
+      		</div>
 
-	<div id="alojamientoSeleccionado"></div>
+				<div id="alojamientoSeleccionado"></div>
 
-	<form action="confirmacion.html" method="POST">
-    <h2 style="margin-top:0; text-align:center;">Formulario de Reserva</h2>
-	<section class="form-card">
+				<form action="confirmacion.html" method="POST">
+    				<h2 style="margin-top:0; text-align:center;">Formulario de Reserva</h2>
+						<section class="form-card">
 
-
-		<input type="hidden" name="alojamiento_id" id="alojamiento_id">
+							<input type="hidden" name="alojamiento_id" id="alojamiento_id">
 
 		<div class="form-grid">
 		  <div>
@@ -102,30 +99,20 @@
 		  </div>
 		  <input type="hidden" id="numeroTarjeta" name="numeroTarjeta">
 		</div>
-		  
-		  
-		  
-		  
-		  
-		  <div class="full actions">
-			<button type="submit" class="btn btn-primary">Reservar</button>
-		  </div>
+		  	  
+		  			<div class="full actions">
+						<button type="submit" class="btn btn-primary">Reservar</button>
+		  			</div>
+				</div>
+
+				</section>
+ 			</form>
 		</div>
-
-	</section>
-  </form>
-	</div>
 	
+  	</main>
 	
-  </main>
-
-
+		<script src="../js/validacion.js"></script>
+		<script src="../js/metodoPago.js"></script>
 	
-	<script src="../js/validacion.js"></script>
-	<script src="../js/metodoPago.js"></script>
-	
-	
-	
-</body>
+	</body>
 </html>
-
