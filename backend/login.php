@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 require_once 'db.php';
 
@@ -14,6 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($user) { // si encontró usuario
         if (password_verify($password, $user['contrasenia'])) {
             // Contraseña correcta
+
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['user_name'] = $user['nombre'];
             $_SESSION['logged_in'] = true;
@@ -32,3 +34,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     header("Location: signin.html");
     exit();
 }
+?>

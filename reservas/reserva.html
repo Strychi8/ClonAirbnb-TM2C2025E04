@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-	<title>AirBNB - El Hospedaje que Buscas, al Mejor Precio</title>
+	<title>Erbienbi - El Hospedaje que Buscas, al Mejor Precio</title>
   
 	<link rel="stylesheet" href="../css/styles.css">
 	<link rel="stylesheet" href="../css/formularios.css">
@@ -18,114 +18,106 @@
       <h1 class="marquee-text"> -- 🏠 🏡 -- Erbienbi - El Hospedaje que Buscas, al Mejor Precio -- 🏡 🏠 -- </h1>
     </div>
   </header>
-
 	
   <main>
     <section style="max-width:1400px; margin:24px auto 8px; padding:0 24px;">
       <div style="display:flex; justify-content:space-between; align-items:center; gap:16px;">
         <button type="button" class="btn btn-primary" onclick="history.back()">Volver</button>
+      		</div>
+
+				<div id="alojamientoSeleccionado"></div>
+
+<form action="../backend/reserva.php" method="POST">
+  <h2 style="margin-top:0; text-align:center;">Formulario de Reserva</h2>
+  <section class="form-card">
+    <!-- ocultos ya que los completa via JS -->
+    <input type="hidden" name="alojamiento_id" id="alojamiento_id">
+    <input type="hidden" name="precio_noche" id="precio_noche_num">
+    <input type="hidden" name="precio_total" id="precio_total_num">
+
+    <div class="form-grid">
+      <div>
+        <label for="nombre">Nombre</label>
+        <input type="text" name="nombre" id="nombre" placeholder="Ej: Juan" required>
       </div>
-	
 
-	<div id="alojamientoSeleccionado"></div>
+      <div>
+        <label for="apellido">Apellido</label>
+        <input type="text" name="apellido" id="apellido" placeholder="Ej: López" required>
+      </div>
 
-	<form action="confirmacion.html" method="POST">
-    <h2 style="margin-top:0; text-align:center;">Formulario de Reserva</h2>
-	<section class="form-card">
+      <div>
+        <label for="email">Email</label>
+        <input type="email" name="email" id="email" placeholder="Ej: persona@mail.com" required>
+      </div>
 
+      <div>
+        <label for="telefono">Teléfono</label>
+        <input type="tel" id="telefono" name="telefono" pattern="[0-9]{10,11}" placeholder="Ej: 01145678901" required>
+      </div>
 
-		<input type="hidden" name="alojamiento_id" id="alojamiento_id">
+      <div class="full">
+        <label for="fechaInicio">Periodo de reserva</label>
+        <div class="periodo">
+          <input type="date" id="fechaInicio" name="fechaInicio" required>
+          <span class="sep">→</span>
+          <input type="date" id="fechaFin" name="fechaFin" required>
+        </div>
+      </div>
 
-		<div class="form-grid">
-		  <div>
-			<label for="nombre">Nombre</label>
-			<input type="text" name="nombre" id="nombre" placeholder="Ej: Juan" required>
-		  </div>
+      <div>
+        <label for="cantidadPersonas">Cantidad de personas</label>
+        <input type="number" name="cantidadPersonas" id="cantidadPersonas" min="1" value="1" required>
+      </div>
 
-		  <div>
-			<label for="apellido">Apellido</label>
-			<input type="text" name="apellido" id="apellido" placeholder="Ej: López" required>
-		  </div>
+      <div>
+        <label for="precioNoche">Noche por persona</label>
+        <input type="text" id="precioNoche" readonly style="font-weight:bold;">
+      </div>
 
-		  <div>
-			<label for="email">Email</label>
-			<input type="email" name="email" id="email" placeholder="Ej: persona@mail.com" required>
-		  </div>
+      <div>
+        <label for="precioTotal">Total estimado</label>
+        <input type="text" id="precioTotal" readonly style="font-weight:bold;">
+      </div>
 
-		  <div>
-			<label for="telefono">Teléfono</label>
-			<input type="tel" id="telefono" name="telefono" pattern="[0-9]{10,11}" placeholder="Ej: 01145678901" required>
-		  </div>
+      <div>
+        <label for="metodo">Método de Pago:</label>
+        <select id="metodo" name="metodo_pago" required>
+          <option value="">-- Seleccionar --</option>
+          <option value="visa-credito">Visa Crédito</option>
+          <option value="visa-debito">Visa Débito</option>
+          <option value="master-credito">Mastercard Crédito</option>
+          <option value="master-debito">Mastercard Débito</option>
+          <option value="mercadopago">Mercado Pago</option>
+        </select>
+      </div>
 
-		  <div class="full">
-			<label for="fechaInicio">Periodo de reserva</label>
-			<div class="periodo">
-			  <input type="date" id="fechaInicio" name="fechaInicio" required>
-			  <span class="sep">→</span>
-			  <input type="date" id="fechaFin" name="fechaFin" required>
-			</div>
-		  </div>
+      <div class="full">
+        <label for="numero">Número de Tarjeta:</label>
+        <div class="card card-inputs">
+          <input type="text" id="seg1" maxlength="6" class="tarjeta-seg" readonly>
+          <span>-</span>
+          <input type="text" id="seg2" maxlength="2" class="tarjeta-seg">
+          <span>-</span>
+          <input type="text" id="seg3" maxlength="4" class="tarjeta-seg">
+          <span>-</span>
+          <input type="text" id="seg4" maxlength="4" class="tarjeta-seg">
+        </div>
+        <input type="hidden" id="numeroTarjeta" name="numeroTarjeta">
+      </div>
 
-		  <div>
-			<label for="cantidadPersonas">Cantidad de personas</label>
-			<input type="number" name="cantidadPersonas" id="cantidadPersonas" min="1" value="1" required>
-		  </div>
-
-		  <div>
-			<label for="precioNoche">Noche por persona</label>
-			<input type="text" id="precioNoche" name="precioNoche" readonly style="font-weight:bold;">
-		  </div>
-		  
-		  <div>
-			  <label for="metodo">Método de Pago:</label>
-			  <select id="metodo">
-				<option value="">-- Seleccionar --</option>
-				<option value="visa-credito">Visa Crédito</option>
-				<option value="visa-debito">Visa Débito</option>
-				<option value="master-credito">Mastercard Crédito</option>
-				<option value="master-debito">Mastercard Débito</option>
-				<option value="mercadopago">Mercado Pago</option>
-			  </select>
-
-		  </div>
-		  
-		<div class="full">
-		  <label for="numero">Número de Tarjeta:</label>
-		  <div class="card card-inputs">
-			<input type="text" id="seg1" maxlength="6" class="tarjeta-seg" readonly>
-			<span>-</span>
-			<input type="text" id="seg2" maxlength="2" class="tarjeta-seg">
-			<span>-</span>
-			<input type="text" id="seg3" maxlength="4" class="tarjeta-seg">
-			<span>-</span>
-			<input type="text" id="seg4" maxlength="4" class="tarjeta-seg">
-		  </div>
-		  <input type="hidden" id="numeroTarjeta" name="numeroTarjeta">
-		</div>
-		  
-		  
-		  
-		  
-		  
-		  <div class="full actions">
-			<button type="submit" class="btn btn-primary">Reservar</button>
-		  </div>
-		</div>
-
-	</section>
-  </form>
+      <div class="full actions">
+        <button type="submit" class="btn btn-primary">Reservar</button>
+      </div>
+    </div>
+  </section>
+</form>
 	</div>
 	
+  	</main>
 	
-  </main>
-
-
+		<script src="../js/validacion.js"></script>
+		<script src="../js/metodoPago.js"></script>
 	
-	<script src="../js/validacion.js"></script>
-	<script src="../js/metodoPago.js"></script>
-	
-	
-	
-</body>
+	</body>
 </html>
-

@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-  <title>AirBNB - El Hospedaje que Buscas, al Mejor Precio</title>
+  <title>Erbienbi - El Hospedaje que Buscas, al Mejor Precio</title>
 
   <link rel="stylesheet" href="../css/styles.css" />
 	<link rel="stylesheet" href="../css/formularios.css">
@@ -21,49 +21,55 @@
     </div>
   </header>
 
-
 <main>
 	<section style="max-width:1400px; margin:24px auto 8px; padding:0 24px;">
 			
-		<button type="button" class="btn btn-primary" onclick="history.back()">Volver</button>
-	  <form action="../index.html" method="POST">
+		<a href="../index.html" class="back-btn">
+          <button type="button" class="btn btn-primary">
+            Ir a la página principal
+          </button>
+        </a>
 	  
-	  
-		<h2 style="margin:20; text-align:center;">Crear Cuenta</h2>
-		<h3 style="margin:20; text-align:center;">Complete el siguiente formulario para registrar un nuevo usuario.</h3>
-		<section class="form-card">
-
-
+		<form action="../backend/registro.php" method="POST">	  
+	       <div class="form-card">
+		   
+				<h2>Crear Cuenta</h2>
+				<h3>Complete el siguiente formulario para registrar un nuevo usuario.</h3>
 
 			<div class="form-grid">
 			  <div>
 				<label for="username">Usuario</label>
-				<input type="text" name="nombre" id="nombre" placeholder="Ej: Juan" required>
+				<input type="text" name="nombre" id="nombre" placeholder="Usuario" required>
 			  </div>
 
 			  <div>
 				<label for="email">Email</label>
-				<input type="email" name="email" id="email" placeholder="Ej: persona@mail.com" required>
+				<input type="email" name="email" id="email" placeholder="Email" required>
 			  </div>
 			  
 			  <div>
 				<label for="password">Contraseña</label>
-				<input type="password" name="Contraseña" id="password" placeholder="Ej: Hola1234" required>
+				<input type="password" name="password" id="password" placeholder="Contraseña" required>
 			  </div>
 
-				<label for="password">Confirmar Contraseña</label>
-				<input type="password" name="Contraseña" id="password" placeholder="Ej: Hola1234" required>
+               <div>
+				<label for="password1">Confirmar Contraseña</label>
+				<input type="password" name="password1" id="password1" placeholder="Confirmar Contraseña" required>
 			  </div>
 
 			  
 			  <div class="full actions">
-				<button type="submit" class="btn btn-primary">Reservar</button>
+				<button type="submit" class="btn btn-primary">Registrarse</button>
+				
 			  </div>
-			</div>
 
-		</section>
+			  <div class="registration-link">
+                <p>¿Ya tiene una cuenta? <a href="signin.html">Iniciar sesion</a></p>
+              </div>
+
+		  </div>
+		</div>
 	  </form>
 	</section>
-</body>
-
+  </body>
 </html>

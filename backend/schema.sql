@@ -34,6 +34,13 @@ CREATE TABLE alojamiento_imagenes (
     FOREIGN KEY (alojamiento_id) REFERENCES alojamientos(id) ON DELETE CASCADE
 );
 
+CREATE TABLE usuarios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    contrasenia VARCHAR(255) NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
 
 ALTER TABLE reservas ADD COLUMN alojamiento_id INT NOT NULL AFTER id;
 ALTER TABLE reservas ADD COLUMN metodo_pago VARCHAR(30) NOT NULL DEFAULT 'MercadoPago' AFTER precio_total;

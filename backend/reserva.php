@@ -1,0 +1,135 @@
+<?php
+declare(strict_types=1);
+
+// Seguridad básica
+ini_set('default_charset', 'UTF-8');
+header('X-Frame-Options: DENY');
+header('X-Content-Type-Options: nosniff');
+header('Referrer-Policy: no-referrer');
+
+
+try {
+    require_once __DIR__ . '/db.php';
+
+    // Fallback opcional si $pdo no existe (ajustar si hace falta)
+    if (!isset($pdo) || !($pdo instanceof PDO)) {
+        // $pdo = new PDO('mysql:host=127.0.0.1;dbname=erbienbi;charset=utf8mb4', 'root', '', [
+        //     PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        //     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+        // ]);
+        throw new RuntimeException('No hay conexión PDO disponible. Revise db.php.');
+    }
+} catch (Throwable $e) {
+    http_response_code(500);
+    echo "<h2>Error de conexión</h2><pre>{$e->getMessage()}</pre>";
+    exit;
+}
+
+// Metodo POST
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    http_response_code(405);
+    echo "Método no permitido";
+    exit;
+}
+
+// Tomamos y validamos inputs
+$alojamiento_id   = (int)($_POST['alojamiento_id'] ?? 0);
+$nombre           = trim((string)($_POST['nombre'] ?? ''));
+$apellido         = trim((string)($_POST['apellido'] ?? ''));
+$email            = trim((string)($_POST['email'] ?? ''));
+$telefono         = preg_replace('/\D+/', '', (string)($_POST['telefono'] ?? ''));
+$fechaInicio      = (string)($_POST['fechaInicio'] ?? '');
+$fechaFin         = (string)($_POST['fechaFin'] ?? '');
+$cantPersonas     = (int)($_POST['cantidadPersonas'] ?? 1);
+$precioNocheNum   = (float)($_POST['precio_noche'] ?? 0);
+$precioTotalNum   = (float)($_POST['precio_total'] ?? 0);
+$metodoPago       = trim((string)($_POST['metodo_pago'] ?? ''));
+
+// Por seguridad no guardamos tarjetas completas.
+$numeroTarjetaRaw = (string)($_POST['numeroTarjeta'] ?? ''); // NO se guarda
+
+// Validaciones mínimas
+$errores = [];
+if ($alojamiento_id <= 0)          $errores[] = "Alojamiento inválido.";
+if ($nombre === '')                 $errores[] = "Nombre requerido.";
+if ($apellido === '')               $errores[] = "Apellido requerido.";
+if (!filter_var($email, FILTER_VALIDATE_EMAIL)) $errores[] = "Email inválido.";
+if ($telefono === '' || strlen($telefono) < 10) $errores[] = "Teléfono inválido.";
+if ($cantPersonas < 1)              $errores[] = "Cantidad de personas inválida.";
+if ($metodoPago === '')             $errores[] = "Debe seleccionar método de pago.";
+
+// Guardamos Fechas
+$fi = DateTime::createFromFormat('Y-m-d', $fechaInicio) ?: false;
+$ff = DateTime::createFromFormat('Y-m-d', $fechaFin)    ?: false;
+if (!$fi || !$ff) {
+    $errores[] = "Fechas inválidas.";
+} else {
+    // Utilizo la misma convención del front: diferencia inclusiva (+1 día)
+    if ($ff < $fi) {
+        $errores[] = "La fecha fin no puede ser anterior al inicio.";
+    }
+}
+
+// Confirmar precio_noche desde DB para evitar errores del cliente
+try {
+    $stmt = $pdo->prepare("SELECT precio_noche FROM alojamientos WHERE id = :id");
+    $stmt->execute([':id' => $alojamiento_id]);
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    if (!$row) {
+        $errores[] = "El alojamiento no existe.";
+    } else {
+        $precioOficial = (float)$row['precio_noche'];
+    }
+} catch (Throwable $e) {
+    $errores[] = "Error consultando el alojamiento.";
+}
+
+if (!empty($errores)) {
+    http_response_code(400);
+    echo "<h2>Error en la reserva</h2><ul><li>" . implode("</li><li>", array_map('htmlspecialchars', $errores)) . "</li></ul>";
+    echo '<p><a href="../reservas/reserva.html">Volver</a></p>';
+    exit;
+}
+
+// Recalculamos el total en backend (con el mismo criterio del front)
+$diffDays = (int)$fi->diff($ff)->format('%a') + 1; // inclusivo
+$precioCalculado = $precioOficial;
+$totalCalculado  = $diffDays * $precioCalculado * max(1, $cantPersonas);
+
+
+try {
+    $pdo->beginTransaction();
+
+    $sql = "INSERT INTO reservas 
+        (alojamiento_id, nombre, apellido, email, telefono, fecha_inicio, fecha_fin, cantidad_personas, precio_noche, precio_total, metodo_pago)
+        VALUES
+        (:aloj, :nom, :ape, :email, :tel, :fi, :ff, :cant, :precio_noche, :precio_total, :metodo)";
+
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([
+        ':aloj'         => $alojamiento_id,
+        ':nom'          => $nombre,
+        ':ape'          => $apellido,
+        ':email'        => $email,
+        ':tel'          => $telefono,
+        ':fi'           => $fi->format('Y-m-d'),
+        ':ff'           => $ff->format('Y-m-d'),
+        ':cant'         => $cantPersonas,
+        ':precio_noche' => $precioCalculado,
+        ':precio_total' => $totalCalculado,
+        ':metodo'       => $metodoPago,
+    ]);
+
+    $pdo->commit();
+
+    // 7) Redirección a la confirmación
+    header('Location: ../reservas/Confirmacion.html', true, 303);
+    exit;
+
+} catch (Throwable $e) {
+    if ($pdo->inTransaction()) $pdo->rollBack();
+    http_response_code(500);
+    echo "<h2>No se pudo registrar la reserva</h2><pre>" . htmlspecialchars($e->getMessage()) . "</pre>";
+    echo '<p><a href="../reservas/reserva.html">Volver</a></p>';
+    exit;
+}

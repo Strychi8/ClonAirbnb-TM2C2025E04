@@ -1,0 +1,21 @@
+# Directorios de dependencias
+/vendor/
+/node_modules/
+
+# Archivos de configuración locales y secretos
+*.local.php
+config.secrets.php
+.env
+
+# Directorios de cache, logs y temporales
+/cache/
+/logs/
+/tmp/
+/storage/framework/cache/
+/storage/framework/sessions/
+/storage/framework/views/
+
+# Archivos de IDE y sistema operativo
+.DS_Store
+.idea/
+.vscode/
