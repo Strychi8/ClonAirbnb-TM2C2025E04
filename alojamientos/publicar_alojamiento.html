@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+	<title>Erbienbi - El Hospedaje que Buscas, al Mejor Precio</title>
+  
+	<link rel="stylesheet" href="../css/styles.css">
+	<link rel="stylesheet" href="../css/formularios.css">
+	
+</head>
+<body>
+	
+  <!-- Header unificado -->
+  <header>
+    <div class="marquee-wrapper">
+      <h1 class="marquee-text"> -- 🏠 🏡 -- Erbienbi - El Hospedaje que Buscas, al Mejor Precio -- 🏡 🏠 -- </h1>
+    </div>
+  </header>
+	
+  <main>
+    <section style="max-width:1400px; margin:24px auto 8px; padding:0 24px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; gap:16px;">
+        <button type="button" class="btn btn-primary" onclick="history.back()">Volver</button>
+      		</div>
+
+				<div id="alojamientoSeleccionado"></div>
+
+<form action="../backend/alojamiento.php" method="POST">
+  <h2 style="margin-top:0; text-align:center;">Publicar un alojamiento</h2>
+  <section class="form-card">
+    
+
+    <div class="form-grid">
+
+      <div style="display: flex; gap: 16px;">
+        <div style="flex:1;">
+          <label for="nombre">Nombre</label>
+          <input type="text" name="nombre" id="nombre" placeholder="Ej: Casa de Campo" required>
+        </div>
+        <div style="flex:1;">
+          <label for="precio">Precio </label>
+          <input type="text" name="precio" id="precio" placeholder="Ej: $150000" required>
+        </div>
+      </div>
+      <div style="width: 100%; display: block;">
+        <label for="descripcion">Descripcion</label>
+        <textarea name="descripcion" id="descripcion" placeholder="Ej: Casa de Campo" required rows="4"></textarea>
+      </div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; width: 100%;">
+        <div>
+          <label for="calle">Calle</label>
+          <input type="text" name="calle" id="calle" placeholder="Ej: Calle Falsa" required>
+        </div>
+        <div>
+          <label for="altura">Altura</label>
+          <input type="text" name="altura" id="altura" placeholder="Ej: 123" required>
+        </div>
+        <div>
+          <label for="localidad">Localidad</label>
+          <input type="text" name="localidad" id="localidad" placeholder="Ej: Buenos Aires" required>
+        </div>
+        <div>
+          <label for="codigoPostal">Código Postal</label>
+          <input type="text" name="codigoPostal" id="codigoPostal" placeholder="Ej: 1234567890" required>
+        </div>
+        <div>
+          <label for="provincia">Provincia/Estado</label>
+          <input type="text" name="provincia" id="provincia" placeholder="Ej: Buenos Aires" required>
+        </div>
+        <div>
+          <label for="pais">País</label>
+          <select name="pais" id="pais" required>
+            <option value="">-- Selecciona un país --</option>
+            <option value="Argentina">Argentina</option>
+            <option value="Uruguay">Uruguay</option>
+            <option value="Chile">Chile</option>
+            <option value="Brasil">Brasil</option>
+            <option value="Paraguay">Paraguay</option>
+            <option value="Bolivia">Bolivia</option>
+            <option value="Peru">Perú</option>
+            <option value="Colombia">Colombia</option>
+            <option value="Ecuador">Ecuador</option>
+            <option value="Venezuela">Venezuela</option>
+            <option value="Mexico">México</option>
+            <option value="España">España</option>
+            <option value="Estados Unidos">Estados Unidos</option>
+            <option value="Otro">Otro</option>
+          </select>
+        </div>
+        <div style="grid-column: 1 / -1; margin-top: 24px; background: #f8f8f8; padding: 16px; border-radius: 8px;">
+          <label style="font-weight: bold; display: block; margin-bottom: 8px;">Servicios disponibles:</label>
+          <div style="display: flex; flex-wrap: wrap; gap: 16px;">
+            <label style="display: flex; align-items: center; gap: 4px;">
+              <input type="checkbox" name="servicios" value="wifi"> Wi-Fi
+            </label>
+            <label style="display: flex; align-items: center; gap: 4px;">
+              <input type="checkbox" name="servicios" value="estacionamiento"> Estacionamiento
+            </label>
+            <label style="display: flex; align-items: center; gap: 4px;">
+              <input type="checkbox" name="servicios" value="piscina"> Piscina
+            </label>
+            <label style="display: flex; align-items: center; gap: 4px;">
+              <input type="checkbox" name="servicios" value="aire_acondicionado"> Aire acondicionado
+            </label>
+            <label style="display: flex; align-items: center; gap: 4px;">
+              <input type="checkbox" name="servicios" value="calefaccion"> Calefacción
+            </label>
+            <label style="display: flex; align-items: center; gap: 4px;">
+              <input type="checkbox" name="servicios" value="mascotas"> Acepta mascotas
+            </label>
+            <label style="display: flex; align-items: center; gap: 4px;">
+              <input type="checkbox" name="servicios" value="tv"> TV
+            </label>
+            <label style="display: flex; align-items: center; gap: 4px;">
+              <input type="checkbox" name="servicios" value="desayuno"> Desayuno incluido
+            </label>
+            <label style="display: flex; align-items: center; gap: 4px;">
+              <input type="checkbox" name="servicios" value="gimnasio"> Gimnasio
+            </label>
+            <label style="display: flex; align-items: center; gap: 4px;">
+              <input type="checkbox" name="servicios" value="lavanderia"> Lavandería
+            </label>
+          </div>
+      </div>
+      </div>
+    </div>
+      
+
+      <div class="full actions">
+        <button type="submit" class="btn btn-primary">Publicar</button>
+      </div>
+    </div>
+  </section>
+</form>
+	</div>
+	
+  	</main>
+	
+		<script src="../js/validacion.js"></script>
+		<script src="../js/metodoPago.js"></script>
+	
+	</body>
+</html>

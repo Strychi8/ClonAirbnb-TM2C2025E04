@@ -1,6 +1,6 @@
 
 form .form-card {
-  max-width: 500px;
+  max-width: 700px;
 	margin: 24px 24px 48px;
 	padding: 24px;
   background: var(--card);
@@ -22,7 +22,8 @@ form .form-grid {
   margin-bottom: 6px;
 }
 .form-grid input,
-.form-grid select {
+.form-grid select,
+.form-grid textarea {
   width: 100%;
   padding: 10px 12px;
   border-radius: 10px;
