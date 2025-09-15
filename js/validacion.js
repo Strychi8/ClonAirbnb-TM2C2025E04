@@ -121,7 +121,6 @@
     
   }
 
-  
     const form = document.querySelector("form");
 	form.addEventListener("submit", function (e) {
 	// Concatenar los segmentos en el hidden

@@ -1,0 +1,56 @@
+
+body {
+  font-family: Arial, sans-serif;
+  background: #f6eee2;
+  padding: 20px;
+}
+.table-wrap {
+  outline: 3px solid #222;
+  padding: 4px;
+  background: white;
+}
+table.alojamientos {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+col.col-photo { width: 200px; }
+col.col-name   { width: auto; }
+col.col-edit   { width: 120px; }
+col.col-delete { width: 120px; }
+table.alojamientos th,
+table.alojamientos td {
+  border: 1px solid #222;
+  padding: 20px 10px;
+  text-align: center;
+  vertical-align: middle;
+  background: #f0d9c0;
+}
+table.alojamientos thead th {
+  font-weight: bold;
+  background: #e8cfae;
+}
+.foto-cell img {
+  display: block;
+  margin: 0 auto;
+  width: 160px;   /* fuerza el tamaño fijo */
+  height: auto;
+  border-radius: 4px;
+  object-fit: cover;
+}
+.btn-editar, .btn-eliminar {
+  display: inline-block;
+  width: 90px;
+  padding: 8px 6px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+.btn-editar { background-color: #2ea44f; color: #fff; }
+.btn-eliminar { background-color: #e5534b; color: #fff; }
+.no-data {
+  padding: 24px;
+  text-align: center;
+  background: #f8efe6;
+}
