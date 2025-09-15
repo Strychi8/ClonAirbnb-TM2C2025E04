@@ -29,7 +29,7 @@
 
       <div id="alojamientoSeleccionado"></div>
 
-      <form action="../backend/alojamiento.php" method="POST">
+      <form action="../backend/alojamiento.php" method="POST" enctype="multipart/form-data">
         <h2 style="margin-top:0; text-align:center;">Publicar un alojamiento</h2>
         <section class="form-card">
 
@@ -50,6 +50,10 @@
               <label for="descripcion">Descripcion</label>
               <textarea name="descripcion" id="descripcion" placeholder="Ej: Casa de Campo" required
                 rows="4"></textarea>
+            </div>
+            <div style="grid-column: 1 / -1;">
+              <label for="imagen">Imagen principal</label>
+              <input type="file" name="imagen" id="imagen" accept="image/*">
             </div>
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; width: 100%;">
               <div>
@@ -95,16 +99,16 @@
                <div style="grid-column: 1 / -1; margin-top: 24px; background: #f8f8f8; padding: 16px; border-radius: 8px;">
                 <label style="font-weight: bold; display: block; margin-bottom: 12px;">Servicios disponibles:</label>
                 <div class="servicios-grid">
-                  <label><input type="checkbox" name="servicios" value="wifi" id="wifi"><span>Wi-Fi</span></label>
-                  <label><input type="checkbox" name="servicios" value="piscina" id="piscina"><span>Piscina</span></label>
-                  <label><input type="checkbox" name="servicios" value="calefaccion" id="calefaccion"><span>Calefacción</span></label>
-                  <label><input type="checkbox" name="servicios" value="tv" id="tv"><span>TV</span></label>
-                  <label><input type="checkbox" name="servicios" value="gimnasio" id="gimnasio"><span>Gimnasio</span></label>
-                  <label><input type="checkbox" name="servicios" value="estacionamiento" id="estacionamiento"><span>Estacionamiento</span></label>
-                  <label><input type="checkbox" name="servicios" value="aire_acondicionado" id="aire_acondicionado"><span>Aire acondicionado</span></label>
-                  <label><input type="checkbox" name="servicios" value="mascotas" id="mascotas"><span>Acepta mascotas</span></label>
-                  <label><input type="checkbox" name="servicios" value="desayuno" id="desayuno"><span>Desayuno incluido</span></label>
-                  <label><input type="checkbox" name="servicios" value="lavanderia" id="lavanderia"><span>Lavandería</span></label>
+                  <label><input type="checkbox" name="servicios[]" value="wifi" id="wifi"><span>Wi-Fi</span></label>
+                  <label><input type="checkbox" name="servicios[]" value="piscina" id="piscina"><span>Piscina</span></label>
+                  <label><input type="checkbox" name="servicios[]" value="calefaccion" id="calefaccion"><span>Calefacción</span></label>
+                  <label><input type="checkbox" name="servicios[]" value="tv" id="tv"><span>TV</span></label>
+                  <label><input type="checkbox" name="servicios[]" value="gimnasio" id="gimnasio"><span>Gimnasio</span></label>
+                  <label><input type="checkbox" name="servicios[]" value="estacionamiento" id="estacionamiento"><span>Estacionamiento</span></label>
+                  <label><input type="checkbox" name="servicios[]" value="aire_acondicionado" id="aire_acondicionado"><span>Aire acondicionado</span></label>
+                  <label><input type="checkbox" name="servicios[]" value="mascotas" id="mascotas"><span>Acepta mascotas</span></label>
+                  <label><input type="checkbox" name="servicios[]" value="desayuno" id="desayuno"><span>Desayuno incluido</span></label>
+                  <label><input type="checkbox" name="servicios[]" value="lavanderia" id="lavanderia"><span>Lavandería</span></label>
                 </div>
               </div>
             </div> <!-- /grid 2 columnas -->

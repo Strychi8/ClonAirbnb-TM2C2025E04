@@ -15,11 +15,13 @@ try {
     exit;
   }
 
-  // Permitir JSON o formulario clásico
-  $raw = file_get_contents('php://input');
-  $asJson = json_decode($raw, true);
-
-  $src = is_array($asJson) ? $asJson : $_POST;
+  // Tomar datos desde multipart/form-data (con archivo) o JSON
+  $src = $_POST;
+  if (empty($src)) {
+    $raw = file_get_contents('php://input');
+    $asJson = json_decode($raw, true);
+    if (is_array($asJson)) $src = $asJson;
+  }
 
   $nombre       = trim((string)($src['nombre'] ?? ''));
   $precioRaw    = (string)($src['precio'] ?? '');
@@ -30,7 +32,7 @@ try {
   $codigoPostal = trim((string)($src['codigoPostal'] ?? ''));
   $provincia    = trim((string)($src['provincia'] ?? ''));
   $pais         = trim((string)($src['pais'] ?? ''));
-  $serviciosArr = $src['servicios'] ?? [];
+  $serviciosArr = $src['servicios'] ?? $src['servicios'] ?? [];
 
   if (!is_array($serviciosArr)) {
     $serviciosArr = [];
@@ -58,6 +60,22 @@ try {
   $direccion = trim($calle . ' ' . $altura . ', ' . $localidad . ' ' . $codigoPostal . ', ' . $provincia . ', ' . $pais);
   $servicios = json_encode(array_values(array_unique($serviciosArr)), JSON_UNESCAPED_UNICODE);
 
+  // Manejo simple de imagen (opcional)
+  $imagenPath = null;
+  if (isset($_FILES['imagen']) && is_uploaded_file($_FILES['imagen']['tmp_name'])) {
+    $uploadsDir = __DIR__ . '/../uploads';
+    if (!is_dir($uploadsDir)) {
+      @mkdir($uploadsDir, 0775, true);
+    }
+    $ext = pathinfo($_FILES['imagen']['name'], PATHINFO_EXTENSION);
+    $safeName = 'aloj_' . date('Ymd_His') . '_' . bin2hex(random_bytes(4)) . ($ext ? ('.' . strtolower($ext)) : '');
+    $dest = $uploadsDir . '/' . $safeName;
+    if (move_uploaded_file($_FILES['imagen']['tmp_name'], $dest)) {
+      // Ruta relativa para guardar en DB
+      $imagenPath = 'uploads/' . $safeName;
+    }
+  }
+
   $sql = "INSERT INTO alojamientos (nombre, ubicacion, descripcion, precio_noche, direccion, servicios, imagen_principal)
           VALUES (:nombre, :ubicacion, :descripcion, :precio_noche, :direccion, :servicios, :imagen_principal)";
   $stmt = $pdo->prepare($sql);
@@ -68,7 +86,7 @@ try {
     ':precio_noche'     => $precio_noche,
     ':direccion'        => $direccion,
     ':servicios'        => $servicios,
-    ':imagen_principal' => null,
+    ':imagen_principal' => $imagenPath,
   ]);
 
   $id = (int)$pdo->lastInsertId();

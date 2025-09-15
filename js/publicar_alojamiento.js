@@ -23,22 +23,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Collect servicios checkboxes (multiple)
     const serviciosSeleccionados = [];
-    form.querySelectorAll('input[name="servicios"]:checked').forEach((el) => {
+    form.querySelectorAll('input[name="servicios[]"]:checked').forEach((el) => {
       serviciosSeleccionados.push(el.value);
     });
     data.servicios = serviciosSeleccionados;
+    const imagenFile = formData.get('imagen');
 
     // Log all current values
     console.group('Publicar alojamiento - datos del formulario');
-    console.table({ ...data, servicios: data.servicios.join(', ') });
+    console.table({ ...data, servicios: data.servicios.join(', '), imagen: imagenFile && imagenFile.name ? imagenFile.name : '' });
     console.log('Objeto completo:', data);
     console.groupEnd();
 
-    // Enviar al backend
+    // Enviar al backend como multipart/form-data (incluye archivo y arrays)
     fetch('../backend/publicar_alojamiento.php', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
+      body: formData,
     })
       .then(async (res) => {
         const text = await res.text();
