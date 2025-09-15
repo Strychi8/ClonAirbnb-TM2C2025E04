@@ -120,7 +120,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const message = id ? 'Alojamiento actualizado exitosamente' : 'Alojamiento publicado exitosamente';
         alert(message);
         // Optionally redirect to "mis alojamientos" page
-        // window.location.href = 'mis_alojamientos.html';
+        window.location.href = 'mis_alojamientos.html';
       } else {
         alert('No se pudo guardar el alojamiento. Ver consola para más detalles.');
       }
