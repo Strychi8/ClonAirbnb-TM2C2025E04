@@ -34,7 +34,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Vincula los parámetros y ejecuta la consulta
 
-    if ($stmt->execute([$nombre, $email, $password])) {
+    if ($stmt->execute([$nombre, $email, $hashed_password])) {
+
         // Redirecciona a la página principal después del registro exitoso
         header("Location: ../index.html");
         exit();
@@ -50,4 +51,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     header("Location: signup.html");
     exit();
 }
+
 ?>
