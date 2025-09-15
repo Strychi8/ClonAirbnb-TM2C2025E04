@@ -9,6 +9,15 @@ document.addEventListener('DOMContentLoaded', async () => {
   const imagenPreview = document.getElementById('imagenPreview');
   if (!form) return;
 
+  // Get user session data - required for authentication
+  const userData = await window.SessionUtils.requireAuth();
+  if (!userData) {
+    // requireAuth will handle redirect if not authenticated
+    return;
+  }
+  
+  console.log('User authenticated:', userData);
+
   // Helpers
   function setServicios(servicesArray) {
     const set = new Set(Array.isArray(servicesArray) ? servicesArray : []);
@@ -90,7 +99,15 @@ document.addEventListener('DOMContentLoaded', async () => {
     e.preventDefault();
 
     const fd = new FormData(form);
-    if (id) fd.append('id', id);
+    
+    // Add user ID to form data
+    fd.append('usuario_id', userData.user_id);
+    
+    if (id) {
+      fd.append('id', id);
+    }
+
+    console.log('Enviando alojamiento con usuario_id:', userData.user_id);
 
     const endpoint = id ? '../backend/actualizar_alojamiento.php' : '../backend/publicar_alojamiento.php';
 
@@ -100,13 +117,16 @@ document.addEventListener('DOMContentLoaded', async () => {
       let payload; try { payload = JSON.parse(text); } catch { payload = { raw: text }; }
       console.log('Respuesta form alojamiento:', res.status, payload);
       if (res.ok) {
-        alert(id ? 'Alojamiento actualizado' : 'Alojamiento publicado');
+        const message = id ? 'Alojamiento actualizado exitosamente' : 'Alojamiento publicado exitosamente';
+        alert(message);
+        // Optionally redirect to "mis alojamientos" page
+        // window.location.href = 'mis_alojamientos.html';
       } else {
-        alert('No se pudo guardar. Ver consola.');
+        alert('No se pudo guardar el alojamiento. Ver consola para más detalles.');
       }
     } catch (err) {
-      console.error(err);
-      alert('Error de red');
+      console.error('Error al enviar formulario:', err);
+      alert('Error de conexión. Intenta nuevamente.');
     }
   });
 });

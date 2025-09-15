@@ -15,9 +15,28 @@ try {
   }
 
   $id = (int)($_POST['id'] ?? 0);
+  $usuarioId = (int)($_POST['usuario_id'] ?? 0);
+  
   if ($id <= 0) {
     http_response_code(400);
     echo json_encode(['error' => 'id_invalido']);
+    exit;
+  }
+  
+  if ($usuarioId <= 0) {
+    http_response_code(400);
+    echo json_encode(['error' => 'usuario_id_requerido']);
+    exit;
+  }
+  
+  // Verificar que el alojamiento pertenece al usuario
+  $checkSql = "SELECT id FROM alojamientos WHERE id = :id AND usuario_id = :usuario_id";
+  $checkStmt = $pdo->prepare($checkSql);
+  $checkStmt->execute([':id' => $id, ':usuario_id' => $usuarioId]);
+  
+  if (!$checkStmt->fetch()) {
+    http_response_code(403);
+    echo json_encode(['error' => 'no_autorizado', 'message' => 'No tienes permisos para editar este alojamiento']);
     exit;
   }
 
@@ -51,7 +70,6 @@ try {
   $params = [
     ':id'              => $id,
     ':nombre'          => $nombre,
-    ':ubicacion'       => $localidad,
     ':descripcion'     => $descripcion,
     ':precio_noche'    => $precio_noche,
     ':direccion'       => $direccion,
@@ -72,7 +90,6 @@ try {
 
   $sql = "UPDATE alojamientos
           SET nombre = :nombre,
-              ubicacion = :ubicacion,
               descripcion = :descripcion,
               precio_noche = :precio_noche,
               direccion = :direccion,

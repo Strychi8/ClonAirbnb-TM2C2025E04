@@ -23,6 +23,7 @@ try {
     if (is_array($asJson)) $src = $asJson;
   }
 
+  $usuarioId    = (int)($src['usuario_id'] ?? 0);
   $nombre       = trim((string)($src['nombre'] ?? ''));
   $precioRaw    = (string)($src['precio'] ?? '');
   $descripcion  = trim((string)($src['descripcion'] ?? ''));
@@ -46,6 +47,7 @@ try {
   }
 
   $errores = [];
+  if ($usuarioId <= 0) $errores[] = 'usuario_id_requerido';
   if ($nombre === '') $errores[] = 'nombre_requerido';
   if ($precioNum <= 0) $errores[] = 'precio_invalido';
 
@@ -77,17 +79,18 @@ try {
   }
 
   $sql = "INSERT INTO alojamientos (
-            nombre, descripcion, precio_noche, direccion,
+            usuario_id, nombre, descripcion, precio_noche, direccion,
             calle, altura, localidad, codigo_postal, provincia, pais,
             servicios, imagen_principal
           )
           VALUES (
-            :nombre, :descripcion, :precio_noche, :direccion,
+            :usuario_id, :nombre, :descripcion, :precio_noche, :direccion,
             :calle, :altura, :localidad, :codigo_postal, :provincia, :pais,
             :servicios, :imagen_principal
           )";
   $stmt = $pdo->prepare($sql);
   $stmt->execute([
+    ':usuario_id'       => $usuarioId,
     ':nombre'           => $nombre,
     ':descripcion'      => $descripcion,
     ':precio_noche'     => $precio_noche,
@@ -100,7 +103,6 @@ try {
     ':pais'             => $pais,
     ':servicios'        => $servicios,
     ':imagen_principal' => $imagenPath,
-    
   ]);
 
   $id = (int)$pdo->lastInsertId();
