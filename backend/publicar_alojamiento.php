@@ -77,19 +77,18 @@ try {
   }
 
   $sql = "INSERT INTO alojamientos (
-            nombre, ubicacion, descripcion, precio_noche, direccion,
+            nombre, descripcion, precio_noche, direccion,
             calle, altura, localidad, codigo_postal, provincia, pais,
             servicios, imagen_principal
           )
           VALUES (
-            :nombre, :ubicacion, :descripcion, :precio_noche, :direccion,
+            :nombre, :descripcion, :precio_noche, :direccion,
             :calle, :altura, :localidad, :codigo_postal, :provincia, :pais,
             :servicios, :imagen_principal
           )";
   $stmt = $pdo->prepare($sql);
   $stmt->execute([
     ':nombre'           => $nombre,
-    ':ubicacion'        => $localidad, // o provincia/pais si lo prefieren
     ':descripcion'      => $descripcion,
     ':precio_noche'     => $precio_noche,
     ':direccion'        => $direccion,
@@ -101,6 +100,7 @@ try {
     ':pais'             => $pais,
     ':servicios'        => $servicios,
     ':imagen_principal' => $imagenPath,
+    
   ]);
 
   $id = (int)$pdo->lastInsertId();

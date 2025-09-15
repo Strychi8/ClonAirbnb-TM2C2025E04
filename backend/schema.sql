@@ -4,7 +4,6 @@ USE erbienbi;
 CREATE TABLE alojamientos (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
-    ubicacion VARCHAR(150),
     descripcion TEXT,
     precio_noche DECIMAL(10,2) NOT NULL,
     direccion VARCHAR(200), -- dirección completa (compatibilidad)
