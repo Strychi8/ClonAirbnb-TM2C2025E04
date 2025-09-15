@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Erbienbi - Formulario de Alojamiento</title>
+  <link rel="stylesheet" href="../css/styles.css">
+  <link rel="stylesheet" href="../css/formularios.css">
+</head>
+
+<body>
+  <header>
+    <div class="marquee-wrapper">
+      <h1 class="marquee-text"> -- 🏠 🏡 -- Erbienbi - Formulario de Alojamiento -- 🏡 🏠 -- </h1>
+    </div>
+  </header>
+
+  <main>
+    <section style="max-width:1400px; margin:24px auto 8px; padding:0 24px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; gap:16px;">
+        <button type="button" class="btn btn-primary" onclick="history.back()">Volver</button>
+        <h2 id="form-title" style="margin:0 auto;">Alojamiento</h2>
+      </div>
+
+      <form id="alojamiento-form" enctype="multipart/form-data">
+        <section class="form-card">
+          <div class="form-grid">
+            <div style="display: flex; gap: 16px;">
+              <div style="flex:1;">
+                <label for="nombre">Nombre</label>
+                <input type="text" name="nombre" id="nombre" placeholder="Ej: Casa de Campo" required>
+              </div>
+              <div style="flex:1;">
+                <label for="precio">Precio</label>
+                <input type="number" name="precio" id="precio" placeholder="Ej: 150000" required min="0" step="1">
+              </div>
+            </div>
+
+            <div style="grid-column: 1 / -1;">
+              <label for="descripcion">Descripcion</label>
+              <textarea name="descripcion" id="descripcion" placeholder="Ej: Casa de Campo" required rows="4"></textarea>
+            </div>
+
+            <div style="grid-column: 1 / -1;">
+              <label for="imagen">Imagen principal</label>
+              <input type="file" name="imagen" id="imagen" accept="image/*">
+              <div style="margin-top: 8px;">
+                <img id="imagenPreview" alt="Vista previa" style="max-width: 320px; max-height: 180px; display: none; border-radius: 8px; object-fit: cover;">
+              </div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; width: 100%;">
+              <div>
+                <label for="calle">Calle</label>
+                <input type="text" name="calle" id="calle" placeholder="Ej: Calle Falsa" required>
+              </div>
+              <div>
+                <label for="altura">Altura</label>
+                <input type="number" name="altura" id="altura" placeholder="Ej: 123" required min="0" step="1">
+              </div>
+              <div>
+                <label for="localidad">Localidad</label>
+                <input type="text" name="localidad" id="localidad" placeholder="Ej: Remedios de Escalada" required>
+              </div>
+              <div>
+                <label for="codigoPostal">Código Postal</label>
+                <input type="text" name="codigoPostal" id="codigoPostal" placeholder="Ej: 1828" required>
+              </div>
+              <div>
+                <label for="provincia">Provincia/Estado</label>
+                <input type="text" name="provincia" id="provincia" placeholder="Ej: Buenos Aires" required>
+              </div>
+              <div>
+                <label for="pais">País</label>
+                <select name="pais" id="pais" required>
+                  <option value="">-- Selecciona un país --</option>
+                  <option value="Argentina">Argentina</option>
+                  <option value="Uruguay">Uruguay</option>
+                  <option value="Chile">Chile</option>
+                  <option value="Brasil">Brasil</option>
+                  <option value="Paraguay">Paraguay</option>
+                  <option value="Bolivia">Bolivia</option>
+                  <option value="Peru">Perú</option>
+                  <option value="Colombia">Colombia</option>
+                  <option value="Ecuador">Ecuador</option>
+                  <option value="Venezuela">Venezuela</option>
+                  <option value="Mexico">México</option>
+                  <option value="España">España</option>
+                  <option value="Estados Unidos">Estados Unidos</option>
+                  <option value="Otro">Otro</option>
+                </select>
+              </div>
+
+              <div style="grid-column: 1 / -1; margin-top: 24px; background: #f8f8f8; padding: 16px; border-radius: 8px;">
+                <label style="font-weight: bold; display: block; margin-bottom: 12px;">Servicios disponibles:</label>
+                <div class="servicios-grid">
+                  <label><input type="checkbox" name="servicios[]" value="wifi"><span>Wi-Fi</span></label>
+                  <label><input type="checkbox" name="servicios[]" value="piscina"><span>Piscina</span></label>
+                  <label><input type="checkbox" name="servicios[]" value="calefaccion"><span>Calefacción</span></label>
+                  <label><input type="checkbox" name="servicios[]" value="tv"><span>TV</span></label>
+                  <label><input type="checkbox" name="servicios[]" value="gimnasio"><span>Gimnasio</span></label>
+                  <label><input type="checkbox" name="servicios[]" value="estacionamiento"><span>Estacionamiento</span></label>
+                  <label><input type="checkbox" name="servicios[]" value="aire_acondicionado"><span>Aire acondicionado</span></label>
+                  <label><input type="checkbox" name="servicios[]" value="mascotas"><span>Acepta mascotas</span></label>
+                  <label><input type="checkbox" name="servicios[]" value="desayuno"><span>Desayuno incluido</span></label>
+                  <label><input type="checkbox" name="servicios[]" value="lavanderia"><span>Lavandería</span></label>
+                </div>
+              </div>
+            </div>
+
+            <div class="full actions">
+              <button type="submit" class="btn btn-primary" id="submit-btn">Guardar</button>
+            </div>
+          </div>
+        </section>
+      </form>
+    </section>
+  </main>
+
+  <script src="../js/alojamiento_form.js"></script>
+</body>
+
+</html>
+
+
