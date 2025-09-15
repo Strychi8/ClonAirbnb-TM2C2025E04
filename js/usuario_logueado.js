@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (data.logged_in) {
         div.innerHTML = `
           <span>Bienvenido, ${data.user_name}</span>
-          <a class="btn btn-primary" href="mis_alojamientos.php">Mis alojamientos</a>
+          <a class="btn btn-primary" href="alojamientos/mis_alojamientos.php">Mis alojamientos</a>  // Hay que crear el PHP
           <a id="logout-btn" class="btn btn-primary" href="#">Cerrar sesión</a>
         `;
 

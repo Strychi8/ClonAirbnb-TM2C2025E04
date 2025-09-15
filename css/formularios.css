@@ -1,8 +1,8 @@
 
 form .form-card {
-  max-width: 700px;
-	margin: 24px 24px 48px;
-	padding: 24px;
+  max-width: 500px;
+  margin: 24px 0px 48px; /* Margen superior e inferior, 0 a los lados para que el width funcione */
+  padding: 24px;
   background: var(--card);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
@@ -89,16 +89,16 @@ form .form-grid {
   box-shadow: 0 0 1px #aaa; /* efecto visual muy ligero */
 }
 #seg1 {
-  width: 120px;
+  width: 190px;
 }
 #seg2 {
-  width: 60px;
+  width: 95px;
 }
 #seg3 {
-  width: 100px;
+  width: 150px;
 }
 #seg4 {
-  width: 100px;
+  width: 150px;
 }
 
 #seg1[readonly] {
