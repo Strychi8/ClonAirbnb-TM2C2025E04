@@ -121,17 +121,6 @@
     
   }
 
-  // --- Validación y formateo del Precio Alojamieto ---
-  if (precio) {
-    telefono.addEventListener("input", function () {
-      this.value = this.value.replace(/[^0-9]/g, "");
-    });
-
-    
-  }
-  
-  
-  
     const form = document.querySelector("form");
 	form.addEventListener("submit", function (e) {
 	// Concatenar los segmentos en el hidden
