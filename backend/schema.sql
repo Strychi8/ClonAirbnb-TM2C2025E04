@@ -4,10 +4,16 @@ USE erbienbi;
 CREATE TABLE alojamientos (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
-    ubicacion VARCHAR(150),
     descripcion TEXT,
     precio_noche DECIMAL(10,2) NOT NULL,
-    direccion VARCHAR(200),
+    direccion VARCHAR(200), -- dirección completa (compatibilidad)
+    -- Dirección normalizada
+    calle VARCHAR(100),
+    altura VARCHAR(10),
+    localidad VARCHAR(100),
+    codigo_postal VARCHAR(20),
+    provincia VARCHAR(100),
+    pais VARCHAR(100),
     servicios TEXT,
     imagen_principal VARCHAR(200),
     fecha_alta TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -47,3 +53,11 @@ ALTER TABLE reservas ADD COLUMN metodo_pago VARCHAR(30) NOT NULL DEFAULT 'Mercad
 -- Clave foránea a alojamientos(id) 
 ALTER TABLE reservas ADD CONSTRAINT fk_reservas_alojamiento FOREIGN KEY (alojamiento_id) REFERENCES alojamientos(id) ON DELETE RESTRICT ON UPDATE CASCADE;
 CREATE INDEX ix_reservas_aloj_fechas ON reservas (alojamiento_id, fecha_inicio, fecha_fin);
+
+-- Migración para bases existentes (MySQL 8+ admite IF NOT EXISTS)
+ALTER TABLE alojamientos ADD COLUMN IF NOT EXISTS calle VARCHAR(100) NULL AFTER direccion;
+ALTER TABLE alojamientos ADD COLUMN IF NOT EXISTS altura VARCHAR(10) NULL AFTER calle;
+ALTER TABLE alojamientos ADD COLUMN IF NOT EXISTS localidad VARCHAR(100) NULL AFTER altura;
+ALTER TABLE alojamientos ADD COLUMN IF NOT EXISTS codigo_postal VARCHAR(20) NULL AFTER localidad;
+ALTER TABLE alojamientos ADD COLUMN IF NOT EXISTS provincia VARCHAR(100) NULL AFTER codigo_postal;
+ALTER TABLE alojamientos ADD COLUMN IF NOT EXISTS pais VARCHAR(100) NULL AFTER provincia;
