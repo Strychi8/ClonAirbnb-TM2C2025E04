@@ -1,3 +1,7 @@
+:root {
+  --eliminar: #e5534b;
+}
+
 
 body {
   font-family: Arial, sans-serif;
@@ -38,19 +42,21 @@ table.alojamientos thead th {
   border-radius: 4px;
   object-fit: cover;
 }
-.btn-editar, .btn-eliminar {
-  display: inline-block;
-  width: 90px;
-  padding: 8px 6px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: 600;
+
+.btn-eliminar {
+  padding: 10px 20px
 }
-.btn-editar { background-color: #2ea44f; color: #fff; }
-.btn-eliminar { background-color: #e5534b; color: #fff; }
+
+
+/* Botón eliminar */
+.btn-eliminar {
+  background-color: #e5534b;
+  color: #fff;
+}
+
+/* Estilo sin datos */
 .no-data {
-  padding: 24px;
+  padding: 10px 20px;
   text-align: center;
   background: #f8efe6;
 }
