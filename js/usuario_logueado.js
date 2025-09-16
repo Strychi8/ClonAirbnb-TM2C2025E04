@@ -2,11 +2,12 @@ document.addEventListener("DOMContentLoaded", () => {
   fetch('backend/check_login.php')
     .then(res => res.json())
     .then(data => {
+      console.log(data);
       const div = document.getElementById('login-buttons');
       if (data.logged_in) {
         div.innerHTML = `
           <span>Bienvenido, ${data.user_name}</span>
-          <a class="btn btn-primary" href="alojamientos/mis_alojamientos.php">Mis alojamientos</a>  // Hay que crear el PHP
+          <a class="btn btn-primary" href="alojamientos/mis_alojamientos.html">Mis alojamientos</a>
           <a id="logout-btn" class="btn btn-primary" href="#">Cerrar sesión</a>
         `;
 
