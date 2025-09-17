@@ -4,12 +4,14 @@ document.addEventListener("DOMContentLoaded", () => {
     .then(data => {
       const cont = document.getElementById("listado");
       cont.innerHTML = "";
+
       data.forEach(a => {
         const nombreUrl = encodeURIComponent((a.nombre || "").replace(/\s+/g, "_"));
         const precioFmt = (a.precio_noche ?? 0).toLocaleString("es-AR");
+
         cont.innerHTML += `
           <article class="card">
-            <a class="card-media" href="alojamientos/alojamiento${a.id}.html">
+            <a class="card-media" href="alojamientos/alojamiento.html?id=${a.id}">
               <img src="${a.imagen_principal}" alt="${a.nombre}">
             </a>
             <div class="card-content">
