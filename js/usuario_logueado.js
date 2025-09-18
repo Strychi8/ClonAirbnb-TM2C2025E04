@@ -2,7 +2,6 @@ document.addEventListener("DOMContentLoaded", () => {
   fetch('backend/check_login.php')
     .then(res => res.json())
     .then(data => {
-      console.log(data);
       const div = document.getElementById('login-buttons');
       if (data.logged_in) {
         div.innerHTML = `
