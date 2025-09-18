@@ -1,7 +1,3 @@
-/**
- * Mis Alojamientos - JavaScript Module
- * Handles fetching and displaying user accommodations
- */
 
 // Global variables
 let currentUser = null;
