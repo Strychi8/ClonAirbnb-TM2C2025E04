@@ -1,3 +1,7 @@
+/**
+ * Mis Alojamientos - JavaScript Module
+ * Handles fetching and displaying user accommodations
+ */
 
 // Global variables
 let currentUser = null;
@@ -86,7 +90,7 @@ function displayAccommodations(accommodations) {
                onerror="this.src='data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYwIiBoZWlnaHQ9IjEyMCIgdmlld0JveD0iMCAwIDE2MCAxMjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxNjAiIGhlaWdodD0iMTIwIiBmaWxsPSIjZjBkOWMwIi8+CjxyZWN0IHg9IjQwIiB5PSIzMCIgd2lkdGg9IjgwIiBoZWlnaHQ9IjYwIiBmaWxsPSIjZThjZmFlIi8+Cjx0ZXh0IHg9IjgwIiB5PSI2NSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjEyIiBmaWxsPSIjNzc3IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5TaW4gaW1hZ2VuPC90ZXh0Pgo8L3N2Zz4K'">
         </td>
         <td>
-          <strong>${escapeHtml(accommodation.nombre)}</strong>
+          <a href="alojamiento.html?id=${accommodation.id}"  style="color: black; text-decoration: none;"><strong>${escapeHtml(accommodation.nombre)}</strong></a>
           <br>
           <small style="color: #666;">$${accommodation.precio_noche}/noche</small>
           ${accommodation.descripcion ? `<br><small style="color: #888;">${escapeHtml(accommodation.descripcion.substring(0, 100))}${accommodation.descripcion.length > 100 ? '...' : ''}</small>` : ''}
