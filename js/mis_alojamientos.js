@@ -120,10 +120,37 @@ function editAccommodation(accommodationId) {
 /**
  * Delete accommodation
  */
-function deleteAccommodation(accommodationId, accommodationName) {
-  if (confirm(`¿Estás seguro de que quieres eliminar "${accommodationName}"?\n\nEsta acción no se puede deshacer.`)) {
-    // TODO: Implement delete functionality
-    alert('Funcionalidad de eliminar pendiente de implementar');
+async function deleteAccommodation(accommodationId, accommodationName) {
+  console.log('deleteAccommodation llamada con id:', accommodationId);
+  if (!confirm(`¿Estás seguro de que quieres eliminar "${accommodationName}"?\n\nEsta acción no se puede deshacer.`)) {
+    return;
+  }
+  try {
+    const response = await fetch('../backend/eliminar_alojamiento.php', {
+      method: 'DELETE',
+      credentials: 'same-origin',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        id: accommodationId,
+        usuario_id: currentUser.user_id
+      })
+    });
+
+    const result = await response.json();
+
+    if (!response.ok || result.error) {
+      throw new Error(result.message || result.error || 'Error al eliminar el alojamiento');
+    }
+
+    // Refrescar la lista
+    await loadUserAccommodations();
+    alert(`"${accommodationName}" se eliminó correctamente.`);
+
+  } catch (error) {
+    console.error('Error eliminando alojamiento:', error);
+    alert('Hubo un error al eliminar el alojamiento. Intenta de nuevo.');
   }
 }
 
