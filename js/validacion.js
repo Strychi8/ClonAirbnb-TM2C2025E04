@@ -147,6 +147,15 @@
 	  return false;
 	}
 	});
+	
+	window.goBack = function () {
+		const lastPage = sessionStorage.getItem("lastPage");
+		if (lastPage) {
+			window.location.href = lastPage;
+		} else {
+		  window.location.href = "index.html"; // fallback al index
+		}
+	};
 
 
 })();
