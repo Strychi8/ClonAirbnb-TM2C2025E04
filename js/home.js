@@ -12,12 +12,15 @@ function cargarAlojamientos() {
 }
 
 function filtrarPorPrecio() {
+
   const min = parseInt(document.getElementById('filtro-precio-min').value, 10);
+
   const max = parseInt(document.getElementById('filtro-precio-max').value, 10);
   
   //console.log('Filtrando por precio:', min, max);
   
-  if (min <= 0 || max <= 0 || min > max) {
+  if (min < 0 || max < 0 || min > max) {
+
     // Opcional: mostrar mensaje de error al usuario
     return;
   }
