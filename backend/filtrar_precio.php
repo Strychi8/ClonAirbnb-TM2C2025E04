@@ -8,8 +8,8 @@ try {
     throw new RuntimeException('No hay conexión PDO');
   }
 
-  $min = isset($_GET['min']) ? (int)$_GET['min'] : 30000;
-  $max = isset($_GET['max']) ? (int)$_GET['max'] : 150000;
+//  $min = isset($_GET['min']) ? (int)$_GET['min'] : 30000;
+//  $max = isset($_GET['max']) ? (int)$_GET['max'] : 150000;
 
   if ($min > $max || $min < 0 || $max < 0) {
     http_response_code(400);
