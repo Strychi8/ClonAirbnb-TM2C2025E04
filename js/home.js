@@ -17,6 +17,7 @@ function filtrar() {
   const zona = document.getElementById('filtrar').value.trim();
 
   // Validación básica
+  
   if (min < 0 || max < 0 || min > max) {
     alert('Rango de precio inválido');
     //console.log('Filtrando por precio:', min, max);
