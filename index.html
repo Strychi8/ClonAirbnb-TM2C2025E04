@@ -26,34 +26,31 @@
         <a class="btn btn-primary" href="autenticacion/signup.html">Registrarse</a>
       </div>
 
-	  
-	        <!-- Buscador y Filtros -->
-		<section style="max-width: 1400px; margin: 0 auto 16px; padding: 0 24px;">
-			<div style="display: flex; gap: 24px; align-items: flex-end; flex-wrap: wrap;">
-				<!-- Buscador -->
-				<div style="flex: 1;">
-					<label for="buscador" style="font-weight: bold; color: var(--primary);">Buscar alojamiento:</label>
-					<input type="text" id="buscador" placeholder="Ej: Buenos Aires, departamento, piscina..." style="width: 100%; padding: 8px; border-radius: 6px; border: 1px solid #ccc; margin-top: 4px;" />
-				</div>
-					<!-- Filtros -->
-				<div style="display: flex; gap: 16px; flex-wrap: wrap;">
-					<!-- Precio -->
-					<div>
-					  <label for="filtro-precio-min" style="font-weight: bold;">Precio mín:</label>
-					  <input type="number" id="filtro-precio-min" min="0" value="0" placeholder="Desde $" style="width: 90px; padding: 6px; border-radius: 6px; border: 1px solid #ccc; margin-top: 4px;" />
-					</div>
-					<div>
-					  <label for="filtro-precio-max" style="font-weight: bold;">Precio máx:</label>
-					  <input type="number" id="filtro-precio-max" min="150000" value="0" placeholder="Hasta $" style="width: 90px; padding: 6px; border-radius: 6px; border: 1px solid #ccc; margin-top: 4px;" />
-					</div>
-					<div>
-					  <button id="btn-filtrar-precio" class="btn btn-primary" style="margin-top: 4px;">Filtrar</button>
-					</div>
-				</div>
-			</div>
-		</section>
-	  
-	  
+      <!-- Buscador y Filtros -->
+      <section style="max-width: 1400px; margin: 0 auto 16px; padding: 0 24px;">
+        <div style="display: flex; gap: 24px; align-items: flex-end; flex-wrap: wrap;">
+          <!-- Buscador y Filtro por Zona -->
+          <div style="flex: 1;">
+            <label for="filtrar" style="font-weight: bold; color: var(--primary);">Buscar alojamiento:</label>
+            <input type="text" id="filtrar" placeholder="Zona (provincia o localidad): Buenos Aires, Burzaco, Ezeiza..." style="width: 100%; padding: 8px; border-radius: 6px; border: 1px solid #ccc; margin-top: 4px;" />
+          </div>
+          <div style="display: flex; gap: 16px; flex-wrap: wrap;">
+            <!-- Precio -->
+            <div>
+              <label for="filtro-precio-min" style="font-weight: bold;">Precio mín:</label>
+              <input type="number" id="filtro-precio-min" min="0" value="0" placeholder="Desde $" style="width: 90px; padding: 6px; border-radius: 6px; border: 1px solid #ccc; margin-top: 4px;" />
+            </div>
+            <div>
+              <label for="filtro-precio-max" style="font-weight: bold;">Precio máx:</label>
+              <input type="number" id="filtro-precio-max" max="150000" value="0" placeholder="Hasta $" style="width: 90px; padding: 6px; border-radius: 6px; border: 1px solid #ccc; margin-top: 4px;" />
+            </div>
+            <!-- Botón Filtrar -->
+            <div>
+              <button id="btn-filtrar" class="btn btn-primary" style="margin-top: 4px;">Filtrar</button>
+            </div>
+          </div>
+        </div>
+      </section>
 
       <!-- Encabezado -->
       <section style="max-width: 1400px; margin: 24px auto 8px; padding: 0 24px">
@@ -75,9 +72,7 @@
 
     <script src="js/home.js"></script>
     <script src="js/usuario_logueado.js"></script>
-    <script src="js/icono.js"></script>
-	
-	
+    <script src="js/icono.js"></script>	
 	
   </body>
 </html>
