@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   cargarAlojamientos();
 
-  document.getElementById('btn-filtrar-precio').addEventListener('click', filtrarPorPrecio);
+  document.getElementById('btn-filtrar').addEventListener('click', filtrar);
 });
 
 function cargarAlojamientos() {
@@ -11,22 +11,31 @@ function cargarAlojamientos() {
     .catch(err => console.error("Error:", err));
 }
 
-function filtrarPorPrecio() {
-
+function filtrar() {
   const min = parseInt(document.getElementById('filtro-precio-min').value, 10);
-
   const max = parseInt(document.getElementById('filtro-precio-max').value, 10);
-  
-  //console.log('Filtrando por precio:', min, max);
-  
-  if (min < 0 || max < 0 || min > max) {
+  const zona = document.getElementById('filtrar').value.trim();
 
-    // Opcional: mostrar mensaje de error al usuario
+  // Validación básica
+  if (min < 0 || max < 0 || min > max) {
+    alert('Rango de precio inválido');
+    //console.log('Filtrando por precio:', min, max);
     return;
   }
 
+  let url;
 
-  fetch(`backend/filtrar_precio.php?min=${min}&max=${max}`)
+  // Decide qué archivo PHP usar según los filtros
+  if (zona) {
+    // Si hay una zona especificada, usa filtrar_zona.php
+    url = `backend/filtrar_zona.php?min=${min}&max=${max}&zona=${encodeURIComponent(zona)}`;
+  } else {
+    // Si no hay zona, usa filtrar_precio.php
+    url = `backend/filtrar_precio.php?min=${min}&max=${max}`;
+  }
+
+  // Realiza la petición al backend
+  fetch(url)
     .then(res => res.json())
     .then(data => mostrarAlojamientos(data))
     .catch(err => console.error("Error:", err));
