@@ -120,10 +120,24 @@ try {
         ':metodo'       => $metodoPago,
     ]);
 
+    // 7) Obtener el ID de la reserva ANTES de hacer commit
+    $reserva_id = $pdo->lastInsertId();
+    
     $pdo->commit();
-
-    // 7) Redirección a la confirmación
-    header('Location: ../reservas/Confirmacion.html', true, 303);
+    
+    // Debug: Log the reservation ID
+    error_log("Last Insert ID: " . $reserva_id);
+    error_log("Reservation data: " . print_r($_POST, true));
+    
+    if ($reserva_id <= 0) {
+        error_log("ERROR: Invalid reservation ID: " . $reserva_id);
+        http_response_code(500);
+        echo "<h2>Error</h2><p>No se pudo obtener el ID de la reserva.</p>";
+        echo '<p><a href="../reservas/reserva.html">Volver</a></p>';
+        exit;
+    }
+    
+    header("Location: ../reservas/comprobante.html?id={$reserva_id}", true, 303);
     exit;
 
 } catch (Throwable $e) {
