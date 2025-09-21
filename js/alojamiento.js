@@ -58,6 +58,14 @@ document.addEventListener("DOMContentLoaded", () => {
 	} else {
 	  serviciosContainer.innerHTML = '<li>No hay servicios disponibles.</li>';
 	}
+
+      // Actualizar el enlace de reserva con los parámetros necesarios
+      const reservaLink = document.querySelector('a[href="../reservas/reserva.html"]');
+      if (reservaLink && data.precio_noche) {
+        const nombreUrl = encodeURIComponent((data.nombre || "").replace(/\s+/g, "_"));
+        reservaLink.href = `../reservas/reserva.html?alojamiento=${id}&precio=${data.precio_noche}&nombre=${nombreUrl}`;
+        console.log('🔗 Updated reservation link:', reservaLink.href);
+      }
     })
     .catch(err => {
       console.error(err);
