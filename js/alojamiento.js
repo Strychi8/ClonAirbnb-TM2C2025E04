@@ -29,7 +29,28 @@ document.addEventListener("DOMContentLoaded", () => {
       document.getElementById("direccion").textContent = 
         data.calle && data.altura && data.localidad && data.provincia && data.pais
           ? `${data.calle} ${data.altura}, ${data.localidad}, ${data.provincia}, ${data.pais}`
-          : "Dirección no disponible";
+          : "Dirección no disponible";   
+      
+      const mapsIframe = document.getElementById("maps-iframe");
+      if (
+        mapsIframe &&
+        data.calle && data.altura && data.localidad && data.provincia && data.pais
+      ) {
+        const direccionCompleta = `${data.calle} ${data.altura}, ${data.localidad}, ${data.provincia}, ${data.pais}`;
+        const iframeUrl = `https://www.google.com/maps?q=${encodeURIComponent(direccionCompleta)}&output=embed`;
+        mapsIframe.innerHTML = `
+          <iframe
+          width="100%"
+          height="400"
+          style="border:0;"
+          loading="lazy"
+          allowfullscreen
+          referrerpolicy="no-referrer-when-downgrade"
+          src="${iframeUrl}">
+          </iframe>`;
+        } else if (mapsIframe) {
+          mapsIframe.innerHTML = "<p style='color:red'>Ubicación no disponible.</p>";
+        }
 
       // Imagen con fallback
       const img = document.getElementById("imagen");

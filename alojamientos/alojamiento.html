@@ -23,32 +23,33 @@
 	  <br>
 	  
 	<main style="margin-left: 20px;">
-
-	<table cellspacing="20" style= "margin-left: 20px; margin-right: 50px; text-align: justify; width: auto; table-layout: fixed; ">
+		<h1 id="nombre" style="text-align:center;"></h1>
+		<br>
+	  <table cellspacing="20" style= "margin-left: 20px; margin-right: 50px; text-align: justify; width: auto; table-layout: fixed; ">
 		<tr>
-			<h1 id="nombre" style="text-align:center;"></h1>
-			<br>
-			<td style="width: 30%;"><img id="imagen" alt="Foto del alojamiento"  width="600" height="400"></td>
-			<td style="width: 70%;" ><p id="descripcion"></p><br>
-			Servicios</p>
+			<td style="width: 30%;">
+				<img id="imagen" alt="Foto del alojamiento"  width="600" height="400">
+			</td>
+			<td style="width: 70%;" >
+				<p id="descripcion"></p>
+				<strong>Servicios</strong>
 				<ul id="servicios"></ul>
 			</td>
 		</tr>
 		
 		<tr>
-			<td>
+			<td colspan="2">
 				<p id="direccion"></p>
 				<p id="precio"> </p>
 				<a class="btn btn-primary" href="../reservas/reserva.html">Reservar</a>
+				<div>
+					<h3 style="text-align: center;">¿Dónde vas a estar?</h3>
+				</div>
+				<div id="maps-iframe" style="margin-top:16px;"></div>
 			</td>
-			
 		</tr>
-	
-
-
-
-
-  
+	  </table>
+    </main>
 
   <script src="../js/alojamiento.js"></script>
   <script src="../js/icono.js"></script>
