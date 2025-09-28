@@ -29,7 +29,28 @@ document.addEventListener("DOMContentLoaded", () => {
       document.getElementById("direccion").textContent = 
         data.calle && data.altura && data.localidad && data.provincia && data.pais
           ? `${data.calle} ${data.altura}, ${data.localidad}, ${data.provincia}, ${data.pais}`
-          : "Dirección no disponible";
+          : "Dirección no disponible";   
+      
+      const mapsIframe = document.getElementById("maps-iframe");
+      if (
+        mapsIframe &&
+        data.calle && data.altura && data.localidad && data.provincia && data.pais
+      ) {
+        const direccionCompleta = `${data.calle} ${data.altura}, ${data.localidad}, ${data.provincia}, ${data.pais}`;
+        const iframeUrl = `https://www.google.com/maps?q=${encodeURIComponent(direccionCompleta)}&output=embed`;
+        mapsIframe.innerHTML = `
+          <iframe
+          width="100%"
+          height="400"
+          style="border:0;"
+          loading="lazy"
+          allowfullscreen
+          referrerpolicy="no-referrer-when-downgrade"
+          src="${iframeUrl}">
+          </iframe>`;
+        } else if (mapsIframe) {
+          mapsIframe.innerHTML = "<p style='color:red'>Ubicación no disponible.</p>";
+        }
 
       // Imagen con fallback
       const img = document.getElementById("imagen");
@@ -58,9 +79,20 @@ document.addEventListener("DOMContentLoaded", () => {
 	} else {
 	  serviciosContainer.innerHTML = '<li>No hay servicios disponibles.</li>';
 	}
+
+      // Actualizar el enlace de reserva con los parámetros necesarios
+      const reservaLink = document.querySelector('a[href="../reservas/reserva.html"]');
+      if (reservaLink && data.precio_noche) {
+        const nombreUrl = encodeURIComponent((data.nombre || "").replace(/\s+/g, "_"));
+        reservaLink.href = `../reservas/reserva.html?alojamiento=${id}&precio=${data.precio_noche}&nombre=${nombreUrl}`;
+        console.log('🔗 Updated reservation link:', reservaLink.href);
+      }
     })
     .catch(err => {
       console.error(err);
       document.body.innerHTML = `<p style="color:red">⚠ Error cargando el alojamiento.</p>`;
     });
+	
+
+
 });
