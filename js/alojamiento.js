@@ -92,4 +92,7 @@ document.addEventListener("DOMContentLoaded", () => {
       console.error(err);
       document.body.innerHTML = `<p style="color:red">⚠ Error cargando el alojamiento.</p>`;
     });
+	
+
+
 });
