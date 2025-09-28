@@ -258,3 +258,56 @@ button:hover {
   border-radius: 999px;
   background: var(--primary);
 }
+
+/** Estilos del Filtrado de Servicios **/
+.servicios-grid-inner {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2 columnas como en la imagen */
+  gap: 10px 32px;
+}
+
+#dropdown-servicios-list {
+  background: #f9f6f2;
+  border-radius: 12px;
+  border: 1px solid #a36b1e;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  padding: 18px 20px;
+  width: 420px;
+  max-width: 95vw;
+}
+
+#dropdown-servicios-list label {
+  font-size: 16px;
+  color: #3d2c00;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+#dropdown-servicios-list input[type="checkbox"] {
+  accent-color: #a36b1e;
+  width: 18px;
+  height: 18px;
+}
+
+#servicios-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 8px;
+  max-width: 700px;
+}
+
+#dropdown-btn-servicios {
+  margin-right: 32px; /* separa el botón de otros elementos */
+}
+
+.servicios-chip {
+  background: #e0b84c;
+  color: #fff;
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 14px;
+  margin-bottom: 6px;
+}

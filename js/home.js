@@ -1,9 +1,54 @@
 document.addEventListener("DOMContentLoaded", () => {
   const minEl = document.getElementById('filtro-precio-min');
   const maxEl = document.getElementById('filtro-precio-max');
-  const zonaEl = document.getElementById('filtrar');
+  const zonaEl = document.getElementById('buscar-zona');
   const minLabel = document.getElementById('precio-min-label');
   const maxLabel = document.getElementById('precio-max-label');
+  
+  // Mostrar/Ocultar el dropdown de servicios
+  const btnServicios = document.getElementById('dropdown-btn-servicios');
+  const listServicios = document.getElementById('dropdown-servicios-list');
+  const chipsContainer = document.getElementById('servicios-chips');
+  const serviciosCount = document.getElementById('servicios-count');
+  const clearBtn = document.getElementById('servicios-clear'); // Boton "Borrar todo"
+
+  if (btnServicios && listServicios) {
+    btnServicios.addEventListener('click', function(e) {
+      e.stopPropagation();
+      listServicios.style.display = listServicios.style.display === 'none' ? 'block' : 'none';
+    });
+
+    document.addEventListener('click', function(e) {
+      if (!btnServicios.contains(e.target) && !listServicios.contains(e.target)) {
+        listServicios.style.display = 'none';
+      }
+    });
+
+    // Listado para los checkboxes
+    listServicios.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+      cb.addEventListener('change', function() {
+        // Actualiza chips
+        const selected = Array.from(listServicios.querySelectorAll('input[type="checkbox"]:checked')).map(cb => cb.value);
+        chipsContainer.innerHTML = '';
+        selected.forEach(servicio => {
+          chipsContainer.innerHTML += `<span style="background:#e0b84c;color:#fff;padding:4px 12px;border-radius:16px;font-size:14px;">${servicio}</span>`;
+        });
+        // Actualiza contador
+        serviciosCount.textContent = selected.length ? `(${selected.length})` : '';
+        // Filtra resultados
+        filtrar();
+      });
+    });
+
+    if (clearBtn) {
+      clearBtn.addEventListener('click', function() {
+        listServicios.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+        chipsContainer.innerHTML = '';
+        serviciosCount.textContent = '';
+        filtrar();
+      });
+    }
+  }
 
   const formatMoney = (num) => (Number(num) || 0).toLocaleString('es-AR');
 
@@ -116,7 +161,11 @@ function cargarAlojamientos() {
 function filtrar() {
   const min = parseInt(document.getElementById('filtro-precio-min').value, 10);
   const max = parseInt(document.getElementById('filtro-precio-max').value, 10);
-  const zona = document.getElementById('filtrar').value.trim();
+  const zona = document.getElementById('buscar-zona').value.trim();
+
+  // Obtiene los servicios seleccionados del dropdown
+  const selected = Array.from(document.querySelectorAll('#dropdown-servicios-list input[type="checkbox"]:checked')).map(cb => cb.value);
+  let servicios = selected.join(',');
 
   // Validación básica
   
@@ -128,7 +177,10 @@ function filtrar() {
   let url;
 
   // Decide qué archivo PHP usar según los filtros
-  if (zona) {
+  if (servicios) {
+    // Si hay servicios, usa filtrar_servicios.php
+    url = `backend/filtrar_servicios.php?min=${min}&max=${max}&servicios=${encodeURIComponent(servicios)}`;
+  } else if (zona) {
     // Si hay una zona especificada, usa filtrar_zona.php
     url = `backend/filtrar_zona.php?min=${min}&max=${max}&zona=${encodeURIComponent(zona)}`;
   } else {
