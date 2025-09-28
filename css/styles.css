@@ -199,3 +199,62 @@ button:hover {
     font-size: 18px;
   }
 }
+
+/* ===== Dual slider (min+max on one track) ===== */
+.dual-slider {
+  position: relative;
+  height: 28px;
+}
+.dual-slider input[type="range"] {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 6px;
+  width: 100%;
+  pointer-events: none; /* allow clicks to pass through to the top slider */
+  appearance: none;
+  -webkit-appearance: none;
+  background: none;
+}
+.dual-slider input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  pointer-events: auto; /* enable grabbing thumb */
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--primary);
+  border: 2px solid #fff;
+  box-shadow: var(--shadow);
+}
+.dual-slider input[type="range"]::-moz-range-thumb {
+  pointer-events: auto;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--primary);
+  border: 2px solid #fff;
+}
+.dual-slider input[type="range"]::-webkit-slider-runnable-track {
+  height: 4px;
+  background: transparent;
+}
+.dual-slider input[type="range"]::-moz-range-track {
+  height: 4px;
+  background: transparent;
+}
+.dual-slider__track {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 13px;
+  height: 4px;
+  border-radius: 999px;
+  background: #ddd;
+}
+.dual-slider__range {
+  position: absolute;
+  top: 13px;
+  height: 4px;
+  border-radius: 999px;
+  background: var(--primary);
+}

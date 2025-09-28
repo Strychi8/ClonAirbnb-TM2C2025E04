@@ -1,0 +1,512 @@
+/* Estilos para el comprobante de reserva - Matching site design */
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 10px;
+    background: var(--bg);
+    min-height: 100vh;
+}
+
+.comprobante-container {
+    background: var(--card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    margin-top: 10px;
+    border: 3px solid #222;
+}
+
+.comprobante-header {
+    background: var(--primary);
+    color: white;
+    padding: 15px 20px;
+    text-align: center;
+    position: relative;
+}
+
+.comprobante-header h1 {
+    margin: 0;
+    font-size: 1.8em;
+    font-weight: 700;
+    color: #fff;
+}
+
+.reserva-id {
+    margin-top: 8px;
+    font-size: 1em;
+    font-weight: 600;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 4px 12px;
+    border-radius: 8px;
+    display: inline-block;
+}
+
+.comprobante-content {
+    padding: 15px;
+}
+
+.section {
+    margin-bottom: 12px;
+    border-bottom: 1px solid #222;
+    padding-bottom: 8px;
+    background: #f0d9c0;
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid #222;
+}
+
+.section:last-of-type {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.section h2 {
+    color: var(--primary);
+    font-size: 1.2em;
+    margin-bottom: 6px;
+    margin-top: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: bold;
+}
+
+.info-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.info-item {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    background: white;
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: 1px solid #222;
+}
+
+.info-item label {
+    font-weight: 600;
+    color: var(--primary);
+    font-size: 0.85em;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    min-width: 120px;
+}
+
+.info-item span {
+    color: var(--text);
+    font-size: 1em;
+    font-weight: 500;
+    text-align: right;
+}
+
+.info-item.total {
+    background: #e8cfae;
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 2px solid var(--primary);
+    margin-top: 6px;
+}
+
+.info-item.total label {
+    color: var(--primary);
+    font-size: 1em;
+    font-weight: bold;
+}
+
+.info-item.total span {
+    font-size: 1.2em;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+.alojamiento-info {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+}
+
+.alojamiento-image {
+    flex-shrink: 0;
+    width: 120px;
+    height: 90px;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    border: 2px solid #222;
+}
+
+.alojamiento-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.alojamiento-details {
+    flex: 1;
+    background: white;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #222;
+}
+
+.alojamiento-details h3 {
+    color: var(--primary);
+    font-size: 1.1em;
+    margin: 0 0 6px 0;
+    font-weight: bold;
+}
+
+.alojamiento-details p {
+    color: var(--muted);
+    margin: 3px 0;
+    line-height: 1.3;
+    font-size: 0.9em;
+}
+
+.direccion {
+    font-weight: 500;
+    color: var(--text) !important;
+}
+
+.pago-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+
+.comprobante-footer {
+    background: #f0d9c0;
+    padding: 15px;
+    border-top: 2px solid #222;
+}
+
+.actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+.btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.9em;
+    font-weight: 700;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.18s ease;
+    border: 2px solid #222;
+}
+
+.btn-primary {
+    background: var(--primary);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: var(--primary-600);
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background: #dba77a;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background: #c9945f;
+    transform: translateY(-2px);
+}
+
+.btn-outline {
+    background: transparent;
+    color: var(--primary);
+    border: 2px solid var(--primary);
+}
+
+.btn-outline:hover {
+    background: var(--primary);
+    color: white;
+    transform: translateY(-2px);
+}
+
+.footer-info {
+    text-align: center;
+    color: var(--muted);
+}
+
+.footer-info p {
+    margin: 5px 0;
+    font-weight: 500;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+    
+    .comprobante-content {
+        padding: 20px;
+    }
+    
+    .alojamiento-info {
+        flex-direction: column;
+    }
+    
+    .alojamiento-image {
+        width: 100%;
+        height: 200px;
+    }
+    
+    .actions {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .btn {
+        width: 100%;
+        max-width: 300px;
+        justify-content: center;
+    }
+}
+
+/* Loading styles */
+.loading-section {
+    text-align: center;
+    padding: 50px;
+}
+
+.loading-spinner {
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #007bff;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 20px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.loading-section h2 {
+    color: #6c757d;
+    margin: 0;
+}
+
+/* Error styles */
+.error-section {
+    text-align: center;
+    padding: 50px;
+    color: #dc3545;
+    background: #f8efe6;
+    border: 2px solid #dc3545;
+    border-radius: 10px;
+    margin: 20px;
+}
+
+.error-icon {
+    font-size: 3em;
+    margin-bottom: 20px;
+}
+
+.error-section h2 {
+    color: #dc3545;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+.error-section p {
+    color: var(--muted);
+    margin-bottom: 25px;
+}
+
+/* Print styles */
+@media print {
+    * {
+        -webkit-print-color-adjust: exact !important;
+        color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+    
+    html, body {
+        margin: 0 !important;
+        padding: 0 !important;
+        background: white !important;
+        height: auto !important;
+        overflow: visible !important;
+    }
+    
+    /* Hide the header completely */
+    header {
+        display: none !important;
+    }
+    
+    .marquee-wrapper {
+        display: none !important;
+    }
+    
+    .marquee-text {
+        display: none !important;
+    }
+    
+    .container {
+        background: white !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        max-width: none !important;
+        width: 100% !important;
+        height: auto !important;
+    }
+    
+    .comprobante-container {
+        box-shadow: none !important;
+        border: 2px solid #000 !important;
+        margin: 0 !important;
+        max-width: none !important;
+        background: white !important;
+        page-break-inside: avoid;
+        page-break-before: avoid !important;
+        page-break-after: avoid !important;
+    }
+    
+    .comprobante-header {
+        background: #f0f0f0 !important;
+        color: #000 !important;
+        padding: 15px !important;
+        page-break-inside: avoid;
+    }
+    
+    .comprobante-header h1 {
+        color: #000 !important;
+        font-size: 1.5em !important;
+    }
+    
+    .reserva-id {
+        background: #ddd !important;
+        color: #000 !important;
+    }
+    
+    .comprobante-content {
+        padding: 10px !important;
+        background: white !important;
+    }
+    
+    .section {
+        background: #f9f9f9 !important;
+        border: 1px solid #000 !important;
+        margin-bottom: 10px !important;
+        padding: 8px !important;
+        page-break-inside: avoid;
+    }
+    
+    .section h2 {
+        color: #000 !important;
+        font-size: 1.1em !important;
+        margin-bottom: 8px !important;
+    }
+    
+    .info-item {
+        background: white !important;
+        border: 1px solid #000 !important;
+        margin-bottom: 2px !important;
+        padding: 4px 8px !important;
+        page-break-inside: avoid;
+    }
+    
+    .info-item label {
+        color: #000 !important;
+        font-weight: bold !important;
+    }
+    
+    .info-item span {
+        color: #000 !important;
+    }
+    
+    .info-item.total {
+        background: #e0e0e0 !important;
+        border: 2px solid #000 !important;
+        font-weight: bold !important;
+    }
+    
+    .alojamiento-info {
+        display: block !important;
+    }
+    
+    .alojamiento-image {
+        float: left !important;
+        width: 80px !important;
+        height: 60px !important;
+        margin-right: 10px !important;
+        margin-bottom: 5px !important;
+        border: 1px solid #000 !important;
+    }
+    
+    .alojamiento-image img {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+    }
+    
+    .alojamiento-details {
+        background: white !important;
+        border: 1px solid #000 !important;
+        padding: 8px !important;
+        margin-left: 90px !important;
+    }
+    
+    .alojamiento-details h3 {
+        color: #000 !important;
+        font-size: 1em !important;
+        margin: 0 0 4px 0 !important;
+    }
+    
+    .alojamiento-details p {
+        color: #000 !important;
+        font-size: 0.9em !important;
+        margin: 2px 0 !important;
+    }
+    
+    
+    .actions {
+        display: none !important;
+    }
+    
+    .comprobante-footer {
+        background: #f0f0f0 !important;
+        border-top: 2px solid #000 !important;
+        padding: 10px !important;
+    }
+    
+    .footer-info {
+        display: none !important;
+    }
+    
+    /* Ensure text is black and readable */
+    h1, h2, h3, p, span, div, label {
+        color: #000 !important;
+    }
+    
+    /* Remove any background colors that might not print */
+    .no-image-placeholder {
+        background: #f0f0f0 !important;
+        color: #000 !important;
+        border: 1px solid #000 !important;
+    }
+}

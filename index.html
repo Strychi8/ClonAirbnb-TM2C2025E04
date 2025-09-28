@@ -34,19 +34,17 @@
             <label for="filtrar" style="font-weight: bold; color: var(--primary);">Buscar alojamiento:</label>
             <input type="text" id="filtrar" placeholder="Zona (provincia o localidad): Buenos Aires, Burzaco, Ezeiza..." style="width: 100%; padding: 8px; border-radius: 6px; border: 1px solid #ccc; margin-top: 4px;" />
           </div>
-          <div style="display: flex; gap: 16px; flex-wrap: wrap;">
-            <!-- Precio -->
-            <div>
-              <label for="filtro-precio-min" style="font-weight: bold;">Precio mín:</label>
-              <input type="number" id="filtro-precio-min" min="0" value="0" placeholder="Desde $" style="width: 90px; padding: 6px; border-radius: 6px; border: 1px solid #ccc; margin-top: 4px;" />
+          <div style="min-width: 260px;">
+            <label style="font-weight: bold;">Precio por noche</label>
+            <div class="dual-slider" style="margin-top: 6px; max-width: 420px;">
+              <div class="dual-slider__track"></div>
+              <div class="dual-slider__range" id="precio-fill"></div>
+              <input type="range" id="filtro-precio-min" min="0" max="150000" step="1" value="0" />
+              <input type="range" id="filtro-precio-max" min="0" max="150000" step="1" value="150000" />
             </div>
-            <div>
-              <label for="filtro-precio-max" style="font-weight: bold;">Precio máx:</label>
-              <input type="number" id="filtro-precio-max" max="150000" value="0" placeholder="Hasta $" style="width: 90px; padding: 6px; border-radius: 6px; border: 1px solid #ccc; margin-top: 4px;" />
-            </div>
-            <!-- Botón Filtrar -->
-            <div>
-              <button id="btn-filtrar" class="btn btn-primary" style="margin-top: 4px;">Filtrar</button>
+            <div style="display: flex; justify-content: space-between; margin-top: 6px; color: var(--muted); font-size: 14px;">
+              <span id="precio-min-label">$ 0</span>
+              <span id="precio-max-label">$ 150.000+</span>
             </div>
           </div>
         </div>

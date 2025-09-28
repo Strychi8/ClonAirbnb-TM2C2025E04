@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comprobante de Reserva - Erbienbi</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/comprobante.css">
+</head>
+<body>
+    <header>
+        <div class="marquee-wrapper">
+            <h1 class="marquee-text"> -- 🏠 🏡 -- Erbienbi - El Hospedaje que Buscas, al Mejor Precio -- 🏡 🏠 -- </h1>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="comprobante-container">
+            <div class="comprobante-header">
+                <h1>🎫 Comprobante de Reserva</h1>
+                <div class="reserva-id">
+                    <span>Reserva #<span id="reserva-id">-</span></span>
+                </div>
+            </div>
+
+            <div class="comprobante-content">
+                <!-- Loading State -->
+                <div id="loading-section" class="loading-section">
+                    <div class="loading-spinner"></div>
+                    <h2>Cargando información de la reserva...</h2>
+                </div>
+
+                <!-- Error State -->
+                <div id="error-section" class="error-section" style="display: none;">
+                    <div class="error-icon">⚠️</div>
+                    <h2>Error al cargar la reserva</h2>
+                    <p id="error-message">No se pudo cargar la información de la reserva.</p>
+                    <a href="../index.html" class="btn btn-primary">Volver al Inicio</a>
+                </div>
+
+                <!-- Success State -->
+                <div id="success-content" style="display: none;">
+                    <!-- Información del Huésped -->
+                    <div class="section">
+                        <h2>👤 Información del Huésped</h2>
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <label>Nombre:</label>
+                                <span id="nombre">-</span>
+                            </div>
+                            <div class="info-item">
+                                <label>Apellido:</label>
+                                <span id="apellido">-</span>
+                            </div>
+                            <div class="info-item">
+                                <label>Email:</label>
+                                <span id="email">-</span>
+                            </div>
+                            <div class="info-item">
+                                <label>Teléfono:</label>
+                                <span id="telefono">-</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Información del Alojamiento -->
+                    <div class="section">
+                        <h2>🏠 Información del Alojamiento</h2>
+                        <div class="alojamiento-info">
+                            <div class="alojamiento-image">
+                                <img id="alojamiento-imagen" src="" alt="Imagen del alojamiento" style="display: none;">
+                                <div id="no-image-placeholder" style="display: none; background: #f0f0f0; color: #666; text-align: center; padding: 20px; border-radius: 6px; font-size: 0.8em;">
+                                    📷 Sin imagen
+                                </div>
+                            </div>
+                            <div class="alojamiento-details">
+                                <h3 id="alojamiento-nombre">-</h3>
+                                <p id="alojamiento-descripcion">-</p>
+                                <p class="direccion" id="alojamiento-direccion">-</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Detalles de la Reserva -->
+                    <div class="section">
+                        <h2>📅 Detalles de la Reserva</h2>
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <label>Fecha de Check-in:</label>
+                                <span id="fecha-inicio">-</span>
+                            </div>
+                            <div class="info-item">
+                                <label>Fecha de Check-out:</label>
+                                <span id="fecha-fin">-</span>
+                            </div>
+                            <div class="info-item">
+                                <label>Días de estadía:</label>
+                                <span id="dias-estadia">-</span>
+                            </div>
+                            <div class="info-item">
+                                <label>Cantidad de personas:</label>
+                                <span id="cantidad-personas">-</span>
+                            </div>
+                            <div class="info-item">
+                                <label>Fecha de reserva:</label>
+                                <span id="fecha-reserva">-</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Información de Pago -->
+                    <div class="section">
+                        <h2>💳 Información de Pago</h2>
+                        <div class="pago-info">
+                            <div class="info-item">
+                                <label>Precio por noche:</label>
+                                <span id="precio-noche">-</span>
+                            </div>
+                            <div class="info-item">
+                                <label>Método de pago:</label>
+                                <span id="metodo-pago">-</span>
+                            </div>
+                            <div class="info-item total">
+                                <label>Total a pagar:</label>
+                                <span id="precio-total">-</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="comprobante-footer">
+                <div class="actions">
+                    <button onclick="imprimirComprobante()" class="btn btn-primary">
+                        🖨️ Imprimir Comprobante
+                    </button>
+                    <button onclick="enviarPorEmail()" class="btn btn-secondary">
+                        📧 Enviar por Email
+                    </button>
+                    <a href="../index.html" class="btn btn-outline">
+                        🏠 Volver al Inicio
+                    </a>
+                </div>
+                <div class="footer-info">
+                    <p>Gracias por elegir Erbienbi para su hospedaje</p>
+                    <p>Para consultas, contacte a: info@erbienbi.com</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/comprobante.js"></script>
+</body>
+</html>
