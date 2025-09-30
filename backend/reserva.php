@@ -137,6 +137,56 @@ try {
         exit;
     }
     
+    // Send email notification to accommodation owner
+    try {
+        require_once __DIR__ . '/email_service.php';
+        
+        // Get owner information
+        $stmt = $pdo->prepare("
+            SELECT u.nombre, u.email, a.nombre as alojamiento_nombre 
+            FROM usuarios u 
+            INNER JOIN alojamientos a ON u.id = a.usuario_id 
+            WHERE a.id = :alojamiento_id
+        ");
+        $stmt->execute([':alojamiento_id' => $alojamiento_id]);
+        $ownerData = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+        if ($ownerData) {
+            $emailService = new EmailService();
+            
+            // Prepare reservation data for email
+            $reservationData = [
+                'nombre' => $nombre,
+                'apellido' => $apellido,
+                'email' => $email,
+                'telefono' => $telefono,
+                'fecha_inicio' => $fi->format('Y-m-d'),
+                'fecha_fin' => $ff->format('Y-m-d'),
+                'cantidad_personas' => $cantPersonas,
+                'precio_noche' => $precioCalculado,
+                'precio_total' => $totalCalculado,
+                'metodo_pago' => $metodoPago,
+                'fecha_reserva' => date('Y-m-d H:i:s'),
+                'alojamiento_nombre' => $ownerData['alojamiento_nombre']
+            ];
+            
+            // Send email notification
+            $emailSent = $emailService->sendNewReservationNotification($reservationData, $ownerData);
+            
+            if ($emailSent) {
+                error_log("Email notification sent successfully to owner: " . $ownerData['email']);
+            } else {
+                error_log("Failed to send email notification to owner: " . $ownerData['email']);
+            }
+        } else {
+            error_log("Could not find owner information for alojamiento ID: " . $alojamiento_id);
+        }
+        
+    } catch (Exception $e) {
+        // Log the error but don't fail the reservation process
+        error_log("Email notification error: " . $e->getMessage());
+    }
+    
     header("Location: ../reservas/comprobante.html?id={$reserva_id}", true, 303);
     exit;
 
