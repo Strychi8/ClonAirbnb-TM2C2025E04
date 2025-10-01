@@ -1,31 +1,30 @@
 (function () {
-  const fechaInicio = document.getElementById("fechaInicio");
-  const fechaFin = document.getElementById("fechaFin");
+  const fechaInicioInput = document.getElementById("fechaInicio");
+  const fechaFinInput = document.getElementById("fechaFin");
   const precioNocheField = document.getElementById("precioNoche");
   const precioTotalField = document.getElementById("precioTotal");
   const cantidadPersonasField = document.querySelector("input[name='cantidadPersonas']");
   const telefono = document.getElementById("telefono");
 
-  
   const seg1 = document.getElementById("seg1");
   const seg2 = document.getElementById("seg2");
   const seg3 = document.getElementById("seg3");
   const seg4 = document.getElementById("seg4");
   const numeroTarjeta = document.getElementById("numeroTarjeta");
-  
 
-  if (!fechaInicio || !fechaFin) return;
+  const alojamientoIdField = document.getElementById("alojamiento_id");
+
+  if (!fechaInicioInput || !fechaFinInput) return;
 
   const params = new URLSearchParams(window.location.search);
   const precioPorNoche = parseInt(params.get("precio")) || 0;
   const nombreAlojamiento = params.get("nombre");
 
-   const alojamientoIdField = document.getElementById("alojamiento_id");
   if (alojamientoIdField) {
     alojamientoIdField.value = parseInt(params.get("alojamiento") || "0", 10) || 0;
   }
 
-  // --- Mostrar alojamiento elegido ---
+  // Mostrar alojamiento elegido
   if (nombreAlojamiento) {
     const h2 = document.querySelector("form h2");
     if (h2) {
@@ -33,129 +32,159 @@
     }
   }
 
-  // --- Mostrar precio por noche ---
+  // Mostrar precio por noche
   if (precioNocheField) {
     precioNocheField.value = precioPorNoche > 0
       ? "$ " + precioPorNoche.toLocaleString("es-AR")
       : "No disponible";
   }
 
-  // --- Función para sincronizar fecha mínima ---
-  function syncEndDate() {
-    const hoy = new Date();
-    hoy.setDate(hoy.getDate() + 1); // Día siguiente
-    const yyyy = hoy.getFullYear();
-    const mm = String(hoy.getMonth() + 1).padStart(2, '0');
-    const dd = String(hoy.getDate()).padStart(2, '0');
-    const fechaSiguienteStr = `${yyyy}-${mm}-${dd}`;
+  let fechasOcupadas = []; // Array de strings YYYY-MM-DD
+  let fpInicio, fpFin;
 
-    // Fecha mínima y valor por defecto para inicio
-    fechaInicio.min = fechaSiguienteStr;
-    if (!fechaInicio.value || fechaInicio.value < fechaSiguienteStr) {
-      fechaInicio.value = fechaSiguienteStr;
-    }
+  // Inicializar Flatpickr
+  function initCalendars() {
+    fpInicio = flatpickr(fechaInicioInput, {
+      dateFormat: "Y-m-d",
+      minDate: "today",
+      disable: fechasOcupadas, // <-- ahora son strings, Flatpickr los bloquea correctamente
+      onChange: function(selectedDates, dateStr) {
+        actualizarFechaFinMin(selectedDates[0]);
+        verificarDisponibilidad(dateStr);
+        calcularPrecio();
+      }
+    });
 
-    // Sincronizar fecha fin
-    fechaFin.min = fechaInicio.value;
-    if (!fechaFin.value || fechaFin.value < fechaInicio.value) {
-      fechaFin.value = fechaInicio.value;
-    }
-
-    // Recalcular precio total
-    calcularPrecio();
+    fpFin = flatpickr(fechaFinInput, {
+      dateFormat: "Y-m-d",
+      minDate: "today",
+      disable: fechasOcupadas,
+      onChange: calcularPrecio
+    });
   }
 
-  // --- Función para calcular precio total ---
+  function actualizarFechaFinMin(fechaInicio) {
+    if (!fechaInicio) return;
+    fpFin.set("minDate", fechaInicio);
+    if (fpFin.selectedDates[0] && fpFin.selectedDates[0] < fechaInicio) {
+      fpFin.setDate(fechaInicio, true);
+    }
+  }
+
+  // Calcular precio total
   function calcularPrecio() {
     if (!precioTotalField || precioPorNoche <= 0) return;
 
-    const inicio = fechaInicio.value;
-    const fin = fechaFin.value;
+    const inicio = fechaInicioInput.value;
+    const fin = fechaFinInput.value;
     const cantidadPersonas = cantidadPersonasField ? parseInt(cantidadPersonasField.value) : 1;
 
     const precioNocheNumField = document.getElementById("precio_noche_num");
     const precioTotalNumField = document.getElementById("precio_total_num");
 
     if (inicio && fin) {
-      const fechaInicioObj = new Date(inicio);
-      const fechaFinObj = new Date(fin);
-      const diffTime = fechaFinObj - fechaInicioObj;
-
-      if (diffTime >= 0) {
-        const diffDias = Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1;
+      const diffDias = Math.floor((new Date(fin) - new Date(inicio)) / (1000 * 60 * 60 * 24)) + 1;
+      if (diffDias > 0) {
         const total = diffDias * precioPorNoche * cantidadPersonas;
-
-        if (precioTotalField) {
-          precioTotalField.value = "$ " + total.toLocaleString("es-AR") + ` (${diffDias} noches)`;
-        }
-        if (precioNocheNumField) precioNocheNumField.value = precioPorNoche || 0;
-        if (precioTotalNumField) precioTotalNumField.value = total || 0;
+        precioTotalField.value = `$ ${total.toLocaleString("es-AR")} (${diffDias} noches)`;
+        if (precioNocheNumField) precioNocheNumField.value = precioPorNoche;
+        if (precioTotalNumField) precioTotalNumField.value = total;
       } else {
-        if (precioTotalField) precioTotalField.value = "⚠️ Fechas inválidas";
+        precioTotalField.value = "⚠️ Fechas inválidas";
         if (precioTotalNumField) precioTotalNumField.value = 0;
       }
     } else {
-      if (precioTotalField) precioTotalField.value = "";
+      precioTotalField.value = "";
       if (precioTotalNumField) precioTotalNumField.value = 0;
     }
   }
-  // --- Eventos ---
-  fechaInicio.addEventListener("change", syncEndDate);
-  fechaInicio.addEventListener("input", syncEndDate);
-  fechaFin.addEventListener("change", calcularPrecio);
-  fechaFin.addEventListener("input", calcularPrecio);
 
-  if (cantidadPersonasField) {
-    cantidadPersonasField.addEventListener("input", calcularPrecio);
+  // Traer fechas ocupadas del historial
+  async function cargarFechasOcupadas() {
+    const alojamientoId = alojamientoIdField.value;
+    if (!alojamientoId) return;
+
+    try {
+      const response = await fetch(`../backend/fechas_ocupadas.php?alojamiento_id=${alojamientoId}`);
+      const data = await response.json();
+      fechasOcupadas = data; // <-- ya son strings YYYY-MM-DD
+
+      initCalendars(); // inicializa Flatpickr **después** de tener las fechas
+    } catch (err) {
+      console.error("Error cargando fechas ocupadas:", err);
+    }
   }
 
-  // Inicializar
-  syncEndDate();
+  // Verificar disponibilidad en tiempo real
+  async function verificarDisponibilidad(fechaInicioStr) {
+    const alojamientoId = alojamientoIdField.value;
+    if (!alojamientoId || !fechaInicioStr) return;
 
-  // --- Validación y formateo del teléfono ---
+    try {
+      const response = await fetch(`../backend/verificar_disponibilidad.php?alojamiento_id=${alojamientoId}&fecha_inicio=${fechaInicioStr}`);
+      const data = await response.json();
+
+      if (data.error) {
+        console.error("Error:", data.error);
+        return;
+      }
+
+      if (data.disponible === false && data.motivo === "fecha_inicio_ocupada") {
+        alert("La fecha de inicio seleccionada ya está reservada. Elegí otra.");
+        fpInicio.clear();
+        return;
+      }
+
+      if (data.max_fecha) {
+        fpFin.set("maxDate", data.max_fecha);
+        if (fpFin.selectedDates[0] && fpFin.selectedDates[0] > new Date(data.max_fecha)) {
+          fpFin.setDate(data.max_fecha, true);
+        }
+      } else {
+        fpFin.set("maxDate", null);
+      }
+
+      calcularPrecio();
+    } catch (err) {
+      console.error("Error verificando disponibilidad:", err);
+    }
+  }
+
+  // Cantidad de personas
+  if (cantidadPersonasField) cantidadPersonasField.addEventListener("input", calcularPrecio);
+
+  // Teléfono
   if (telefono) {
     telefono.addEventListener("input", function () {
       this.value = this.value.replace(/[^0-9]/g, "");
     });
-
-    
   }
 
-    const form = document.querySelector("form");
-	form.addEventListener("submit", function (e) {
-	// Concatenar los segmentos en el hidden
-	numeroTarjeta.value = seg1.value + seg2.value + seg3.value + seg4.value;
+  // Validación de tarjeta
+  const form = document.querySelector("form");
+  form.addEventListener("submit", function (e) {
+    numeroTarjeta.value = seg1.value + seg2.value + seg3.value + seg4.value;
 
-	// Validar que todos los segmentos tengan contenido
-	if (!seg1.value || !seg2.value || !seg3.value || !seg4.value) {
-	  e.preventDefault(); // Evita enviar el form
-	  alert("Por favor completa todos los campos del número de tarjeta.");
-	  return false;
-	}
+    if (!seg1.value || !seg2.value || !seg3.value || !seg4.value) {
+      e.preventDefault();
+      alert("Por favor completa todos los campos del número de tarjeta.");
+      return false;
+    }
 
-	// Validar que sean solo números
-	const regexNum = /^\d+$/;
-	if (!regexNum.test(numeroTarjeta.value)) {
-	  e.preventDefault();
-	  alert("El número de tarjeta debe contener solo números.");
-	  return false;
-	}
-	
-	if (numeroTarjeta.value.length !== 16) {
-	  e.preventDefault();
-	  alert("El número de tarjeta debe tener 16 dígitos.");
-	  return false;
-	}
-	});
-	
-	window.goBack = function () {
-		const lastPage = sessionStorage.getItem("lastPage");
-		if (lastPage) {
-			window.location.href = lastPage;
-		} else {
-		  window.location.href = "index.html"; // fallback al index
-		}
-	};
+    if (!/^\d+$/.test(numeroTarjeta.value)) {
+      e.preventDefault();
+      alert("El número de tarjeta debe contener solo números.");
+      return false;
+    }
 
+    if (numeroTarjeta.value.length !== 16) {
+      e.preventDefault();
+      alert("El número de tarjeta debe tener 16 dígitos.");
+      return false;
+    }
+  });
+
+  // Inicializar
+  cargarFechasOcupadas();
 
 })();
