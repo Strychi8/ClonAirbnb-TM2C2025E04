@@ -1,4 +1,5 @@
 <?php
+// http://localhost/Clon-Airbnb/Alquileres-y-alojamientos-/backend/filtrar_zona.php?zona=Buenos-Aires&pais=Argentina&min=0&max=150000
 declare(strict_types=1);
 header('Content-Type: application/json; charset=utf-8');
 
@@ -19,25 +20,41 @@ try {
     exit;
   }
 
-  if ($zona === '') {
+   if ($zona === '') {
     http_response_code(400);
     echo json_encode(['error' => 'zona_invalida']);
     exit;
   }
 
-  // Consulta SQL para filtrar por zona y rango de precios
+  // Divide la zona en palabras
+  $palabras = preg_split('/\s+/', $zona);
+  $where = [];
+  $params = [
+    ':min' => $min,
+    ':max' => $max,
+  ];
+
+  $i = 0;
+  foreach ($palabras as $palabra) {
+    $keyPais = ":zona_pais_$i";
+    $keyProv = ":zona_provincia_$i";
+    $keyLoc = ":zona_localidad_$i";
+    $where[] = "pais LIKE $keyPais OR provincia LIKE $keyProv OR localidad LIKE $keyLoc";
+    $params[$keyPais] = "%$palabra%";
+    $params[$keyProv] = "%$palabra%";
+    $params[$keyLoc] = "%$palabra%";
+    $i++;
+  }
+
+  $whereSql = implode(' AND ', $where);
+
+  // Consulta SQL para filtrar por zona (buscar el texto en cualquiera de los tres campos) y rango de precios
   $sql = "SELECT id, nombre, descripcion, precio_noche, direccion,
                  calle, altura, localidad, codigo_postal, provincia, pais,
                  servicios, imagen_principal
           FROM alojamientos
-          WHERE (provincia LIKE :zona1 OR localidad LIKE :zona2)
+          WHERE ($whereSql)
             AND CAST(precio_noche AS DECIMAL(10,2)) BETWEEN :min AND :max";
-  $params = [
-    ':zona1' => "%$zona%",
-    ':zona2' => "%$zona%",
-    ':min' => $min,
-    ':max' => $max,
-  ];
 
   $st = $pdo->prepare($sql);
   $st->execute($params);

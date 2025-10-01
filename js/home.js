@@ -176,15 +176,14 @@ function filtrar() {
 
   let url;
 
-  // Decide qué archivo PHP usar según los filtros
-  if (servicios) {
-    // Si hay servicios, usa filtrar_servicios.php
+  // Si hay zona y servicios, envía ambos parámetros
+  if (servicios && zona) {
+    url = `backend/filtrar_servicios.php?min=${min}&max=${max}&servicios=${encodeURIComponent(servicios)}&zona=${encodeURIComponent(zona)}`;
+  } else if (servicios) {
     url = `backend/filtrar_servicios.php?min=${min}&max=${max}&servicios=${encodeURIComponent(servicios)}`;
   } else if (zona) {
-    // Si hay una zona especificada, usa filtrar_zona.php
     url = `backend/filtrar_zona.php?min=${min}&max=${max}&zona=${encodeURIComponent(zona)}`;
   } else {
-    // Si no hay zona, usa filtrar_precio.php
     url = `backend/filtrar_precio.php?min=${min}&max=${max}`;
   }
 
