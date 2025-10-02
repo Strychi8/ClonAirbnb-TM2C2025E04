@@ -11,6 +11,7 @@ try {
 
   $servicios = isset($_GET['servicios']) ? trim($_GET['servicios']) : '';
   $zona = isset($_GET['zona']) ? trim($_GET['zona']) : '';
+  $tipo_propiedad = isset($_GET['tipo_propiedad']) ? trim($_GET['tipo_propiedad']) : '';
   $min = isset($_GET['min']) ? (int)$_GET['min'] : 0;
   $max = isset($_GET['max']) ? (int)$_GET['max'] : 150000;
 
@@ -48,6 +49,18 @@ try {
     $params[':zona_pais'] = "%$zona%";
     $params[':zona_provincia'] = "%$zona%";
     $params[':zona_localidad'] = "%$zona%";
+  }
+
+  // Filtro por tipo de propiedad (permite múltiples tipos separados por coma)
+  if ($tipo_propiedad !== '') {
+    $tipos = array_map('trim', explode(',', $tipo_propiedad));
+    $tipoWhere = [];
+    foreach ($tipos as $i => $tipo) {
+      $key = ":tipo_propiedad$i";
+      $tipoWhere[] = "nombre LIKE $key";
+      $params[$key] = "%$tipo%";
+    }
+    $where[] = '(' . implode(' OR ', $tipoWhere) . ')';
   }
 
   $whereSql = !empty($where) ? implode(' AND ', $where) : '1';

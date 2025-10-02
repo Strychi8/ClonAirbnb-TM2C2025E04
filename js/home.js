@@ -5,12 +5,54 @@ document.addEventListener("DOMContentLoaded", () => {
   const minLabel = document.getElementById('precio-min-label');
   const maxLabel = document.getElementById('precio-max-label');
   
-  // Mostrar/Ocultar el dropdown de servicios
+
+  // Nuevo: Dropdown y chips para tipo de propiedad
+  const btnTipoPropiedad = document.getElementById('dropdown-btn-tipo-propiedad');
+  const listTipoPropiedad = document.getElementById('dropdown-tipo-propiedad-list');
+  const chipsTipoPropiedadContainer = document.getElementById('tipo-propiedad-chips');
+  const tipoPropiedadCount = document.getElementById('tipo-propiedad-count');
+  const clearTipoPropiedadBtn = document.getElementById('tipo-propiedad-clear'); // Boton "Borrar todo" para tipo de propiedad
+
+  if (btnTipoPropiedad && listTipoPropiedad) {
+    btnTipoPropiedad.addEventListener('click', function(e) {
+      e.stopPropagation();
+      listTipoPropiedad.style.display = listTipoPropiedad.style.display === 'none' ? 'block' : 'none';
+    });
+
+    document.addEventListener('click', function(e) {
+      if (!btnTipoPropiedad.contains(e.target) && !listTipoPropiedad.contains(e.target)) {
+        listTipoPropiedad.style.display = 'none';
+      }
+    });
+
+    listTipoPropiedad.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+      cb.addEventListener('change', function() {
+        const selectedTipo = Array.from(listTipoPropiedad.querySelectorAll('input[type="checkbox"]:checked')).map(cb => cb.value);
+        chipsTipoPropiedadContainer.innerHTML = '';
+        selectedTipo.forEach(tipo => {
+          chipsTipoPropiedadContainer.innerHTML += `<span style="background:#e0b84c;color:#fff;padding:4px 12px;border-radius:16px;font-size:14px;">${tipo}</span>`;
+        });
+        tipoPropiedadCount.textContent = selectedTipo.length ? `(${selectedTipo.length})` : '';
+        filtrar();
+      });
+    });
+
+    if (clearTipoPropiedadBtn) {
+      clearTipoPropiedadBtn.addEventListener('click', function() {
+        listTipoPropiedad.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+        chipsTipoPropiedadContainer.innerHTML = '';
+        tipoPropiedadCount.textContent = '';
+        filtrar();
+      });
+    }
+  }
+
+  // Dropdown y chips para servicios
   const btnServicios = document.getElementById('dropdown-btn-servicios');
   const listServicios = document.getElementById('dropdown-servicios-list');
   const chipsContainer = document.getElementById('servicios-chips');
   const serviciosCount = document.getElementById('servicios-count');
-  const clearBtn = document.getElementById('servicios-clear'); // Boton "Borrar todo"
+  const clearBtn = document.getElementById('servicios-clear'); // Boton "Borrar todo" para servicios
 
   if (btnServicios && listServicios) {
     btnServicios.addEventListener('click', function(e) {
@@ -163,24 +205,29 @@ function filtrar() {
   const max = parseInt(document.getElementById('filtro-precio-max').value, 10);
   const zona = document.getElementById('buscar-zona').value.trim();
 
-  // Obtiene los servicios seleccionados del dropdown
+  // Servicios seleccionados
   const selected = Array.from(document.querySelectorAll('#dropdown-servicios-list input[type="checkbox"]:checked')).map(cb => cb.value);
   let servicios = selected.join(',');
 
-  // Validación básica
+  // Tipos de propiedad seleccionados
+  const selectedTipo = Array.from(document.querySelectorAll('#dropdown-tipo-propiedad-list input[type="checkbox"]:checked')).map(cb => cb.value);
+  let tipo = selectedTipo.join(',');
   
-  if (min < 0 || max < 0 || min > max) {
-    // Si el rango quedó inválido por cualquier razón, no alertar, solo no enviar
-    return;
-  }
+  if (min < 0 || max < 0 || min > max) return;
 
   let url;
 
-  // Si hay zona y servicios, envía ambos parámetros
-  if (servicios && zona) {
+  // Si hay servicios, zona y tipo de propiedad seleccionados
+  if (servicios && zona && tipo) {
+    url = `backend/filtrar_servicios.php?min=${min}&max=${max}&servicios=${encodeURIComponent(servicios)}&zona=${encodeURIComponent(zona)}&tipo_propiedad=${encodeURIComponent(tipo)}`;
+  } else if (servicios && tipo) {
+    url = `backend/filtrar_servicios.php?min=${min}&max=${max}&servicios=${encodeURIComponent(servicios)}&tipo_propiedad=${encodeURIComponent(tipo)}`;
+  } else if (servicios && zona) {
     url = `backend/filtrar_servicios.php?min=${min}&max=${max}&servicios=${encodeURIComponent(servicios)}&zona=${encodeURIComponent(zona)}`;
   } else if (servicios) {
     url = `backend/filtrar_servicios.php?min=${min}&max=${max}&servicios=${encodeURIComponent(servicios)}`;
+  } else if (tipo) {
+    url = `backend/filtrar_tipo_propiedad.php?min=${min}&max=${max}&tipo_propiedad=${encodeURIComponent(tipo)}`;
   } else if (zona) {
     url = `backend/filtrar_zona.php?min=${min}&max=${max}&zona=${encodeURIComponent(zona)}`;
   } else {
