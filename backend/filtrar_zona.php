@@ -26,27 +26,20 @@ try {
     exit;
   }
 
-  // Divide la zona en palabras
-  $palabras = preg_split('/\s+/', $zona);
-  $where = [];
   $params = [
     ':min' => $min,
     ':max' => $max,
+    ':zona_pais' => "%$zona%",
+    ':zona_provincia' => "%$zona%", 
+    ':zona_localidad' => "%$zona%"
   ];
 
-  $i = 0;
-  foreach ($palabras as $palabra) {
-    $keyPais = ":zona_pais_$i";
-    $keyProv = ":zona_provincia_$i";
-    $keyLoc = ":zona_localidad_$i";
-    $where[] = "pais LIKE $keyPais OR provincia LIKE $keyProv OR localidad LIKE $keyLoc";
-    $params[$keyPais] = "%$palabra%";
-    $params[$keyProv] = "%$palabra%";
-    $params[$keyLoc] = "%$palabra%";
-    $i++;
-  }
-
-  $whereSql = implode(' AND ', $where);
+  // Buscar la zona completa en cualquiera de los tres campos
+  $whereSql = "(
+    LOWER(TRIM(pais)) LIKE LOWER(:zona_pais) OR 
+    LOWER(TRIM(provincia)) LIKE LOWER(:zona_provincia) OR
+    LOWER(TRIM(localidad)) LIKE LOWER(:zona_localidad)
+  )";
 
   // Consulta SQL para filtrar por zona (buscar el texto en cualquiera de los tres campos) y rango de precios
   $sql = "SELECT id, nombre, descripcion, precio_noche, direccion,

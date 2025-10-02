@@ -129,11 +129,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   async function loadBoundsAndInit() {
     try {
-      const zona = (zonaEl?.value || '').trim();
-      const url = zona
-        ? `backend/precio_bounds.php?zona=${encodeURIComponent(zona)}`
-        : `backend/precio_bounds.php`;
-      const res = await fetch(url);
+      // Usar bounds generales, no específicos de zona
+      const res = await fetch('backend/precio_bounds.php');
       const data = await res.json();
       const rawMin = Number(data.min) || 0;
       const rawMax = Number(data.max) || 0;
@@ -185,7 +182,8 @@ document.addEventListener("DOMContentLoaded", () => {
   if (zonaEl) {
     zonaEl.addEventListener('input', () => {
       clearTimeout(debounceId);
-      debounceId = setTimeout(() => loadBoundsAndInit(), 350);
+      // Solo filtrar, no cambiar los bounds del slider
+      debounceId = setTimeout(() => filtrar(), 350);
     });
   }
 
