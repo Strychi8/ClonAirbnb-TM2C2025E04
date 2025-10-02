@@ -20,28 +20,54 @@ try {
     exit;
   }
 
-   if ($zona === '') {
+  if ($zona === '') {
     http_response_code(400);
     echo json_encode(['error' => 'zona_invalida']);
     exit;
   }
 
+  // Divide la zona en palabras
+  $palabras = preg_split('/\s+/', $zona);
+  $where = [];
   $params = [
     ':min' => $min,
     ':max' => $max,
-    ':zona_pais' => "%$zona%",
-    ':zona_provincia' => "%$zona%", 
-    ':zona_localidad' => "%$zona%"
   ];
 
-  // Buscar la zona completa en cualquiera de los tres campos
-  $whereSql = "(
-    LOWER(TRIM(pais)) LIKE LOWER(:zona_pais) OR 
-    LOWER(TRIM(provincia)) LIKE LOWER(:zona_provincia) OR
-    LOWER(TRIM(localidad)) LIKE LOWER(:zona_localidad)
-  )";
+  $i = 0;
+  foreach ($palabras as $palabra) {
+    if (trim($palabra) === '') continue;
 
-  // Consulta SQL para filtrar por zona (buscar el texto en cualquiera de los tres campos) y rango de precios
+    $keyPais = ":zona_pais_$i";
+    $keyProv = ":zona_provincia_$i";
+    $keyLoc = ":zona_localidad_$i";
+
+    $keyPaisSp = ":zona_pais_{$i}_sp";
+    $keyProvSp = ":zona_provincia_{$i}_sp";
+    $keyLocSp = ":zona_localidad_{$i}_sp";
+
+    $where[] = "(
+      LOWER(TRIM(pais)) LIKE LOWER($keyPais) OR LOWER(TRIM(pais)) LIKE LOWER($keyPaisSp) OR
+      LOWER(TRIM(provincia)) LIKE LOWER($keyProv) OR LOWER(TRIM(provincia)) LIKE LOWER($keyProvSp) OR
+      LOWER(TRIM(localidad)) LIKE LOWER($keyLoc) OR LOWER(TRIM(localidad)) LIKE LOWER($keyLocSp)
+    )";
+
+    // Coincidencia al inicio de campo
+    $params[$keyPais] = "$palabra%";
+    $params[$keyProv] = "$palabra%";
+    $params[$keyLoc] = "$palabra%";
+
+    // Coincidencia después de un espacio
+    $params[$keyPaisSp] = "% $palabra%";
+    $params[$keyProvSp] = "% $palabra%";
+    $params[$keyLocSp] = "% $palabra%";
+
+    $i++;
+  }
+
+  $whereSql = implode(' OR ', $where);
+
+  // Consulta SQL
   $sql = "SELECT id, nombre, descripcion, precio_noche, direccion,
                  calle, altura, localidad, codigo_postal, provincia, pais,
                  servicios, imagen_principal
