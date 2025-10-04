@@ -264,3 +264,53 @@ function mostrarAlojamientos(data) {
     `;
   });
 }
+
+// Manejo del menú de usuario y autenticación
+function inicializarMenuUsuario() {
+  const usuarioLogueado = JSON.parse(localStorage.getItem('usuarioLogueado'));
+  const loginButtons = document.getElementById('login-buttons');
+  const userMenu = document.getElementById('user-menu');
+  const userName = document.getElementById('user-name');
+  const userDropdownBtn = document.getElementById('user-dropdown-btn');
+  const userDropdown = document.getElementById('user-dropdown');
+  const logoutBtn = document.getElementById('logout-btn');
+
+  if (usuarioLogueado) {
+    // Usuario logueado - mostrar menú de usuario
+    if (loginButtons) loginButtons.style.display = 'none';
+    if (userMenu) userMenu.style.display = 'flex';
+    if (userName) userName.textContent = usuarioLogueado.nombre;
+
+    // Manejar dropdown del menú de usuario
+    if (userDropdownBtn && userDropdown) {
+      userDropdownBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        userDropdown.style.display = userDropdown.style.display === 'none' ? 'block' : 'none';
+      });
+
+      // Cerrar dropdown al hacer clic fuera
+      document.addEventListener('click', function(e) {
+        if (!userDropdownBtn.contains(e.target) && !userDropdown.contains(e.target)) {
+          userDropdown.style.display = 'none';
+        }
+      });
+    }
+
+    // Manejar logout
+    if (logoutBtn) {
+      logoutBtn.addEventListener('click', function() {
+        if (confirm('¿Estás seguro de que deseas cerrar sesión?')) {
+          localStorage.removeItem('usuarioLogueado');
+          window.location.reload();
+        }
+      });
+    }
+  } else {
+    // Usuario no logueado - mostrar botones de login
+    if (loginButtons) loginButtons.style.display = 'flex';
+    if (userMenu) userMenu.style.display = 'none';
+  }
+}
+
+// Inicializar el menú de usuario cuando la página se carga
+document.addEventListener("DOMContentLoaded", inicializarMenuUsuario);

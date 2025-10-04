@@ -1,5 +1,5 @@
 <?php
-// Incluye el archivo de configuración y conexión a la base de datos
+// Postman -> http://localhost/Clon-Airbnb/Alquileres-y-alojamientos-/backend/registro.php
 require_once 'db.php';
 
 // Verifica si la solicitud es de tipo POST
