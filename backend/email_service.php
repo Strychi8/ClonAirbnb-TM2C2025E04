@@ -377,7 +377,7 @@ class EmailService {
         $data .= "MIME-Version: 1.0\r\n";
         $data .= "Content-Type: text/html; charset=$charset\r\n";
         $data .= "Content-Transfer-Encoding: 8bit\r\n";
-        $data .= "X-Mailer: ErBienBi Email Service\r\n";
+        $data .= "X-Mailer: Erbienbi Email Service\r\n";
         $data .= "X-Priority: 3\r\n";
         $data .= "\r\n";
         $data .= $htmlBody;
@@ -423,7 +423,7 @@ class EmailService {
         $headers[] = "Content-Type: text/html; charset={$this->config['charset']}";
         
         // Additional headers
-        $headers[] = "X-Mailer: ErBienBi Email Service";
+        $headers[] = "X-Mailer: Erbienbi Email Service";
         $headers[] = "X-Priority: 3";
         
         return implode("\r\n", $headers);
@@ -544,7 +544,7 @@ class EmailService {
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Nueva Reserva - ErBienBi</title>
+    <title>Nueva Reserva - Erbienbi</title>
     <style>
         body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
         .container { max-width: 600px; margin: 0 auto; padding: 20px; }
@@ -613,11 +613,11 @@ class EmailService {
             
             <p>Te recomendamos contactar al huésped para confirmar los detalles y coordinar el check-in.</p>
             
-            <p>Gracias por confiar en ErBienBi.</p>
+            <p>Gracias por confiar en Erbienbi.</p>
         </div>
         
         <div class="footer">
-            <p>Este email fue enviado automáticamente por el sistema ErBienBi.<br>
+            <p>Este email fue enviado automáticamente por el sistema Erbienbi.<br>
             Si tienes alguna consulta, no dudes en contactarnos.</p>
         </div>
     </div>
@@ -653,7 +653,7 @@ class EmailService {
      * Build text email for new reservation
      */
     private function buildReservationEmailText(array $reservationData, array $ownerData): string {
-        $text = "NUEVA RESERVA RECIBIDA - ErBienBi\n\n";
+        $text = "NUEVA RESERVA RECIBIDA - Erbienbi\n\n";
         $text .= "Estimado/a " . $ownerData['nombre'] . ",\n\n";
         $text .= "Te informamos que has recibido una nueva reserva para tu alojamiento \"" . $reservationData['alojamiento_nombre'] . "\".\n\n";
         $text .= "DETALLES DE LA RESERVA:\n";
@@ -669,9 +669,9 @@ class EmailService {
         $text .= "Método de pago: " . $reservationData['metodo_pago'] . "\n";
         $text .= "Fecha de reserva: " . $reservationData['fecha_reserva'] . "\n\n";
         $text .= "Te recomendamos contactar al huésped para confirmar los detalles y coordinar el check-in.\n\n";
-        $text .= "Gracias por confiar en ErBienBi.\n\n";
+        $text .= "Gracias por confiar en Erbienbi.\n\n";
         $text .= "---\n";
-        $text .= "Este email fue enviado automáticamente por el sistema ErBienBi.";
+        $text .= "Este email fue enviado automáticamente por el sistema Erbienbi.";
         
         return $text;
     }

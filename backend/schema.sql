@@ -50,6 +50,17 @@ CREATE TABLE alojamiento_imagenes (
     FOREIGN KEY (alojamiento_id) REFERENCES alojamientos(id) ON DELETE CASCADE
 );
 
+CREATE TABLE password_reset_tokens (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    usuario_id INT NOT NULL,
+    token VARCHAR(64) NOT NULL UNIQUE,
+    expiracion DATETIME NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE,
+    INDEX idx_token (token),
+    INDEX idx_expiracion (expiracion)
+);
+
 
 
 ALTER TABLE reservas ADD COLUMN alojamiento_id INT NOT NULL AFTER id;

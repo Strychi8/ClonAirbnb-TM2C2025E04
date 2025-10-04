@@ -21,7 +21,7 @@ $EMAIL_CONFIG = [
     
     // Email sender settings
     'from_email'    => 'erbienbi.tma@gmail.com',                        // Sender email (usually same as smtp_username)
-    'from_name'     => 'ErBienBi - Reservas',     // Sender name
+    'from_name'     => 'Erbienbi',     // Sender name
     
     // Email settings
     'charset'       => 'UTF-8',
@@ -37,7 +37,7 @@ $EMAIL_CONFIG = [
  */
 $EMAIL_TEMPLATES = [
     'new_reservation' => [
-        'subject' => 'Nueva reserva recibida - ErBienBi',
+        'subject' => 'Nueva reserva recibida - Erbienbi',
         'template_file' => 'email_templates/new_reservation.html'
     ]
 ];
