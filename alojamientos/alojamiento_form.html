@@ -48,7 +48,9 @@
                 <label for="descripcion">Descripcion</label>
                 <textarea name="descripcion"id="descripcion" placeholder="Ej: Casa de Campo" required rows="4"></textarea>
               </div>
-
+				
+				
+				
               <div style="grid-column: 1 / -1">
                 <label for="imagen">Imagen principal</label>
                 <input type="file" name="imagen" id="imagen" accept="image/*" />
@@ -57,6 +59,18 @@
                     style="max-width: 320px; max-height: 180px; display: none; border-radius: 8px; object-fit: cover;" />
                 </div>
               </div>
+			  
+			  <div>
+                  <label for="tipo_alojamiento">Tipo de Alojamiento:</label>
+                  <select name="tipo_alojamiento" id="tipo_alojamiento" required>
+                    <option value="">-- Selecciona un Tipo de Alojamiento --</option>
+                    <option value="Casa">Casa</option>
+                    <option value="Loft">Loft</option>
+                    <option value="Hotel">Hotel</option>
+                    <option value="Departamento">Departamento</option>
+                    <option value="Cabaña">Cabaña</option>
+                  </select>
+                </div>
 
               <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; width: 100%;">
                 <div>
@@ -138,6 +152,8 @@
                   </div>
                 </div>
               </div>
+			    
+			  
 
               <div class="full actions">
                 <button type="submit" class="btn btn-primary" id="submit-btn">

@@ -4,7 +4,7 @@ declare(strict_types=1);
 $DB_HOST   = 'localhost';
 $DB_NAME   = 'erbienbi';
 $DB_USER   = 'root';
-$DB_PASS   = '';
+$DB_PASS   = 'root';
 $DB_CHAR   = 'utf8mb4';
 
 $dsn = "mysql:host={$DB_HOST};dbname={$DB_NAME};charset={$DB_CHAR}";

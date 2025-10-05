@@ -24,6 +24,7 @@ CREATE TABLE alojamientos (
     provincia VARCHAR(100),
     pais VARCHAR(100),
     servicios TEXT,
+	tipo_alojamiento VARCHAR(25),
     imagen_principal VARCHAR(200),
     fecha_alta TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE RESTRICT ON UPDATE CASCADE
@@ -77,6 +78,7 @@ ALTER TABLE alojamientos ADD COLUMN IF NOT EXISTS localidad VARCHAR(100) NULL AF
 ALTER TABLE alojamientos ADD COLUMN IF NOT EXISTS codigo_postal VARCHAR(20) NULL AFTER localidad;
 ALTER TABLE alojamientos ADD COLUMN IF NOT EXISTS provincia VARCHAR(100) NULL AFTER codigo_postal;
 ALTER TABLE alojamientos ADD COLUMN IF NOT EXISTS pais VARCHAR(100) NULL AFTER provincia;
+ALTER TABLE alojamientos ADD COLUMN IF NOT EXISTS tipo_alojamiento VARCHAR(25) NULL AFTER servicios;
 
 -- Add foreign key constraint for usuario_id if it doesn't exist
 -- Note: This will need to be run manually if there are existing alojamientos without usuario_id
