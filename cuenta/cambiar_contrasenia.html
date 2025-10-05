@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Cambiar Contraseña - Erbienbi</title>
+    <link rel="stylesheet" href="../css/formularios.css">
+    <link rel="stylesheet" href="../css/styles.css">
+
+</head>
+
+<body>
+    <header>
+      <div class="marquee-wrapper">
+        <h1 class="marquee-text">
+          -- 🏠 🏡 -- Erbienbi - El Hospedaje que Buscas, al Mejor Precio -- 🏡 🏠 --
+        </h1>
+      </div>
+    </header>
+
+    <main class="perfil-container">
+        <div class="form-links">
+            <a href="perfil.html"><button type="button" class="btn btn-primary">Volver al Perfil</button></a>
+        </div>
+        
+        <div class="perfil-card">
+            <div class="perfil-header">
+                <h1>Cambiar Contraseña</h1>
+            </div>
+            
+            <form id="form-cambiar-contrasenia" class="auth-form">
+                <div class="form-group">
+                    <label for="contrasenia_actual">Contraseña Actual</label>
+                    <input type="password" id="contrasenia_actual" name="contrasenia_actual" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="nueva_contrasenia">Nueva Contraseña</label>
+                    <input type="password" id="nueva_contrasenia" name="nueva_contrasenia" required minlength="6">
+                    <small>Mínimo 6 caracteres</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmar_contrasenia">Confirmar Nueva Contraseña</label>
+                    <input type="password" id="confirmar_contrasenia" name="confirmar_contrasenia" required>
+                </div>
+
+                <div id="mensaje" class="mensaje"></div>
+
+                <button type="submit" class="btn btn-primary btn-full">Cambiar Contraseña</button>
+            </form>
+
+            <div class="form-links">
+                <a href="../index.html"><button type="button" class="btn btn-primary">Volver al Inicio</button></a>
+            </div>
+        </div>
+    </main>
+
+    <script src="../js/session_utils.js"></script>
+    <script src="../js/cambiar_contrasenia.js"></script>
+    <script src="../js/icono.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Mi Perfil - Erbienbi</title>
+    <link rel="stylesheet" href="../css/formularios.css">
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/perfil.css">
+
+</head>
+
+<body>
+    <header>
+      <div class="marquee-wrapper">
+        <h1 class="marquee-text">
+          -- 🏠 🏡 -- Erbienbi - El Hospedaje que Buscas, al Mejor Precio -- 🏡 🏠 --
+        </h1>
+      </div>
+    </header>
+
+    <main class="perfil-container">
+        <div class="form-links">
+            <a href="../index.html"><button type="button" class="btn btn-primary">Volver al Inicio</button></a>
+        </div>
+        <div class="perfil-card">
+            <div class="perfil-header">
+                <div class="perfil-avatar" id="avatar-inicial">
+                    U
+                </div>
+                <h1 id="usuario-nombre">Cargando...</h1>
+                <p>Miembro desde <span id="fecha-registro">-</span></p>
+            </div>
+
+            <div class="perfil-info">
+                <h2>Información Personal</h2>
+                <div class="info-item">
+                    <span class="info-label">Nombre:</span>
+                    <span class="info-value" id="info-nombre">-</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Email:</span>
+                    <span class="info-value" id="info-email">-</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Fecha de registro:</span>
+                    <span class="info-value" id="info-fecha">-</span>
+                </div>
+            </div>
+
+            <div class="perfil-actions">
+                <h2>Configuración de Cuenta</h2>
+                
+                <a href="cambiar_contrasenia.html" class="action-btn">
+                    <span class="action-icon">🔒</span>
+                    <div class="action-text">
+                        <div class="action-title">Cambiar Contraseña</div>
+                        <div class="action-desc">Actualiza tu contraseña por seguridad</div>
+                    </div>
+                    <span class="action-arrow">›</span>
+                </a>
+
+                <a href="../alojamientos/mis_alojamientos.html" class="action-btn">
+                    <span class="action-icon">🏠</span>
+                    <div class="action-text">
+                        <div class="action-title">Mis Alojamientos</div>
+                        <div class="action-desc">Gestiona tus propiedades publicadas</div>
+                    </div>
+                    <span class="action-arrow">›</span>
+                </a>
+
+                <a href="../alojamientos/alojamiento_form.html" class="action-btn">
+                    <span class="action-icon">➕</span>
+                    <div class="action-text">
+                        <div class="action-title">Publicar Alojamiento</div>
+                        <div class="action-desc">Agrega una nueva propiedad</div>
+                    </div>
+                    <span class="action-arrow">›</span>
+                </a>
+
+                <button id="btn-eliminar-cuenta" class="action-btn-danger">
+                    <span class="action-icon">🗑️</span>
+                    <div class="action-text">
+                        <div class="action-title">Eliminar Cuenta</div>
+                        <div class="action-desc">Eliminar permanentemente tu cuenta</div>
+                    </div>
+                    <span class="action-arrow">›</span>
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <script src="../js/session_utils.js"></script>
+    <script src="../js/perfil_usuario.js"></script>
+    <script src="../js/icono.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Recuperar Contraseña - Erbienbi</title>
+    <link rel="stylesheet" href="../css/formularios.css">
+    <link rel="stylesheet" href="../css/styles.css">
+
+</head>
+
+<body>
+    <header>
+      <div class="marquee-wrapper">
+        <h1 class="marquee-text">
+          -- 🏠 🏡 -- Erbienbi - El Hospedaje que Buscas, al Mejor Precio -- 🏡 🏠 --
+        </h1>
+      </div>
+    </header>
+
+    <main class="perfil-container">
+        <div class="form-links">
+            <a href="signin.html"><button type="button" class="btn btn-primary">Volver al Login</button></a>
+        </div>
+        
+        <div class="perfil-card">
+            <div class="perfil-header">
+                <h1>Recuperar Contraseña</h1>
+            </div>
+            
+            <div class="info-box">
+                <h3>🔐 ¿Olvidaste tu contraseña?</h3>
+                <p>Ingresa tu email y te enviaremos un enlace para restablecer tu contraseña.</p>
+            </div>
+            
+            <form id="form-recuperar-contrasenia">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="tu@email.com" required>
+                    <small>Ingresa el email con el que te registraste</small>
+                </div>
+
+                <div id="mensaje" class="mensaje"></div>
+
+                <button type="submit" class="btn btn-primary btn-full">Enviar enlace de recuperación</button>
+            </form>
+
+            <div class="form-links">
+                <a href="../index.html"><button type="button" class="btn btn-primary">Volver al Inicio</button></a>
+            </div>
+        </div>
+    </main>
+
+    <script src="../js/recuperar_contrasenia.js"></script>
+    <script src="../js/icono.js"></script>
+
+</body>
+</html>

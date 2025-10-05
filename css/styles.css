@@ -258,3 +258,171 @@ button:hover {
   border-radius: 999px;
   background: var(--primary);
 }
+
+/** ===== Sección de Filtros ===== **/
+
+.filtros-section {
+  max-width: 1100px;
+  margin: 0 auto 16px;
+  padding: 0 24px;
+  margin-bottom: 40px;
+}
+.filtros-buscador {
+  margin-bottom: 24px;
+}
+.filtros-label {
+  font-weight: bold;
+  color: var(--primary);
+}
+.filtros-input {
+  width: 100%;
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  margin-top: 4px;
+}
+.filtros-titulo {
+  color: var(--primary);
+}
+.filtros-row {
+  display: flex;
+  gap: 4.5rem;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+.filtro-col {
+  min-width: 220px;
+}
+.filtro-precio {
+  min-width: 260px;
+}
+.filtros-precio-labels {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: 14px;
+}
+.filtros-btn {
+  width: 220px;
+  border-radius: 8px;
+  background: #a36b1e;
+  color: #fff;
+  font-weight: bold;
+}
+.filtros-arrow {
+  float: right;
+}
+.dropdown-content {
+  display: none;
+  position: absolute;
+  z-index: 100;
+}
+.filtros-dropdown-title {
+  font-weight: bold;
+  margin-bottom: 12px;
+}
+.filtros-clear-btn {
+  background: #ffe5b4;
+  color: #a36b1e;
+  border: none;
+  border-radius: 6px;
+  padding: 4px 12px;
+  cursor: pointer;
+  margin-top: 8px;
+}
+.filtros-chips {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px 16px;
+  margin-top: 8px;
+  max-width: 700px;
+}
+
+/** Estilos del Filtrado de Servicios **/
+.servicios-grid-inner {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2 columnas como en la imagen */
+  gap: 8px 16px;
+}
+
+.servicios-grid-inner label {
+  display: flex;
+  align-items: center;
+  white-space: normal;
+  min-width: 0; /* Ajusta según tu diseño */
+}
+
+#dropdown-servicios-list {
+  background: #f9f6f2;
+  border-radius: 12px;
+  border: 1px solid #a36b1e;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  padding: 15px 20px;
+  width: 320px;
+  max-width: 95vw;
+}
+
+#dropdown-servicios-list label {
+  font-size: 14px;
+  padding: 2px 0;
+  color: #3d2c00;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+#dropdown-servicios-list input[type="checkbox"] {
+  accent-color: #a36b1e;
+  width: 14px;
+  height: 14px;
+}
+
+#dropdown-btn-servicios {
+  margin-right: 32px; /* separa el botón de otros elementos */
+}
+
+/** Estilos del Filtrado de Tipo de Propiedad **/
+.tipo-propiedad-grid-inner {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2 columnas como en la imagen */
+  gap: 10px 32px;
+}
+
+.tipo-propiedad-grid-inner label {
+  display: flex;
+  align-items: center;
+  white-space: normal;
+  min-width: 0; /* Ajusta según tu diseño */
+}
+
+#dropdown-tipo-propiedad-list {
+  background: #f9f6f2;
+  border-radius: 12px;
+  border: 1px solid #a36b1e;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  padding: 15px 20px;
+  width: 320px;
+  max-width: 95vw;
+}
+
+#dropdown-tipo-propiedad-list label {
+  font-size: 14px;
+  padding: 2px 0;
+  color: #3d2c00;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+#dropdown-tipo-propiedad-list input[type="checkbox"] {
+  accent-color: #a36b1e;
+  width: 14px;
+  height: 14px;
+}
+
+#dropdown-btn-tipo-propiedad {
+  margin-right: 32px; /* separa el botón de otros elementos */
+}

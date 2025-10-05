@@ -1,4 +1,5 @@
 <?php
+// http://localhost/Clon-Airbnb/Alquileres-y-alojamientos-/backend/filtrar_zona.php?zona=Buenos-Aires&pais=Argentina&min=0&max=150000
 declare(strict_types=1);
 header('Content-Type: application/json; charset=utf-8');
 
@@ -25,19 +26,54 @@ try {
     exit;
   }
 
-  // Consulta SQL para filtrar por zona y rango de precios
+  // Divide la zona en palabras
+  $palabras = preg_split('/\s+/', $zona);
+  $where = [];
+  $params = [
+    ':min' => $min,
+    ':max' => $max,
+  ];
+
+  $i = 0;
+  foreach ($palabras as $palabra) {
+    if (trim($palabra) === '') continue;
+
+    $keyPais = ":zona_pais_$i";
+    $keyProv = ":zona_provincia_$i";
+    $keyLoc = ":zona_localidad_$i";
+
+    $keyPaisSp = ":zona_pais_{$i}_sp";
+    $keyProvSp = ":zona_provincia_{$i}_sp";
+    $keyLocSp = ":zona_localidad_{$i}_sp";
+
+    $where[] = "(
+      LOWER(TRIM(pais)) LIKE LOWER($keyPais) OR LOWER(TRIM(pais)) LIKE LOWER($keyPaisSp) OR
+      LOWER(TRIM(provincia)) LIKE LOWER($keyProv) OR LOWER(TRIM(provincia)) LIKE LOWER($keyProvSp) OR
+      LOWER(TRIM(localidad)) LIKE LOWER($keyLoc) OR LOWER(TRIM(localidad)) LIKE LOWER($keyLocSp)
+    )";
+
+    // Coincidencia al inicio de campo
+    $params[$keyPais] = "$palabra%";
+    $params[$keyProv] = "$palabra%";
+    $params[$keyLoc] = "$palabra%";
+
+    // Coincidencia después de un espacio
+    $params[$keyPaisSp] = "% $palabra%";
+    $params[$keyProvSp] = "% $palabra%";
+    $params[$keyLocSp] = "% $palabra%";
+
+    $i++;
+  }
+
+  $whereSql = implode(' OR ', $where);
+
+  // Consulta SQL
   $sql = "SELECT id, nombre, descripcion, precio_noche, direccion,
                  calle, altura, localidad, codigo_postal, provincia, pais,
                  servicios, imagen_principal
           FROM alojamientos
-          WHERE (provincia LIKE :zona1 OR localidad LIKE :zona2)
+          WHERE ($whereSql)
             AND CAST(precio_noche AS DECIMAL(10,2)) BETWEEN :min AND :max";
-  $params = [
-    ':zona1' => "%$zona%",
-    ':zona2' => "%$zona%",
-    ':min' => $min,
-    ':max' => $max,
-  ];
 
   $st = $pdo->prepare($sql);
   $st->execute($params);

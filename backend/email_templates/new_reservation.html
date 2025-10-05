@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nueva Reserva - Erbienbi</title>
+    <style>
+        /* Reset styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #000;
+            background-color: #e7cbb0;
+        }
+        
+        .email-container {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #ca801117;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            border: 3px solid #222;
+        }
+        
+        .header {
+            background: #a56300;
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .header p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 30px 20px;
+            background: rgba(202, 128, 17, 0.09);
+        }
+        
+        .greeting {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #a56300;
+            font-weight: bold;
+        }
+        
+        .intro-text {
+            font-size: 16px;
+            margin-bottom: 25px;
+            color: #000;
+            line-height: 1.7;
+        }
+        
+        .reservation-card {
+            background-color: #f0d9c0;
+            border: 2px solid #222;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 25px 0;
+        }
+        
+        .reservation-card h3 {
+            color: #a56300;
+            font-size: 20px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #a56300;
+            padding-bottom: 10px;
+        }
+        
+        .detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .detail-item {
+            background-color: white;
+            padding: 12px 15px;
+            border-radius: 5px;
+            border-left: 4px solid #a56300;
+            border: 1px solid #222;
+        }
+        
+        .detail-label {
+            font-weight: 600;
+            color: #a56300;
+            font-size: 14px;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .detail-value {
+            font-size: 16px;
+            color: #000;
+            font-weight: 500;
+        }
+        
+        .detail-item.full-width {
+            grid-column: 1 / -1;
+        }
+        
+        .detail-item.highlight {
+            border-left-color: #a56300;
+            background-color: #e8cfae;
+            border: 2px solid #a56300;
+        }
+        
+        .detail-item.highlight .detail-value {
+            color: #a56300;
+            font-weight: 700;
+            font-size: 18px;
+        }
+        
+        .guest-info {
+            background: #f0d9c0;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 2px solid #222;
+        }
+        
+        .guest-info h4 {
+            color: #a56300;
+            margin-bottom: 15px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        
+        .contact-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .contact-item {
+            background-color: white;
+            padding: 10px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            color: #000;
+            font-weight: 500;
+            border: 1px solid #222;
+        }
+        
+        .action-section {
+            background-color: #f0d9c0;
+            border: 2px solid #a56300;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 25px 0;
+            text-align: center;
+        }
+        
+        .action-section h4 {
+            color: #a56300;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        
+        .action-section p {
+            color: #000;
+            font-size: 15px;
+        }
+        
+        .footer {
+            background-color: #f0d9c0;
+            color: #000;
+            padding: 25px 20px;
+            text-align: center;
+            border-top: 2px solid #222;
+        }
+        
+        .footer p {
+            margin-bottom: 10px;
+            color: #6b6b6b;
+        }
+        
+        .footer .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #a56300;
+            margin-bottom: 10px;
+        }
+        
+        /* Responsive design */
+        @media (max-width: 600px) {
+            .email-container {
+                margin: 10px;
+                border-radius: 5px;
+            }
+            
+            .header {
+                padding: 20px 15px;
+            }
+            
+            .header h1 {
+                font-size: 24px;
+            }
+            
+            .content {
+                padding: 20px 15px;
+            }
+            
+            .detail-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+            
+            .contact-info {
+                flex-direction: column;
+            }
+            
+            .contact-item {
+                text-align: center;
+            }
+        }
+        
+        /* Print styles */
+        @media print {
+            body {
+                background-color: white;
+            }
+            
+            .email-container {
+                box-shadow: none;
+                margin: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <!-- Header -->
+        <div class="header">
+            <h1>🏠 Nueva Reserva Recibida</h1>
+            <p>Sistema de Notificaciones Erbienbi</p>
+        </div>
+        
+        <!-- Content -->
+        <div class="content">
+            <div class="greeting">
+                ¡Hola <strong>{{OWNER_NAME}}</strong>! 👋
+            </div>
+            
+            <div class="intro-text">
+                Te informamos que has recibido una nueva reserva para tu alojamiento 
+                <strong>"{{ACCOMMODATION_NAME}}"</strong>. A continuación encontrarás todos los detalles:
+            </div>
+            
+            <!-- Guest Information -->
+            <div class="guest-info">
+                <h4>📋 Información del Huésped</h4>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        👤 {{GUEST_NAME}} {{GUEST_LASTNAME}}
+                    </div>
+                    <div class="contact-item">
+                        📧 {{GUEST_EMAIL}}
+                    </div>
+                    <div class="contact-item">
+                        📱 {{GUEST_PHONE}}
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Reservation Details -->
+            <div class="reservation-card">
+                <h3>📅 Detalles de la Reserva</h3>
+                
+                <div class="detail-grid">
+                    <div class="detail-item">
+                        <div class="detail-label">Fecha de Entrada</div>
+                        <div class="detail-value">{{CHECK_IN_DATE}}</div>
+                    </div>
+                    
+                    <div class="detail-item">
+                        <div class="detail-label">Fecha de Salida</div>
+                        <div class="detail-value">{{CHECK_OUT_DATE}}</div>
+                    </div>
+                    
+                    <div class="detail-item">
+                        <div class="detail-label">Cantidad de Huéspedes</div>
+                        <div class="detail-value">{{GUEST_COUNT}} persona(s)</div>
+                    </div>
+                    
+                    <div class="detail-item">
+                        <div class="detail-label">Precio por Noche</div>
+                        <div class="detail-value">${{PRICE_PER_NIGHT}}</div>
+                    </div>
+                    
+                    <div class="detail-item">
+                        <div class="detail-label">Método de Pago</div>
+                        <div class="detail-value">{{PAYMENT_METHOD}}</div>
+                    </div>
+                    
+                    <div class="detail-item">
+                        <div class="detail-label">Fecha de Reserva</div>
+                        <div class="detail-value">{{RESERVATION_DATE}}</div>
+                    </div>
+                    
+                    <div class="detail-item highlight full-width">
+                        <div class="detail-label">💰 Precio Total</div>
+                        <div class="detail-value">${{TOTAL_PRICE}}</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Action Section -->
+            <div class="action-section">
+                <h4>⚡ Próximos Pasos</h4>
+                <p>
+                    Te recomendamos contactar al huésped para confirmar los detalles de la reserva 
+                    y coordinar el proceso de check-in. ¡No olvides preparar tu alojamiento para recibirlos!
+                </p>
+            </div>
+            
+            <div class="intro-text" style="margin-top: 30px; text-align: center; color: #a56300;">
+                <strong>¡Gracias por confiar en Erbienbi para gestionar tus reservas! 🌟</strong>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="footer">
+            <div class="logo">Erbienbi</div>
+            <p>Sistema de Gestión de Alojamientos</p>
+            <p style="font-size: 12px; opacity: 0.7;">
+                Este email fue enviado automáticamente por el sistema Erbienbi.<br>
+                Si tienes alguna consulta, no dudes en contactarnos.
+            </p>
+        </div>
+    </div>
+</body>
+</html>
