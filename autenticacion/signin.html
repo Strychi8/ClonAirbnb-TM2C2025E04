@@ -4,80 +4,53 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>Erbienbi - El Hospedaje que Buscas, al Mejor Precio</title>
-
+    <title>Login - Erbienbi</title>
     <link rel="stylesheet" href="../css/styles.css" />
     <link rel="stylesheet" href="../css/formularios.css" />
+    
   </head>
+
   <body>
     <!-- Header con marquee -->
     <header>
       <div class="marquee-wrapper">
         <h1 class="marquee-text">
-          -- 🏠 🏡 -- Erbienbi - El Hospedaje que Buscas, al Mejor Precio -- 🏡
-          🏠 --
+          -- 🏠 🏡 -- Erbienbi - El Hospedaje que Buscas, al Mejor Precio -- 🏡 🏠 --
         </h1>
       </div>
     </header>
 
-    <main class="login-container">
-      <section
-        style="max-width: 1400px; margin: 24px auto 8px; padding: 0 24px"
-      >
-        <a href="../index.html" class="back-btn">
-          <button type="button" class="btn btn-primary">
-            Ir a la página principal
-          </button>
-        </a>
-
-        <form action="../backend/login.php" method="POST">
-          <div class="form-card">
-            <h2>Iniciar Sesion</h2>
-
-            <div class="form-grid">
-              <div>
-                <label for="email">Email</label>
-                <input
-                  type="email"
-                  name="email"
-                  id="email"
-                  placeholder="Email"
-                  required
-                />
-              </div>
-
-              <div>
-                <label for="password">Contraseña</label>
-                <input
-                  type="password"
-                  name="password"
-                  id="password"
-                  placeholder="Contraseña"
-                  required
-                />
-              </div>
-
-              <div class="full actions">
-                <button type="submit" class="btn btn-primary">
-                  Iniciar sesion
-                </button>
-              </div>
-
-              <div class="registration-link">
-                <p>
-                  ¿No tienes una cuenta? <a href="signup.html">Registrarse</a>
-                </p>
-                <p>
-                  <a href="recuperar_contrasenia.html">¿Olvidaste tu contraseña?</a>
-                </p>
-              </div>
+    <main class="perfil-container">
+        <div class="form-links">
+            <a href="../index.html"><button type="button" class="btn btn-primary">Ir a la página principal</button></a>
+        </div>
+        
+        <div class="perfil-card">
+            <div class="perfil-header">
+                <h1>Iniciar Sesión</h1>
             </div>
-          </div>
-        </form>
-      </section>
+            
+            <form action="../backend/login.php" method="POST">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" name="email" id="email" placeholder="tu@email.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Contraseña</label>
+                    <input type="password" name="password" id="password" placeholder="Contraseña" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-full">Iniciar Sesión</button>
+            </form>
+
+            <div class="registration-link">
+                <p>¿No tienes una cuenta? <a href="signup.html">Registrarse</a></p>
+                <p><a href="recuperar_contrasenia.html">¿Olvidaste tu contraseña?</a></p>
+            </div>
+        </div>
     </main>
 
 	<script src="../js/icono.js"></script>
-
   </body>
 </html>

@@ -3,123 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Cambiar Contraseña - Erbienbi</title>
     <link rel="stylesheet" href="../css/formularios.css">
     <link rel="stylesheet" href="../css/styles.css">
-    <style>
-        .perfil-container {
-            max-width: 600px;
-            margin: 40px auto;
-            padding: 0 20px;
-        }
-        
-        .perfil-card {
-            background: white;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-        }
-        
-        .perfil-header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .form-group {
-            margin-bottom: 20px;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #555;
-        }
-        
-        .form-group input {
-            width: 100%;
-            padding: 12px 15px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            font-size: 16px;
-        }
-        
-        .form-group input:focus {
-            outline: none;
-            border-color: #e0b84c;
-            box-shadow: 0 0 0 3px rgba(224, 184, 76, 0.1);
-        }
-        
-        .form-group small {
-            color: #666;
-            font-size: 14px;
-            margin-top: 5px;
-            display: block;
-        }
-        
-        .btn-primary {
-            background: #a56300;
-            padding: 12px 24px;
-            border-radius: 8px;
-            color: white;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.18s ease, transform 0.06s ease;
-            text-decoration: none;
-            display: inline-block;
-            margin: 5px;
-        }
-        
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(224, 184, 76, 0.3);
-        }
-        
-        .btn-full {
-            width: 100%;
-            margin: 20px 0;
-        }
-        
-        .mensaje {
-            padding: 12px 15px;
-            border-radius: 8px;
-            margin: 15px 0;
-            font-weight: 500;
-        }
-        
-        .mensaje.exito {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-        
-        .mensaje.error {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
-        
-        .form-links {
-            text-align: center;
-            margin-top: 20px;
-        }
-    </style>
+
 </head>
+
 <body>
     <header>
       <div class="marquee-wrapper">
         <h1 class="marquee-text">
-          -- 🏠 🏡 -- Erbienbi - El Hospedaje que Buscas, al Mejor Precio -- 🏡
-          🏠 --
+          -- 🏠 🏡 -- Erbienbi - El Hospedaje que Buscas, al Mejor Precio -- 🏡 🏠 --
         </h1>
       </div>
     </header>
 
     <main class="perfil-container">
-        <div class="form-links" style="margin-bottom: 20px;">
+        <div class="form-links">
             <a href="perfil.html"><button type="button" class="btn btn-primary">Volver al Perfil</button></a>
         </div>
         
@@ -145,7 +46,7 @@
                     <input type="password" id="confirmar_contrasenia" name="confirmar_contrasenia" required>
                 </div>
 
-                <div id="mensaje" class="mensaje" style="display: none;"></div>
+                <div id="mensaje" class="mensaje"></div>
 
                 <button type="submit" class="btn btn-primary btn-full">Cambiar Contraseña</button>
             </form>

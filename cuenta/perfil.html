@@ -3,149 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <title>Mi Perfil - Erbienbi</title>
     <link rel="stylesheet" href="../css/formularios.css">
     <link rel="stylesheet" href="../css/styles.css">
-    <style>
-        .perfil-container {
-            max-width: 600px;
-            margin: 40px auto;
-            padding: 0 20px;
-        }
-        
-        .perfil-card {
-            background: white;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-        }
-        
-        .perfil-header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .perfil-avatar {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, #e0b84c, #c49a3a);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 15px;
-            font-size: 32px;
-            color: white;
-            font-weight: bold;
-        }
-        
-        .perfil-info {
-            margin-bottom: 30px;
-        }
-        
-        .info-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 12px 0;
-            border-bottom: 1px solid #f5f5f5;
-        }
-        
-        .info-label {
-            font-weight: 600;
-            color: #555;
-        }
-        
-        .info-value {
-            color: #333;
-        }
-        
-        .perfil-actions {
-            display: grid;
-            gap: 15px;
-        }
-        
-        .action-btn {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 15px 20px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            text-decoration: none;
-            color: #333;
-            transition: all 0.3s ease;
-            background: white;
-        }
-        
-        .action-btn:hover {
-            background: #f8f9fa;
-            border-color: #e0b84c;
-            transform: translateY(-2px);
-        }
-        
-        .action-icon {
-            font-size: 20px;
-            margin-right: 15px;
-        }
-        
-        .action-text {
-            flex: 1;
-        }
-        
-        .action-title {
-            font-weight: 600;
-            margin-bottom: 4px;
-        }
-        
-        .action-desc {
-            font-size: 14px;
-            color: #666;
-        }
-        
-        .action-arrow {
-            color: #999;
-            font-size: 18px;
-        }
-        .btn-primary {
-            background: #a56300;
-            padding: 12px 24px;
-            border-radius: 8px;
-            color: white;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.18s ease, transform 0.06s ease;
-            text-decoration: none;
-            display: inline-block;
-            margin: 5px;
-        }
-    </style>
+    <link rel="stylesheet" href="../css/perfil.css">
+
 </head>
+
 <body>
     <header>
       <div class="marquee-wrapper">
         <h1 class="marquee-text">
-          -- 🏠 🏡 -- Erbienbi - El Hospedaje que Buscas, al Mejor Precio -- 🏡
-          🏠 --
+          -- 🏠 🏡 -- Erbienbi - El Hospedaje que Buscas, al Mejor Precio -- 🏡 🏠 --
         </h1>
       </div>
     </header>
 
     <main class="perfil-container">
-        <a href="../index.html"><button type="button" class="btn btn-primary">Volver al Inicio</button></a>
+        <div class="form-links">
+            <a href="../index.html"><button type="button" class="btn btn-primary">Volver al Inicio</button></a>
+        </div>
         <div class="perfil-card">
             <div class="perfil-header">
                 <div class="perfil-avatar" id="avatar-inicial">
                     U
                 </div>
                 <h1 id="usuario-nombre">Cargando...</h1>
-                <p style="color: #666;">Miembro desde <span id="fecha-registro">-</span></p>
+                <p>Miembro desde <span id="fecha-registro">-</span></p>
             </div>
 
             <div class="perfil-info">
-                <h2 style="margin-bottom: 20px; color: #333;">Información Personal</h2>
+                <h2>Información Personal</h2>
                 <div class="info-item">
                     <span class="info-label">Nombre:</span>
                     <span class="info-value" id="info-nombre">-</span>
@@ -161,7 +50,7 @@
             </div>
 
             <div class="perfil-actions">
-                <h2 style="margin-bottom: 20px; color: #333;">Configuración de Cuenta</h2>
+                <h2>Configuración de Cuenta</h2>
                 
                 <a href="cambiar_contrasenia.html" class="action-btn">
                     <span class="action-icon">🔒</span>
@@ -190,7 +79,7 @@
                     <span class="action-arrow">›</span>
                 </a>
 
-                <button id="btn-eliminar-cuenta" class="action-btn" style="border-color: #dc3545; color: #dc3545;">
+                <button id="btn-eliminar-cuenta" class="action-btn-danger">
                     <span class="action-icon">🗑️</span>
                     <div class="action-text">
                         <div class="action-title">Eliminar Cuenta</div>

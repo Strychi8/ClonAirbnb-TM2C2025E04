@@ -85,7 +85,7 @@ document.addEventListener('DOMContentLoaded', function() {
     async function verificarToken(token) {
         // Mostrar estado de carga
         tokenStatusDiv.innerHTML = `
-            <div class="info-box">
+            <div class="info-box-password">
                 <h3>🔍 Verificando token...</h3>
                 <p>Validando el enlace de recuperación.</p>
             </div>
@@ -104,7 +104,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function mostrarExito() {
         tokenStatusDiv.innerHTML = `
-            <div class="info-box">
+            <div class="info-box-password">
                 <h3>✅ Token válido</h3>
                 <p>Tu enlace de recuperación es válido. Puedes proceder a cambiar tu contraseña.</p>
             </div>
@@ -118,7 +118,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <h3>❌ ${titulo}</h3>
                 <p>${descripcion}</p>
                 <p>
-                    <a href="recuperar_contrasenia.html" style="color: #0066cc; text-decoration: underline;">
+                    <a href="recuperar_contrasenia.html">
                         Solicita un nuevo enlace de recuperación
                     </a>
                 </p>

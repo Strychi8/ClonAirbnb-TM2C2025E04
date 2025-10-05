@@ -357,7 +357,7 @@ button:hover {
   background: #f9f6f2;
   border-radius: 12px;
   border: 1px solid #a36b1e;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   padding: 15px 20px;
   width: 320px;
   max-width: 95vw;
@@ -383,7 +383,6 @@ button:hover {
   margin-right: 32px; /* separa el botón de otros elementos */
 }
 
-
 /** Estilos del Filtrado de Tipo de Propiedad **/
 .tipo-propiedad-grid-inner {
   display: grid;
@@ -402,7 +401,7 @@ button:hover {
   background: #f9f6f2;
   border-radius: 12px;
   border: 1px solid #a36b1e;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   padding: 15px 20px;
   width: 320px;
   max-width: 95vw;
