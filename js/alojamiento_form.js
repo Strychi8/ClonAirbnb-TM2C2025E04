@@ -66,6 +66,11 @@ document.addEventListener('DOMContentLoaded', async () => {
           form.pais.value ||= f.pais || '';
         }
 
+        // ⚡ Prefill tipo de alojamiento
+        if (aloja.tipo_alojamiento) {
+          form.tipo_alojamiento.value = aloja.tipo_alojamiento;
+        }
+
         // Preview de imagen existente
         if (aloja.imagen_principal) {
           imagenPreview.src = `../${aloja.imagen_principal}`;
@@ -130,5 +135,3 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   });
 });
-
-

@@ -1,9 +1,96 @@
 document.addEventListener("DOMContentLoaded", () => {
   const minEl = document.getElementById('filtro-precio-min');
   const maxEl = document.getElementById('filtro-precio-max');
-  const zonaEl = document.getElementById('filtrar');
+  const zonaEl = document.getElementById('buscar-zona');
   const minLabel = document.getElementById('precio-min-label');
   const maxLabel = document.getElementById('precio-max-label');
+  
+
+  // Nuevo: Dropdown y chips para tipo de propiedad
+  const btnTipoPropiedad = document.getElementById('dropdown-btn-tipo-propiedad');
+  const listTipoPropiedad = document.getElementById('dropdown-tipo-propiedad-list');
+  const chipsTipoPropiedadContainer = document.getElementById('tipo-propiedad-chips');
+  const tipoPropiedadCount = document.getElementById('tipo-propiedad-count');
+  const clearTipoPropiedadBtn = document.getElementById('tipo-propiedad-clear'); // Boton "Borrar todo" para tipo de propiedad
+
+  if (btnTipoPropiedad && listTipoPropiedad) {
+    btnTipoPropiedad.addEventListener('click', function(e) {
+      e.stopPropagation();
+      listTipoPropiedad.style.display = listTipoPropiedad.style.display === 'none' ? 'block' : 'none';
+    });
+
+    document.addEventListener('click', function(e) {
+      if (!btnTipoPropiedad.contains(e.target) && !listTipoPropiedad.contains(e.target)) {
+        listTipoPropiedad.style.display = 'none';
+      }
+    });
+
+    listTipoPropiedad.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+      cb.addEventListener('change', function() {
+        const selectedTipo = Array.from(listTipoPropiedad.querySelectorAll('input[type="checkbox"]:checked')).map(cb => cb.value);
+        chipsTipoPropiedadContainer.innerHTML = '';
+        selectedTipo.forEach(tipo => {
+          chipsTipoPropiedadContainer.innerHTML += `<span style="background:#e0b84c;color:#fff;padding:4px 12px;border-radius:16px;font-size:14px;">${tipo}</span>`;
+        });
+        tipoPropiedadCount.textContent = selectedTipo.length ? `(${selectedTipo.length})` : '';
+        filtrar();
+      });
+    });
+
+    if (clearTipoPropiedadBtn) {
+      clearTipoPropiedadBtn.addEventListener('click', function() {
+        listTipoPropiedad.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+        chipsTipoPropiedadContainer.innerHTML = '';
+        tipoPropiedadCount.textContent = '';
+        filtrar();
+      });
+    }
+  }
+
+  // Dropdown y chips para servicios
+  const btnServicios = document.getElementById('dropdown-btn-servicios');
+  const listServicios = document.getElementById('dropdown-servicios-list');
+  const chipsContainer = document.getElementById('servicios-chips');
+  const serviciosCount = document.getElementById('servicios-count');
+  const clearBtn = document.getElementById('servicios-clear'); // Boton "Borrar todo" para servicios
+
+  if (btnServicios && listServicios) {
+    btnServicios.addEventListener('click', function(e) {
+      e.stopPropagation();
+      listServicios.style.display = listServicios.style.display === 'none' ? 'block' : 'none';
+    });
+
+    document.addEventListener('click', function(e) {
+      if (!btnServicios.contains(e.target) && !listServicios.contains(e.target)) {
+        listServicios.style.display = 'none';
+      }
+    });
+
+    // Listado para los checkboxes
+    listServicios.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+      cb.addEventListener('change', function() {
+        // Actualiza chips
+        const selected = Array.from(listServicios.querySelectorAll('input[type="checkbox"]:checked')).map(cb => cb.value);
+        chipsContainer.innerHTML = '';
+        selected.forEach(servicio => {
+          chipsContainer.innerHTML += `<span style="background:#e0b84c;color:#fff;padding:4px 12px;border-radius:16px;font-size:14px;">${servicio}</span>`;
+        });
+        // Actualiza contador
+        serviciosCount.textContent = selected.length ? `(${selected.length})` : '';
+        // Filtra resultados
+        filtrar();
+      });
+    });
+
+    if (clearBtn) {
+      clearBtn.addEventListener('click', function() {
+        listServicios.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+        chipsContainer.innerHTML = '';
+        serviciosCount.textContent = '';
+        filtrar();
+      });
+    }
+  }
 
   const formatMoney = (num) => (Number(num) || 0).toLocaleString('es-AR');
 
@@ -42,11 +129,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   async function loadBoundsAndInit() {
     try {
-      const zona = (zonaEl?.value || '').trim();
-      const url = zona
-        ? `backend/precio_bounds.php?zona=${encodeURIComponent(zona)}`
-        : `backend/precio_bounds.php`;
-      const res = await fetch(url);
+      // Usar bounds generales, no específicos de zona
+      const res = await fetch('backend/precio_bounds.php');
       const data = await res.json();
       const rawMin = Number(data.min) || 0;
       const rawMax = Number(data.max) || 0;
@@ -98,7 +182,8 @@ document.addEventListener("DOMContentLoaded", () => {
   if (zonaEl) {
     zonaEl.addEventListener('input', () => {
       clearTimeout(debounceId);
-      debounceId = setTimeout(() => loadBoundsAndInit(), 350);
+      // Solo filtrar, no cambiar los bounds del slider
+      debounceId = setTimeout(() => filtrar(), 350);
     });
   }
 
@@ -116,23 +201,34 @@ function cargarAlojamientos() {
 function filtrar() {
   const min = parseInt(document.getElementById('filtro-precio-min').value, 10);
   const max = parseInt(document.getElementById('filtro-precio-max').value, 10);
-  const zona = document.getElementById('filtrar').value.trim();
+  const zona = document.getElementById('buscar-zona').value.trim();
 
-  // Validación básica
+  // Servicios seleccionados
+  const selected = Array.from(document.querySelectorAll('#dropdown-servicios-list input[type="checkbox"]:checked')).map(cb => cb.value);
+  let servicios = selected.join(',');
+
+  // Tipos de propiedad seleccionados
+  const selectedTipo = Array.from(document.querySelectorAll('#dropdown-tipo-propiedad-list input[type="checkbox"]:checked')).map(cb => cb.value);
+  let tipo = selectedTipo.join(',');
   
-  if (min < 0 || max < 0 || min > max) {
-    // Si el rango quedó inválido por cualquier razón, no alertar, solo no enviar
-    return;
-  }
+  if (min < 0 || max < 0 || min > max) return;
 
   let url;
 
-  // Decide qué archivo PHP usar según los filtros
-  if (zona) {
-    // Si hay una zona especificada, usa filtrar_zona.php
+  // Si hay servicios, zona y tipo de propiedad seleccionados
+  if (servicios && zona && tipo) {
+    url = `backend/filtrar_servicios.php?min=${min}&max=${max}&servicios=${encodeURIComponent(servicios)}&zona=${encodeURIComponent(zona)}&tipo_propiedad=${encodeURIComponent(tipo)}`;
+  } else if (servicios && tipo) {
+    url = `backend/filtrar_servicios.php?min=${min}&max=${max}&servicios=${encodeURIComponent(servicios)}&tipo_propiedad=${encodeURIComponent(tipo)}`;
+  } else if (servicios && zona) {
+    url = `backend/filtrar_servicios.php?min=${min}&max=${max}&servicios=${encodeURIComponent(servicios)}&zona=${encodeURIComponent(zona)}`;
+  } else if (servicios) {
+    url = `backend/filtrar_servicios.php?min=${min}&max=${max}&servicios=${encodeURIComponent(servicios)}`;
+  } else if (tipo) {
+    url = `backend/filtrar_tipo_propiedad.php?min=${min}&max=${max}&tipo_propiedad=${encodeURIComponent(tipo)}`;
+  } else if (zona) {
     url = `backend/filtrar_zona.php?min=${min}&max=${max}&zona=${encodeURIComponent(zona)}`;
   } else {
-    // Si no hay zona, usa filtrar_precio.php
     url = `backend/filtrar_precio.php?min=${min}&max=${max}`;
   }
 
@@ -168,3 +264,53 @@ function mostrarAlojamientos(data) {
     `;
   });
 }
+
+// Manejo del menú de usuario y autenticación
+function inicializarMenuUsuario() {
+  const usuarioLogueado = JSON.parse(localStorage.getItem('usuarioLogueado'));
+  const loginButtons = document.getElementById('login-buttons');
+  const userMenu = document.getElementById('user-menu');
+  const userName = document.getElementById('user-name');
+  const userDropdownBtn = document.getElementById('user-dropdown-btn');
+  const userDropdown = document.getElementById('user-dropdown');
+  const logoutBtn = document.getElementById('logout-btn');
+
+  if (usuarioLogueado) {
+    // Usuario logueado - mostrar menú de usuario
+    if (loginButtons) loginButtons.style.display = 'none';
+    if (userMenu) userMenu.style.display = 'flex';
+    if (userName) userName.textContent = usuarioLogueado.nombre;
+
+    // Manejar dropdown del menú de usuario
+    if (userDropdownBtn && userDropdown) {
+      userDropdownBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        userDropdown.style.display = userDropdown.style.display === 'none' ? 'block' : 'none';
+      });
+
+      // Cerrar dropdown al hacer clic fuera
+      document.addEventListener('click', function(e) {
+        if (!userDropdownBtn.contains(e.target) && !userDropdown.contains(e.target)) {
+          userDropdown.style.display = 'none';
+        }
+      });
+    }
+
+    // Manejar logout
+    if (logoutBtn) {
+      logoutBtn.addEventListener('click', function() {
+        if (confirm('¿Estás seguro de que deseas cerrar sesión?')) {
+          localStorage.removeItem('usuarioLogueado');
+          window.location.reload();
+        }
+      });
+    }
+  } else {
+    // Usuario no logueado - mostrar botones de login
+    if (loginButtons) loginButtons.style.display = 'flex';
+    if (userMenu) userMenu.style.display = 'none';
+  }
+}
+
+// Inicializar el menú de usuario cuando la página se carga
+document.addEventListener("DOMContentLoaded", inicializarMenuUsuario);
