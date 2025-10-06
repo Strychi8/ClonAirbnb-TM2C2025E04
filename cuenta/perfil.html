@@ -26,15 +26,20 @@
         </div>
         <div class="perfil-card">
             <div class="perfil-header">
-                <div class="perfil-avatar" id="avatar-inicial">
-                    U
+                <div class="perfil-avatar-container">
+                    <img id="foto-perfil-img" class="perfil-foto" src="" alt="Foto de perfil" style="display: none;">
+                    <div class="perfil-avatar" id="avatar-inicial">U</div>
                 </div>
                 <h1 id="usuario-nombre">Cargando...</h1>
                 <p>Miembro desde <span id="fecha-registro">-</span></p>
             </div>
 
-            <div class="perfil-info">
-                <h2>Información Personal</h2>
+            <!-- Vista de Solo Lectura -->
+            <div class="perfil-info" id="perfil-view">
+                <div class="info-header">
+                    <h2>Información Personal</h2>
+                    <button type="button" class="btn-editar" id="btn-editar">✏️ Editar Perfil</button>
+                </div>
                 <div class="info-item">
                     <span class="info-label">Nombre:</span>
                     <span class="info-value" id="info-nombre">-</span>
@@ -44,9 +49,60 @@
                     <span class="info-value" id="info-email">-</span>
                 </div>
                 <div class="info-item">
+                    <span class="info-label">Teléfono:</span>
+                    <span class="info-value" id="info-telefono">No especificado</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Dirección:</span>
+                    <span class="info-value" id="info-direccion">No especificada</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Número de Identidad:</span>
+                    <span class="info-value" id="info-numero-identidad">No especificado</span>
+                </div>
+                <div class="info-item">
                     <span class="info-label">Fecha de registro:</span>
                     <span class="info-value" id="info-fecha">-</span>
                 </div>
+            </div>
+
+            <!-- Formulario de Edición -->
+            <div class="perfil-edit" id="perfil-edit" style="display: none;">
+                <div class="info-header">
+                    <h2>Editar Información Personal</h2>
+                </div>
+                <form id="form-editar-perfil" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="edit-nombre">Nombre *</label>
+                        <input type="text" id="edit-nombre" name="nombre" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="edit-telefono">Teléfono</label>
+                        <input type="tel" id="edit-telefono" name="telefono" class="form-control" placeholder="+54 9 11 1234-5678">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="edit-direccion">Dirección</label>
+                        <input type="text" id="edit-direccion" name="direccion" class="form-control" placeholder="Calle, Número, Ciudad, Provincia">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="edit-numero-identidad">Número de Identidad (DNI/Pasaporte)</label>
+                        <input type="text" id="edit-numero-identidad" name="numero_identidad" class="form-control" placeholder="12345678">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="edit-foto-perfil">Foto de Perfil</label>
+                        <input type="file" id="edit-foto-perfil" name="foto_perfil" class="form-control" accept="image/*">
+                        <small class="form-text">Formatos: JPG, PNG, GIF, WEBP. Tamaño máximo: 5MB</small>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">💾 Guardar Cambios</button>
+                        <button type="button" class="btn btn-secondary" id="btn-cancelar">❌ Cancelar</button>
+                    </div>
+                </form>
             </div>
 
             <div class="perfil-actions">

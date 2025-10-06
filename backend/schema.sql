@@ -6,6 +6,10 @@ CREATE TABLE usuarios (
     nombre VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL UNIQUE,
     contrasenia VARCHAR(255) NOT NULL,
+    telefono VARCHAR(20),
+    foto_perfil VARCHAR(200),
+    direccion VARCHAR(255),
+    numero_identidad VARCHAR(50),
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -88,3 +92,9 @@ ALTER TABLE alojamientos ADD COLUMN IF NOT EXISTS tipo_alojamiento VARCHAR(25) N
 -- Add foreign key constraint for usuario_id if it doesn't exist
 -- Note: This will need to be run manually if there are existing alojamientos without usuario_id
 -- ALTER TABLE alojamientos ADD CONSTRAINT fk_alojamientos_usuario FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- Migración para agregar campos de perfil a usuarios (ejecutar si ya existe la tabla)
+ALTER TABLE usuarios ADD COLUMN IF NOT EXISTS telefono VARCHAR(20) NULL AFTER contrasenia;
+ALTER TABLE usuarios ADD COLUMN IF NOT EXISTS foto_perfil VARCHAR(200) NULL AFTER telefono;
+ALTER TABLE usuarios ADD COLUMN IF NOT EXISTS direccion VARCHAR(255) NULL AFTER foto_perfil;
+ALTER TABLE usuarios ADD COLUMN IF NOT EXISTS numero_identidad VARCHAR(50) NULL AFTER direccion;
