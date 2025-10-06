@@ -32,16 +32,21 @@ CREATE TABLE alojamientos (
 
 CREATE TABLE reservas (
     id INT AUTO_INCREMENT PRIMARY KEY,
+    alojamiento_id INT NOT NULL,
+    usuario_id INT,
     nombre VARCHAR(100) NOT NULL,
     apellido VARCHAR(100) NOT NULL,
-    email VARCHAR(100) NOT NULL UNIQUE,
+    email VARCHAR(100) NOT NULL,
     telefono VARCHAR(10),
     fecha_inicio DATE NOT NULL,
     fecha_fin DATE NOT NULL,
     cantidad_personas INT NOT NULL,
     precio_noche DECIMAL(10,2) NOT NULL,
     precio_total DECIMAL(10,2) NOT NULL,
-    fecha_reserva TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    metodo_pago VARCHAR(50),
+    fecha_reserva TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (alojamiento_id) REFERENCES alojamientos(id) ON DELETE RESTRICT ON UPDATE CASCADE,
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE SET NULL ON UPDATE CASCADE
 );
 
 CREATE TABLE alojamiento_imagenes (

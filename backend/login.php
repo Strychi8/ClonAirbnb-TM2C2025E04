@@ -18,7 +18,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['user_name'] = $user['nombre'];
             $_SESSION['logged_in'] = true;
 
-            header("Location: ../index.html");
+            // Check if there's a redirect URL stored
+            $redirect_url = $_POST['redirect_url'] ?? $_SESSION['redirect_after_login'] ?? '../index.html';
+            unset($_SESSION['redirect_after_login']); // Clear the redirect URL
+            
+            header("Location: " . $redirect_url);
             exit();
         } else {
             echo "Email o contraseña incorrectos.";

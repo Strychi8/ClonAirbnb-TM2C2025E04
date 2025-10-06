@@ -7,6 +7,20 @@ header('X-Frame-Options: DENY');
 header('X-Content-Type-Options: nosniff');
 header('Referrer-Policy: no-referrer');
 
+// Start session to check authentication
+session_start();
+
+// Check if user is logged in
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+    // Store the current URL to redirect back after login
+    $current_url = $_SERVER['REQUEST_URI'];
+    $_SESSION['redirect_after_login'] = $current_url;
+    
+    http_response_code(401);
+    echo "<h2>Acceso requerido</h2><p>Debe iniciar sesión para realizar una reserva.</p>";
+    echo '<p><a href="../autenticacion/signin.html">Iniciar Sesión</a> | <a href="../autenticacion/signup.html">Registrarse</a></p>';
+    exit;
+}
 
 try {
     require_once __DIR__ . '/db.php';
@@ -101,13 +115,14 @@ try {
     $pdo->beginTransaction();
 
     $sql = "INSERT INTO reservas 
-        (alojamiento_id, nombre, apellido, email, telefono, fecha_inicio, fecha_fin, cantidad_personas, precio_noche, precio_total, metodo_pago)
+        (alojamiento_id, usuario_id, nombre, apellido, email, telefono, fecha_inicio, fecha_fin, cantidad_personas, precio_noche, precio_total, metodo_pago)
         VALUES
-        (:aloj, :nom, :ape, :email, :tel, :fi, :ff, :cant, :precio_noche, :precio_total, :metodo)";
+        (:aloj, :usuario_id, :nom, :ape, :email, :tel, :fi, :ff, :cant, :precio_noche, :precio_total, :metodo)";
 
     $stmt = $pdo->prepare($sql);
     $stmt->execute([
         ':aloj'         => $alojamiento_id,
+        ':usuario_id'   => $_SESSION['user_id'],
         ':nom'          => $nombre,
         ':ape'          => $apellido,
         ':email'        => $email,
