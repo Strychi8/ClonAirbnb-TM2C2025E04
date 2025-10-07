@@ -57,7 +57,7 @@ try {
     $tipoWhere = [];
     foreach ($tipos as $i => $tipo) {
       $key = ":tipo_propiedad$i";
-      $tipoWhere[] = "nombre LIKE $key";
+      $tipoWhere[] = "tipo_alojamiento LIKE $key";
       $params[$key] = "%$tipo%";
     }
     $where[] = '(' . implode(' OR ', $tipoWhere) . ')';
@@ -67,7 +67,7 @@ try {
 
   $sql = "SELECT id, nombre, descripcion, precio_noche, direccion,
                  calle, altura, localidad, codigo_postal, provincia, pais,
-                 servicios, imagen_principal
+                 servicios, tipo_alojamiento, imagen_principal
           FROM alojamientos
           WHERE $whereSql
             AND precio_noche BETWEEN :min AND :max";

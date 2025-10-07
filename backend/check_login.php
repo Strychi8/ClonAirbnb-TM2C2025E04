@@ -13,7 +13,7 @@ if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
         
         if ($usuario) {
             // Use nombre_completo if available, otherwise fall back to nombre
-            $displayName = $usuario['nombre_completo'] ?: $usuario['nombre'];
+            $displayName =  $usuario['nombre'];
             
             echo json_encode([
                 'logged_in' => true,

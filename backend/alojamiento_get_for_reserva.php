@@ -34,6 +34,7 @@ try {
     $stmt = $pdo->prepare("
         SELECT 
             id,
+            usuario_id,
             nombre,
             descripcion,
             precio_noche,
@@ -76,6 +77,7 @@ try {
     // Preparar respuesta
     $response = [
         'id' => (int)$alojamiento['id'],
+        'usuario_id' => (int)$alojamiento['usuario_id'],
         'nombre' => $alojamiento['nombre'],
         'descripcion' => $alojamiento['descripcion'],
         'precio_noche' => (float)$alojamiento['precio_noche'],

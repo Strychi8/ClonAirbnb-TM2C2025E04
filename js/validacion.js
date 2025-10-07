@@ -109,6 +109,21 @@
         throw new Error(data.error);
       }
       
+      // Check if user is trying to book their own property
+      const sessionResponse = await fetch('../backend/check_login.php');
+      const sessionData = await sessionResponse.json();
+      
+      if (sessionData.logged_in && data.usuario_id && sessionData.user_id === data.usuario_id) {
+        document.body.innerHTML = `
+          <div style="max-width: 600px; margin: 100px auto; text-align: center; padding: 20px; font-family: Arial, sans-serif;">
+            <h2 style="color: #e5534b;">❌ No puedes reservar tu propio alojamiento</h2>
+            <p style="color: #666; margin: 20px 0;">Este alojamiento te pertenece. No es posible hacer una reserva en tu propia propiedad.</p>
+            <a href="../index.html" style="display: inline-block; margin-top: 20px; padding: 10px 20px; background: #2ea44f; color: white; text-decoration: none; border-radius: 6px;">Volver al Inicio</a>
+          </div>
+        `;
+        return;
+      }
+      
       // Display accommodation information
       displayAccommodationInfo(data);
       

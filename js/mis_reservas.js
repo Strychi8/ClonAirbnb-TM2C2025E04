@@ -99,6 +99,7 @@ function displayReservations(reservations) {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2
     });
+    
       
     return `
       <tr data-reservation-id="${reservation.id}">
@@ -127,8 +128,6 @@ function displayReservations(reservations) {
         </td>
         <td>
           <strong>$ ${precioFmt}</strong>
-          <br>
-          <small style="color: #666;">${reservation.metodo_pago || 'N/A'}</small>
         </td>
         <td>
           <span class="estado-badge ${estadoClass}">${estadoBadge}</span>
