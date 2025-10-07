@@ -41,8 +41,12 @@
                     <button type="button" class="btn-editar" id="btn-editar">✏️ Editar Perfil</button>
                 </div>
                 <div class="info-item">
-                    <span class="info-label">Nombre:</span>
+                    <span class="info-label">Nombre de Usuario:</span>
                     <span class="info-value" id="info-nombre">-</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Nombre Completo:</span>
+                    <span class="info-value" id="info-nombre-completo">No especificado</span>
                 </div>
                 <div class="info-item">
                     <span class="info-label">Email:</span>
@@ -73,8 +77,15 @@
                 </div>
                 <form id="form-editar-perfil" enctype="multipart/form-data">
                     <div class="form-group">
-                        <label for="edit-nombre">Nombre *</label>
+                        <label for="edit-nombre">Nombre de Usuario *</label>
                         <input type="text" id="edit-nombre" name="nombre" class="form-control" required>
+                        <small class="form-text">Este es tu nombre de usuario interno</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="edit-nombre-completo">Nombre Completo</label>
+                        <input type="text" id="edit-nombre-completo" name="nombre_completo" class="form-control" placeholder="Ej: Juan Pérez García">
+                        <small class="form-text">Este nombre se mostrará en tu perfil y reservas</small>
                     </div>
                     
                     <div class="form-group">

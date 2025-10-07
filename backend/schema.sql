@@ -4,6 +4,7 @@ USE erbienbi;
 CREATE TABLE usuarios (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(255) NOT NULL,
+    nombre_completo VARCHAR(255),
     email VARCHAR(255) NOT NULL UNIQUE,
     contrasenia VARCHAR(255) NOT NULL,
     telefono VARCHAR(20),
@@ -39,7 +40,7 @@ CREATE TABLE reservas (
     alojamiento_id INT NOT NULL,
     usuario_id INT,
     nombre VARCHAR(100) NOT NULL,
-    apellido VARCHAR(100) NOT NULL,
+    apellido VARCHAR(100),
     email VARCHAR(100) NOT NULL,
     telefono VARCHAR(10),
     fecha_inicio DATE NOT NULL,
@@ -94,7 +95,11 @@ ALTER TABLE alojamientos ADD COLUMN IF NOT EXISTS tipo_alojamiento VARCHAR(25) N
 -- ALTER TABLE alojamientos ADD CONSTRAINT fk_alojamientos_usuario FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- Migración para agregar campos de perfil a usuarios (ejecutar si ya existe la tabla)
+ALTER TABLE usuarios ADD COLUMN IF NOT EXISTS nombre_completo VARCHAR(255) NULL AFTER nombre;
 ALTER TABLE usuarios ADD COLUMN IF NOT EXISTS telefono VARCHAR(20) NULL AFTER contrasenia;
 ALTER TABLE usuarios ADD COLUMN IF NOT EXISTS foto_perfil VARCHAR(200) NULL AFTER telefono;
 ALTER TABLE usuarios ADD COLUMN IF NOT EXISTS direccion VARCHAR(255) NULL AFTER foto_perfil;
 ALTER TABLE usuarios ADD COLUMN IF NOT EXISTS numero_identidad VARCHAR(50) NULL AFTER direccion;
+
+-- Migración para hacer apellido opcional en reservas (ejecutar si ya existe la tabla)
+ALTER TABLE reservas MODIFY COLUMN apellido VARCHAR(100) NULL;

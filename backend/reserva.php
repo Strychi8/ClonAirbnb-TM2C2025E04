@@ -66,7 +66,7 @@ $numeroTarjetaRaw = (string)($_POST['numeroTarjeta'] ?? ''); // NO se guarda
 $errores = [];
 if ($alojamiento_id <= 0)          $errores[] = "Alojamiento inválido.";
 if ($nombre === '')                 $errores[] = "Nombre requerido.";
-if ($apellido === '')               $errores[] = "Apellido requerido.";
+// Apellido is now optional
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) $errores[] = "Email inválido.";
 if ($telefono === '' || strlen($telefono) < 10) $errores[] = "Teléfono inválido.";
 if ($cantPersonas < 1)              $errores[] = "Cantidad de personas inválida.";

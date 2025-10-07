@@ -37,6 +37,7 @@ try {
     
     // Obtener datos del formulario
     $nombre = trim((string)($_POST['nombre'] ?? ''));
+    $nombreCompleto = trim((string)($_POST['nombre_completo'] ?? ''));
     $telefono = trim((string)($_POST['telefono'] ?? ''));
     $direccion = trim((string)($_POST['direccion'] ?? ''));
     $numeroIdentidad = trim((string)($_POST['numero_identidad'] ?? ''));
@@ -51,6 +52,7 @@ try {
     $params = [
         ':id' => $usuarioId,
         ':nombre' => $nombre,
+        ':nombre_completo' => $nombreCompleto,
         ':telefono' => $telefono,
         ':direccion' => $direccion,
         ':numero_identidad' => $numeroIdentidad
@@ -88,6 +90,7 @@ try {
     // Actualizar perfil
     $sql = "UPDATE usuarios
             SET nombre = :nombre,
+                nombre_completo = :nombre_completo,
                 telefono = :telefono,
                 direccion = :direccion,
                 numero_identidad = :numero_identidad
@@ -99,7 +102,7 @@ try {
     
     if ($resultado) {
         // Obtener datos actualizados
-        $userStmt = $pdo->prepare('SELECT id, nombre, email, telefono, foto_perfil, direccion, numero_identidad, created_at FROM usuarios WHERE id = ?');
+        $userStmt = $pdo->prepare('SELECT id, nombre, nombre_completo, email, telefono, foto_perfil, direccion, numero_identidad, created_at FROM usuarios WHERE id = ?');
         $userStmt->execute([$usuarioId]);
         $usuario = $userStmt->fetch(PDO::FETCH_ASSOC);
         

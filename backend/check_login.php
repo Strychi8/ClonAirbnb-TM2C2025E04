@@ -7,14 +7,18 @@ if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
     require_once __DIR__ . '/db.php';
     
     try {
-        $stmt = $pdo->prepare('SELECT id, nombre, email, telefono, foto_perfil, direccion, numero_identidad, created_at FROM usuarios WHERE id = ?');
+        $stmt = $pdo->prepare('SELECT id, nombre, nombre_completo, email, telefono, foto_perfil, direccion, numero_identidad, created_at FROM usuarios WHERE id = ?');
         $stmt->execute([$_SESSION['user_id']]);
         $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
         
         if ($usuario) {
+            // Use nombre_completo if available, otherwise fall back to nombre
+            $displayName = $usuario['nombre_completo'] ?: $usuario['nombre'];
+            
             echo json_encode([
                 'logged_in' => true,
-                'user_name' => $usuario['nombre'],
+                'user_name' => $displayName,
+                'nombre_completo' => $usuario['nombre_completo'],
                 'user_id' => $usuario['id'],
                 'user_email' => $usuario['email'],
                 'telefono' => $usuario['telefono'],

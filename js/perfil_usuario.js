@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const usuarioLogueado = {
                 id: data.user_id,
                 nombre: data.user_name,
+                nombre_completo: data.nombre_completo || '',
                 email: data.user_email || '',
                 telefono: data.telefono || '',
                 foto_perfil: data.foto_perfil || '',
@@ -99,6 +100,7 @@ function cargarInfoUsuario(usuario) {
     // Actualizar nombre del usuario
     const nombreElement = document.getElementById('usuario-nombre');
     const infoNombreElement = document.getElementById('info-nombre');
+    const infoNombreCompletoElement = document.getElementById('info-nombre-completo');
     const infoEmailElement = document.getElementById('info-email');
     const infoTelefonoElement = document.getElementById('info-telefono');
     const infoDireccionElement = document.getElementById('info-direccion');
@@ -108,8 +110,12 @@ function cargarInfoUsuario(usuario) {
     const avatarElement = document.getElementById('avatar-inicial');
     const fotoPerfilImg = document.getElementById('foto-perfil-img');
 
-    if (nombreElement) nombreElement.textContent = usuario.nombre;
+    // Display nombre_completo if available, otherwise use nombre
+    const displayName = usuario.nombre_completo || usuario.nombre;
+    
+    if (nombreElement) nombreElement.textContent = displayName;
     if (infoNombreElement) infoNombreElement.textContent = usuario.nombre;
+    if (infoNombreCompletoElement) infoNombreCompletoElement.textContent = usuario.nombre_completo || 'No especificado';
     if (infoEmailElement) infoEmailElement.textContent = usuario.email;
     if (infoTelefonoElement) infoTelefonoElement.textContent = usuario.telefono || 'No especificado';
     if (infoDireccionElement) infoDireccionElement.textContent = usuario.direccion || 'No especificada';
@@ -149,11 +155,13 @@ function mostrarFormularioEdicion(usuario) {
     
     // Cargar datos actuales en el formulario
     const editNombre = document.getElementById('edit-nombre');
+    const editNombreCompleto = document.getElementById('edit-nombre-completo');
     const editTelefono = document.getElementById('edit-telefono');
     const editDireccion = document.getElementById('edit-direccion');
     const editNumeroIdentidad = document.getElementById('edit-numero-identidad');
     
     if (editNombre) editNombre.value = usuario.nombre || '';
+    if (editNombreCompleto) editNombreCompleto.value = usuario.nombre_completo || '';
     if (editTelefono) editTelefono.value = usuario.telefono || '';
     if (editDireccion) editDireccion.value = usuario.direccion || '';
     if (editNumeroIdentidad) editNumeroIdentidad.value = usuario.numero_identidad || '';
@@ -185,6 +193,7 @@ async function guardarCambiosPerfil(usuario) {
             
             // Actualizar objeto usuario con los nuevos datos
             usuario.nombre = data.usuario.nombre;
+            usuario.nombre_completo = data.usuario.nombre_completo;
             usuario.telefono = data.usuario.telefono;
             usuario.direccion = data.usuario.direccion;
             usuario.numero_identidad = data.usuario.numero_identidad;

@@ -31,11 +31,68 @@
     alojamientoIdField.value = alojamientoId;
   }
 
+  // Load user data and fill form fields
+  loadUserData();
+
   // Fetch accommodation data from database
   fetchAccommodationData(alojamientoId);
 
   let fechasOcupadas = []; // Array de strings YYYY-MM-DD
   let fpInicio, fpFin;
+  let precioPorNoche = 0; // Variable to store accommodation price per night
+
+  // Function to load user data from the usuarios table
+  // This fetches the current logged-in user's data directly from the database
+  async function loadUserData() {
+    try {
+      const response = await fetch('../backend/check_login.php');
+      const data = await response.json();
+      
+      if (data.logged_in) {
+        // Fill form fields with user data from usuarios table
+        const nombreField = document.getElementById('nombre');
+        const apellidoField = document.getElementById('apellido');
+        const emailField = document.getElementById('email');
+        const telefonoField = document.getElementById('telefono');
+        
+        if (nombreField) {
+          // Use full name
+          const fullName = data.user_name || '';
+          nombreField.value = fullName;
+          
+          // Set apellido to empty string (hidden field for database compatibility)
+          if (apellidoField) apellidoField.value = '';
+        }
+        
+        if (emailField) {
+          emailField.value = data.user_email || '';
+        }
+        
+        if (telefonoField) {
+          if (data.telefono && data.telefono.trim() !== '') {
+            telefonoField.value = data.telefono;
+          } else {
+            // If no phone number, make it editable
+            telefonoField.removeAttribute('readonly');
+            telefonoField.style.backgroundColor = '#fff';
+            telefonoField.style.cursor = 'text';
+            telefonoField.placeholder = 'Ingresa tu teléfono (ej: 1145678901)';
+            telefonoField.value = '';
+            
+            // Update help text
+            const helpText = telefonoField.nextElementSibling;
+            if (helpText && helpText.tagName === 'SMALL') {
+              helpText.innerHTML = 'Por favor, ingresa tu número de teléfono o <a href="../cuenta/perfil.html" style="color: #2ea44f; text-decoration: underline;">actualiza tu perfil</a>';
+              helpText.style.color = '#e0b84c';
+              helpText.style.fontWeight = '600';
+            }
+          }
+        }
+      }
+    } catch (error) {
+      console.error('Error loading user data:', error);
+    }
+  }
 
   // Function to fetch accommodation data from database
   async function fetchAccommodationData(alojamientoId) {
@@ -55,17 +112,20 @@
       // Display accommodation information
       displayAccommodationInfo(data);
       
+      // Store price in variable for calculations
+      precioPorNoche = parseFloat(data.precio_noche) || 0;
+      
       // Set price in form
       if (precioNocheField) {
-        precioNocheField.value = data.precio_noche > 0
-          ? "$ " + data.precio_noche.toLocaleString("es-AR")
+        precioNocheField.value = precioPorNoche > 0
+          ? "$ " + precioPorNoche.toLocaleString("es-AR")
           : "No disponible";
       }
       
       // Set price in hidden field for form submission
       const precioNocheNumField = document.getElementById("precio_noche_num");
       if (precioNocheNumField) {
-        precioNocheNumField.value = data.precio_noche;
+        precioNocheNumField.value = precioPorNoche;
       }
       
     } catch (error) {
@@ -224,10 +284,12 @@
   // Cantidad de personas
   if (cantidadPersonasField) cantidadPersonasField.addEventListener("input", calcularPrecio);
 
-  // Teléfono
+  // Teléfono - Only allow input if field is editable
   if (telefono) {
     telefono.addEventListener("input", function () {
-      this.value = this.value.replace(/[^0-9]/g, "");
+      if (!this.hasAttribute('readonly')) {
+        this.value = this.value.replace(/[^0-9]/g, "");
+      }
     });
   }
 
