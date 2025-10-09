@@ -1,13 +1,21 @@
 CREATE DATABASE `erbienbi`;
 USE `erbienbi`;
-CREATE TABLE `alojamiento_imagenes` (
+
+CREATE TABLE `usuarios` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `alojamiento_id` int(11) NOT NULL,
-  `ruta_imagen` varchar(200) NOT NULL,
+  `nombre` varchar(255) NOT NULL,
+  `nombre_completo` varchar(255) DEFAULT NULL,
+  `email` varchar(255) NOT NULL,
+  `contrasenia` varchar(255) NOT NULL,
+  `telefono` varchar(20) DEFAULT NULL,
+  `foto_perfil` varchar(200) DEFAULT NULL,
+  `direccion` varchar(255) DEFAULT NULL,
+  `numero_identidad` varchar(50) DEFAULT NULL,
+  `created_at` datetime DEFAULT current_timestamp(),
   PRIMARY KEY (`id`),
-  KEY `alojamiento_id` (`alojamiento_id`),
-  CONSTRAINT `alojamiento _imagenes_ibfk_1` FOREIGN KEY (`alojamiento_id`) REFERENCES `alojamientos` (`id`) ON DELETE CASCADE
+  UNIQUE KEY `email` (`email`)
 );
+
 CREATE TABLE `alojamientos` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `usuario_id` int(11) DEFAULT NULL,
@@ -24,13 +32,24 @@ CREATE TABLE `alojamientos` (
   `pais` varchar(100) DEFAULT NULL,
   `servicios` text DEFAULT NULL,
   `tipo_alojamiento` varchar(25) DEFAULT NULL,
-  `tipo_propiedad` varchar(25) DEFAULT NULL,
+  `tipo_propiedad` varchar(25) DEFAULT NULL,     -- Esta linea esta de mas, es la misma que "tipo_alojamiento"
   `imagen_principal` varchar(200) DEFAULT NULL,
   `fecha_alta` timestamp NOT NULL DEFAULT current_timestamp(),
+  `activo` tinyint(1) DEFAULT '1'
   PRIMARY KEY (`id`),
   KEY `fk_alojamientos_usuario` (`usuario_id`),
   CONSTRAINT `fk_alojamientos_usuario` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON UPDATE CASCADE
 );
+
+CREATE TABLE `alojamiento_imagenes` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `alojamiento_id` int(11) NOT NULL,
+  `ruta_imagen` varchar(200) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `alojamiento_id` (`alojamiento_id`),
+  CONSTRAINT `alojamiento _imagenes_ibfk_1` FOREIGN KEY (`alojamiento_id`) REFERENCES `alojamientos` (`id`) ON DELETE CASCADE
+);
+
 CREATE TABLE `password_reset_tokens` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `usuario_id` int(11) NOT NULL,
@@ -44,6 +63,7 @@ CREATE TABLE `password_reset_tokens` (
   KEY `idx_expiracion` (`expiracion`),
   CONSTRAINT `password_reset_tokens_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE
 );
+
 CREATE TABLE `reservas` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `alojamiento_id` int(11) NOT NULL,
@@ -63,17 +83,4 @@ CREATE TABLE `reservas` (
   KEY `ix_reservas_aloj_fechas` (`alojamiento_id`, `fecha_inicio`, `fecha_fin`),
   CONSTRAINT `fk_reservas_alojamiento` FOREIGN KEY (`alojamiento_id`) REFERENCES `alojamientos` (`id`) ON UPDATE CASCADE
 );
-CREATE TABLE `usuarios` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nombre` varchar(255) NOT NULL,
-  `nombre_completo` varchar(255) DEFAULT NULL,
-  `email` varchar(255) NOT NULL,
-  `contrasenia` varchar(255) NOT NULL,
-  `telefono` varchar(20) DEFAULT NULL,
-  `foto_perfil` varchar(200) DEFAULT NULL,
-  `direccion` varchar(255) DEFAULT NULL,
-  `numero_identidad` varchar(50) DEFAULT NULL,
-  `created_at` datetime DEFAULT current_timestamp(),
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `email` (`email`)
-);
+
