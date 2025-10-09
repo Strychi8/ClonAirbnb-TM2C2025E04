@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  
+  <title>Erbienbi - Mis Reservas</title>
+  <link rel="stylesheet" href="../css/styles.css" />
+
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    .table-wrap { outline: 3px solid #222; padding: 4px; background: white; }
+    table.reservas { width: 100%; border-collapse: collapse; table-layout: fixed; }
+    col.col-photo { width: 150px; }
+    col.col-alojamiento { width: auto; }
+    col.col-fechas { width: 180px; }
+    col.col-personas { width: 100px; }
+    col.col-precio { width: 120px; }
+    col.col-estado { width: 120px; }
+    table.reservas th, table.reservas td { border: 1px solid #222; padding: 15px 10px; text-align: center; vertical-align: middle; background: #f0d9c0; }
+    table.reservas thead th { font-weight: bold; background: #e8cfae; }
+    .foto-cell img { display: block; margin: 0 auto; width: 120px; height: auto; border-radius: 4px; object-fit: cover; }
+    .estado-badge { display: inline-block; padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 600; }
+    .estado-activa { background-color: #28a745; color: white; }
+    .estado-proxima { background-color: #007bff; color: white; }
+    .estado-pasada { background-color: #6c757d; color: white; }
+    .no-data { padding: 24px; text-align: center; background: #f8efe6; }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="marquee-wrapper">
+      <h1 class="marquee-text">-- 🏠 🏡 -- Erbienbi - El Hospedaje que Buscas, al Mejor Precio -- 🏡 🏠 --</h1>
+    </div>
+  </header>
+
+  <main>
+    <section style="margin:24px auto 8px; padding:0 24px;">
+
+      <a href="../index.html"><button type="button" class="btn btn-primary">Volver</button></a>
+      <br><br>
+
+      <h2>Mis Reservas</h2>
+      <p style="color: #666; margin-bottom: 20px;">Aquí puedes ver todas tus reservas realizadas.</p>
+
+      <div class="table-wrap">
+        <table class="reservas">
+          <colgroup>
+            <col class="col-photo">
+            <col class="col-alojamiento">
+            <col class="col-fechas">
+            <col class="col-personas">
+            <col class="col-precio">
+            <col class="col-estado">
+          </colgroup>
+          <thead>
+            <tr>
+              <th>Foto</th>
+              <th>Alojamiento</th>
+              <th>Fechas</th>
+              <th>Personas</th>
+              <th>Precio Total</th>
+              <th>Estado</th>
+            </tr>
+          </thead>
+          <tbody id="tabla-body">
+            <!-- Se cargan dinámicamente -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <script src="../js/session_utils.js"></script>
+  <script src="../js/mis_reservas.js"></script>
+  <script src="../js/icono.js"></script>
+
+</body>
+</html>
+

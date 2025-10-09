@@ -7,6 +7,20 @@ header('X-Frame-Options: DENY');
 header('X-Content-Type-Options: nosniff');
 header('Referrer-Policy: no-referrer');
 
+// Start session to check authentication
+session_start();
+
+// Check if user is logged in
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+    // Store the current URL to redirect back after login
+    $current_url = $_SERVER['REQUEST_URI'];
+    $_SESSION['redirect_after_login'] = $current_url;
+    
+    http_response_code(401);
+    echo "<h2>Acceso requerido</h2><p>Debe iniciar sesión para realizar una reserva.</p>";
+    echo '<p><a href="../autenticacion/signin.html">Iniciar Sesión</a> | <a href="../autenticacion/signup.html">Registrarse</a></p>';
+    exit;
+}
 
 try {
     require_once __DIR__ . '/db.php';
@@ -52,7 +66,7 @@ $numeroTarjetaRaw = (string)($_POST['numeroTarjeta'] ?? ''); // NO se guarda
 $errores = [];
 if ($alojamiento_id <= 0)          $errores[] = "Alojamiento inválido.";
 if ($nombre === '')                 $errores[] = "Nombre requerido.";
-if ($apellido === '')               $errores[] = "Apellido requerido.";
+// Apellido is now optional
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) $errores[] = "Email inválido.";
 if ($telefono === '' || strlen($telefono) < 10) $errores[] = "Teléfono inválido.";
 if ($cantPersonas < 1)              $errores[] = "Cantidad de personas inválida.";
@@ -72,13 +86,18 @@ if (!$fi || !$ff) {
 
 // Confirmar precio_noche desde DB para evitar errores del cliente
 try {
-    $stmt = $pdo->prepare("SELECT precio_noche FROM alojamientos WHERE id = :id");
+    $stmt = $pdo->prepare("SELECT precio_noche, usuario_id FROM alojamientos WHERE id = :id");
     $stmt->execute([':id' => $alojamiento_id]);
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
     if (!$row) {
         $errores[] = "El alojamiento no existe.";
     } else {
         $precioOficial = (float)$row['precio_noche'];
+        
+        // Validar que el usuario no esté reservando su propio alojamiento
+        if (isset($_SESSION['user_id']) && (int)$row['usuario_id'] === (int)$_SESSION['user_id']) {
+            $errores[] = "No puedes reservar tu propio alojamiento.";
+        }
     }
 } catch (Throwable $e) {
     $errores[] = "Error consultando el alojamiento.";
@@ -101,13 +120,14 @@ try {
     $pdo->beginTransaction();
 
     $sql = "INSERT INTO reservas 
-        (alojamiento_id, nombre, apellido, email, telefono, fecha_inicio, fecha_fin, cantidad_personas, precio_noche, precio_total, metodo_pago)
+        (alojamiento_id, usuario_id, nombre, apellido, email, telefono, fecha_inicio, fecha_fin, cantidad_personas, precio_noche, precio_total, metodo_pago)
         VALUES
-        (:aloj, :nom, :ape, :email, :tel, :fi, :ff, :cant, :precio_noche, :precio_total, :metodo)";
+        (:aloj, :usuario_id, :nom, :ape, :email, :tel, :fi, :ff, :cant, :precio_noche, :precio_total, :metodo)";
 
     $stmt = $pdo->prepare($sql);
     $stmt->execute([
         ':aloj'         => $alojamiento_id,
+        ':usuario_id'   => $_SESSION['user_id'],
         ':nom'          => $nombre,
         ':ape'          => $apellido,
         ':email'        => $email,

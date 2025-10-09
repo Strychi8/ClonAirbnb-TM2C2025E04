@@ -9,7 +9,7 @@ try {
     throw new RuntimeException('No hay conexión PDO (revise db.php).');
   }
 
-  $sql = "SELECT id, nombre, descripcion, precio_noche, direccion, servicios, imagen_principal
+  $sql = "SELECT id, nombre, descripcion, precio_noche, direccion, servicios, tipo_alojamiento, imagen_principal
           FROM alojamientos
           ORDER BY id";
   $st = $pdo->query($sql);

@@ -57,6 +57,7 @@ try {
     $tipoWhere = [];
     foreach ($tipos as $i => $tipo) {
       $key = ":tipo_propiedad$i";
+      
       $tipoWhere[] = "tipo_propiedad LIKE $key";
       $params[$key] = "%$tipo%";
     }
@@ -72,6 +73,7 @@ $sql = "SELECT id, nombre, descripcion, precio_noche, direccion,
         WHERE $whereSql
           AND precio_noche BETWEEN :min AND :max
           AND activo = 1";
+
 
   $st = $pdo->prepare($sql);
   $st->execute($params);

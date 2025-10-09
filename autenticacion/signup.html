@@ -62,5 +62,26 @@
     </main>
 
     <script src="../js/icono.js"></script>
+	<script>
+		// Check if there's a redirect URL stored in localStorage
+		document.addEventListener('DOMContentLoaded', function() {
+			const redirectUrl = localStorage.getItem('redirect_after_login');
+			if (redirectUrl) {
+				// Add hidden input to the form to pass the redirect URL
+				const form = document.querySelector('form');
+				const hiddenInput = document.createElement('input');
+				hiddenInput.type = 'hidden';
+				hiddenInput.name = 'redirect_url';
+				hiddenInput.value = redirectUrl;
+				form.appendChild(hiddenInput);
+			}
+		});
+		
+		// Clear redirect URL from localStorage after successful registration
+		// This will be called when the page loads after a successful registration
+		if (window.location.search.includes('success') || document.cookie.includes('logged_in=true')) {
+			localStorage.removeItem('redirect_after_login');
+		}
+	</script>
   </body>
 </html>

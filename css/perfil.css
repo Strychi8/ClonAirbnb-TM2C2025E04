@@ -2,6 +2,21 @@
   color: #666;
 }
 
+.perfil-avatar-container {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 15px;
+}
+
+.perfil-foto {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #e0b84c;
+}
+
 .perfil-avatar {
   width: 80px;
   height: 80px;
@@ -10,7 +25,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 auto 15px;
+  margin: 0 auto;
   font-size: 32px;
   color: white;
   font-weight: bold;
@@ -23,6 +38,106 @@
 .perfil-info h2 {
     margin-bottom: 20px; 
     color: #333;
+}
+
+.perfil-edit {
+  margin-bottom: 30px;
+}
+
+.info-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.info-header h2 {
+  margin: 0;
+  color: #333;
+}
+
+.btn-editar {
+  background: #e0b84c;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-editar:hover {
+  background: #c49a3a;
+  transform: translateY(-2px);
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #555;
+}
+
+.form-group .form-control {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: border-color 0.3s ease;
+}
+
+.form-group .form-control:focus {
+  outline: none;
+  border-color: #e0b84c;
+}
+
+.form-text {
+  display: block;
+  margin-top: 5px;
+  font-size: 12px;
+  color: #666;
+}
+
+.form-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 25px;
+}
+
+.form-actions .btn {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.form-actions .btn-primary {
+  background: #e0b84c;
+  color: white;
+}
+
+.form-actions .btn-primary:hover {
+  background: #c49a3a;
+  transform: translateY(-2px);
+}
+
+.form-actions .btn-secondary {
+  background: #6c757d;
+  color: white;
+}
+
+.form-actions .btn-secondary:hover {
+  background: #5a6268;
+  transform: translateY(-2px);
 }
 
 .info-item {
