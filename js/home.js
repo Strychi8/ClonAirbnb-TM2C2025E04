@@ -246,6 +246,7 @@ function mostrarAlojamientos(data) {
   data.forEach(a => {
     const nombreUrl = encodeURIComponent((a.nombre || "").replace(/\s+/g, "_"));
     const precioFmt = (a.precio_noche ?? 0).toLocaleString("es-AR");
+    const tipoAlojamiento = a.tipo_alojamiento || "";
 
     cont.innerHTML += `
       <article class="card">
@@ -254,6 +255,7 @@ function mostrarAlojamientos(data) {
         </a>
         <div class="card-content">
           <h2 class="card-title">${a.nombre ?? ""}</h2>
+          ${tipoAlojamiento ? `<p class="card-tipo" style="color: #666; font-size: 14px; margin: 4px 0; text-transform: capitalize;">${tipoAlojamiento}</p>` : ''}
           <p class="card-sub">${a.direccion || a.ubicacion || ""}</p>
           <div class="card-footer">
             <span class="price">$ ${precioFmt} <small>por noche</small></span>

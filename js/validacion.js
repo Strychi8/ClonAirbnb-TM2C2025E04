@@ -16,31 +16,177 @@
 
   if (!fechaInicioInput || !fechaFinInput) return;
 
+  // Get accommodation ID from URL parameters
   const params = new URLSearchParams(window.location.search);
-  const precioPorNoche = parseInt(params.get("precio")) || 0;
-  const nombreAlojamiento = params.get("nombre");
+  const alojamientoId = parseInt(params.get("alojamiento") || "0", 10) || 0;
 
+  if (!alojamientoId) {
+    console.error("No se proporcionó un ID de alojamiento válido");
+    document.body.innerHTML = "<p style='color:red'>⚠ Error: No se especificó un alojamiento válido.</p>";
+    return;
+  }
+
+  // Set accommodation ID in hidden field
   if (alojamientoIdField) {
-    alojamientoIdField.value = parseInt(params.get("alojamiento") || "0", 10) || 0;
+    alojamientoIdField.value = alojamientoId;
   }
 
-  // Mostrar alojamiento elegido
-  if (nombreAlojamiento) {
-    const h2 = document.querySelector("form h2");
-    if (h2) {
-      h2.textContent = `Formulario de Reserva: ${nombreAlojamiento.replace(/_/g, " ")}`;
-    }
-  }
+  // Load user data and fill form fields
+  loadUserData();
 
-  // Mostrar precio por noche
-  if (precioNocheField) {
-    precioNocheField.value = precioPorNoche > 0
-      ? "$ " + precioPorNoche.toLocaleString("es-AR")
-      : "No disponible";
-  }
+  // Fetch accommodation data from database
+  fetchAccommodationData(alojamientoId);
 
   let fechasOcupadas = []; // Array de strings YYYY-MM-DD
   let fpInicio, fpFin;
+  let precioPorNoche = 0; // Variable to store accommodation price per night
+
+  // Function to load user data from the usuarios table
+  // This fetches the current logged-in user's data directly from the database
+  async function loadUserData() {
+    try {
+      const response = await fetch('../backend/check_login.php');
+      const data = await response.json();
+      
+      if (data.logged_in) {
+        // Fill form fields with user data from usuarios table
+        const nombreField = document.getElementById('nombre');
+        const apellidoField = document.getElementById('apellido');
+        const emailField = document.getElementById('email');
+        const telefonoField = document.getElementById('telefono');
+        
+        if (nombreField) {
+          // Use full name
+          const fullName = data.user_name || '';
+          nombreField.value = fullName;
+          
+          // Set apellido to empty string (hidden field for database compatibility)
+          if (apellidoField) apellidoField.value = '';
+        }
+        
+        if (emailField) {
+          emailField.value = data.user_email || '';
+        }
+        
+        if (telefonoField) {
+          if (data.telefono && data.telefono.trim() !== '') {
+            telefonoField.value = data.telefono;
+          } else {
+            // If no phone number, make it editable
+            telefonoField.removeAttribute('readonly');
+            telefonoField.style.backgroundColor = '#fff';
+            telefonoField.style.cursor = 'text';
+            telefonoField.placeholder = 'Ingresa tu teléfono (ej: 1145678901)';
+            telefonoField.value = '';
+            
+            // Update help text
+            const helpText = telefonoField.nextElementSibling;
+            if (helpText && helpText.tagName === 'SMALL') {
+              helpText.innerHTML = 'Por favor, ingresa tu número de teléfono o <a href="../cuenta/perfil.html" style="color: #2ea44f; text-decoration: underline;">actualiza tu perfil</a>';
+              helpText.style.color = '#e0b84c';
+              helpText.style.fontWeight = '600';
+            }
+          }
+        }
+      }
+    } catch (error) {
+      console.error('Error loading user data:', error);
+    }
+  }
+
+  // Function to fetch accommodation data from database
+  async function fetchAccommodationData(alojamientoId) {
+    try {
+      const response = await fetch(`../backend/alojamiento_get_for_reserva.php?id=${alojamientoId}`);
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      const data = await response.json();
+      
+      if (data.error) {
+        throw new Error(data.error);
+      }
+      
+      // Check if user is trying to book their own property
+      const sessionResponse = await fetch('../backend/check_login.php');
+      const sessionData = await sessionResponse.json();
+      
+      if (sessionData.logged_in && data.usuario_id && sessionData.user_id === data.usuario_id) {
+        document.body.innerHTML = `
+          <div style="max-width: 600px; margin: 100px auto; text-align: center; padding: 20px; font-family: Arial, sans-serif;">
+            <h2 style="color: #e5534b;">❌ No puedes reservar tu propio alojamiento</h2>
+            <p style="color: #666; margin: 20px 0;">Este alojamiento te pertenece. No es posible hacer una reserva en tu propia propiedad.</p>
+            <a href="../index.html" style="display: inline-block; margin-top: 20px; padding: 10px 20px; background: #2ea44f; color: white; text-decoration: none; border-radius: 6px;">Volver al Inicio</a>
+          </div>
+        `;
+        return;
+      }
+      
+      // Display accommodation information
+      displayAccommodationInfo(data);
+      
+      // Store price in variable for calculations
+      precioPorNoche = parseFloat(data.precio_noche) || 0;
+      
+      // Set price in form
+      if (precioNocheField) {
+        precioNocheField.value = precioPorNoche > 0
+          ? "$ " + precioPorNoche.toLocaleString("es-AR")
+          : "No disponible";
+      }
+      
+      // Set price in hidden field for form submission
+      const precioNocheNumField = document.getElementById("precio_noche_num");
+      if (precioNocheNumField) {
+        precioNocheNumField.value = precioPorNoche;
+      }
+      
+    } catch (error) {
+      console.error('Error fetching accommodation data:', error);
+      document.body.innerHTML = `<p style='color:red'>⚠ Error cargando el alojamiento: ${error.message}</p>`;
+    }
+  }
+
+  // Function to display accommodation information
+  function displayAccommodationInfo(data) {
+    // Show accommodation info section
+    const alojamientoSection = document.getElementById("alojamientoSeleccionado");
+    if (alojamientoSection) {
+      alojamientoSection.style.display = "block";
+    }
+    
+    // Update accommodation details
+    const nombreElement = document.getElementById("alojamiento-nombre");
+    const descripcionElement = document.getElementById("alojamiento-descripcion");
+    const direccionElement = document.getElementById("alojamiento-direccion");
+    const precioElement = document.getElementById("alojamiento-precio");
+    const imagenElement = document.getElementById("alojamiento-imagen");
+    
+    if (nombreElement) {
+      nombreElement.textContent = data.nombre || "Nombre no disponible";
+    }
+    
+    if (descripcionElement) {
+      descripcionElement.textContent = data.descripcion || "Sin descripción disponible";
+    }
+    
+    if (direccionElement) {
+      direccionElement.textContent = data.direccion || "Dirección no disponible";
+    }
+    
+    if (precioElement) {
+      precioElement.textContent = data.precio_noche > 0 
+        ? `$${data.precio_noche.toLocaleString("es-AR")} por noche`
+        : "Precio no disponible";
+    }
+    
+    if (imagenElement && data.imagen_principal) {
+      imagenElement.src = data.imagen_principal;
+      imagenElement.alt = data.nombre || "Imagen del alojamiento";
+    }
+  }
 
   // Inicializar Flatpickr
   function initCalendars() {
@@ -153,10 +299,12 @@
   // Cantidad de personas
   if (cantidadPersonasField) cantidadPersonasField.addEventListener("input", calcularPrecio);
 
-  // Teléfono
+  // Teléfono - Only allow input if field is editable
   if (telefono) {
     telefono.addEventListener("input", function () {
-      this.value = this.value.replace(/[^0-9]/g, "");
+      if (!this.hasAttribute('readonly')) {
+        this.value = this.value.replace(/[^0-9]/g, "");
+      }
     });
   }
 

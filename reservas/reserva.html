@@ -9,9 +9,73 @@
 	<link rel="stylesheet" href="../css/styles.css">
 	<link rel="stylesheet" href="../css/formularios.css">
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+	<style>
+		.alojamiento-details {
+			display: flex;
+			gap: 20px;
+			align-items: flex-start;
+		}
+		
+		.alojamiento-image {
+			flex-shrink: 0;
+		}
+		
+		.alojamiento-info-text {
+			flex: 1;
+		}
+		
+		.alojamiento-info-text h3 {
+			margin: 0 0 10px 0;
+			color: #333;
+		}
+		
+		.alojamiento-info-text p {
+			margin: 5px 0;
+			color: #666;
+		}
+		
+		.alojamiento-info-text .precio {
+			font-weight: bold;
+			color: #2c5aa0;
+			font-size: 1.1em;
+		}
+		
+		.alojamiento-info-text .direccion {
+			font-style: italic;
+		}
+		
+		@media (max-width: 768px) {
+			.alojamiento-details {
+				flex-direction: column;
+			}
+			
+			.alojamiento-image img {
+				max-width: 100%;
+			}
+		}
+	</style>
 	
 </head>
 <body>
+	<script src="../js/session_utils.js"></script>
+	<script>
+		// Check if user is logged in
+		document.addEventListener('DOMContentLoaded', function() {
+			SessionUtils.getSessionData().then(function(sessionData) {
+				if (!sessionData.logged_in) {
+					// Store current URL to redirect back after login
+					const currentUrl = window.location.href;
+					localStorage.setItem('redirect_after_login', currentUrl);
+					
+					// Redirect to login page
+					window.location.href = '../autenticacion/signin.html';
+				} else {
+					// Clear any stored redirect URL since user is already logged in
+					localStorage.removeItem('redirect_after_login');
+				}
+			});
+		});
+	</script>
 	
   <!-- Header con marquee -->
   <header>
@@ -25,7 +89,25 @@
         <a href="../index.html"><button type="button" class="btn btn-primary">Ir a la página principal</button></a>
     </div>
 
-    <!-- <div id="alojamientoSeleccionado" class="alojamiento-info"></div> -->
+    <!-- Información del alojamiento -->
+    <div id="alojamientoSeleccionado" class="alojamiento-info" style="display: none;">
+        <div class="perfil-card">
+            <div class="perfil-header">
+                <h2>🏠 Alojamiento Seleccionado</h2>
+            </div>
+            <div class="alojamiento-details">
+                <div class="alojamiento-image">
+                    <img id="alojamiento-imagen" src="" alt="Imagen del alojamiento" style="max-width: 200px; height: auto; border-radius: 8px;">
+                </div>
+                <div class="alojamiento-info-text">
+                    <h3 id="alojamiento-nombre">-</h3>
+                    <p id="alojamiento-descripcion">-</p>
+                    <p id="alojamiento-direccion" class="direccion">-</p>
+                    <p id="alojamiento-precio" class="precio">-</p>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="perfil-card">
         <div class="perfil-header">
@@ -39,28 +121,30 @@
             <input type="hidden" name="precio_total" id="precio_total_num">
             <input type="hidden" id="numeroTarjeta" name="numeroTarjeta">
 
+            <div class="perfil-header">
+                <h3 style="margin: 20px 0 10px 0; color: #666; font-size: 1.1em;">Datos del Huésped</h3>
+                <p style="margin: 0 0 15px 0; color: #888; font-size: 0.9em;">Los datos se obtienen automáticamente de tu perfil de usuario</p>
+            </div>
+
+            <!-- Hidden field for apellido to maintain database compatibility -->
+            <input type="hidden" name="apellido" id="apellido" value="">
+
             <div class="form-grid-two">
                 <div class="form-group">
-                    <label for="nombre">Nombre</label>
-                    <input type="text" name="nombre" id="nombre" placeholder="Ej: Juan" required>
+                    <label for="nombre">Nombre Completo</label>
+                    <input type="text" name="nombre" id="nombre" placeholder="Cargando..." readonly style="background-color: #f5f5f5; cursor: not-allowed;" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="apellido">Apellido</label>
-                    <input type="text" name="apellido" id="apellido" placeholder="Ej: López" required>
+                    <label for="email">Email</label>
+                    <input type="email" name="email" id="email" placeholder="Cargando..." readonly style="background-color: #f5f5f5; cursor: not-allowed;" required>
                 </div>
             </div>
 
-            <div class="form-grid-two">
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" name="email" id="email" placeholder="Ej: persona@email.com" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="telefono">Teléfono</label>
-                    <input type="tel" id="telefono" name="telefono" pattern="[0-9]{10,11}" placeholder="Ej: 01145678901" required>
-                </div>
+            <div class="form-group">
+                <label for="telefono">Teléfono</label>
+                <input type="tel" id="telefono" name="telefono" placeholder="Cargando..." readonly style="background-color: #f5f5f5; cursor: not-allowed;" minlength="8" maxlength="15" required>
+                <small style="color: #888; font-size: 0.85em;">Si no tienes teléfono en tu perfil, actualízalo en Mi Perfil</small>
             </div>
 
             <div class="form-group">

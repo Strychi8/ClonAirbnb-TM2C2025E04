@@ -15,6 +15,9 @@ document.addEventListener("DOMContentLoaded", () => {
           const userNameSpan = document.getElementById('user-name');
           if (userNameSpan) userNameSpan.textContent = data.user_name;
           
+          // Actualizar avatar/foto de perfil
+          updateUserAvatar(data);
+          
           // Configurar funcionalidad del dropdown
           setupUserDropdown();
           
@@ -32,6 +35,23 @@ document.addEventListener("DOMContentLoaded", () => {
     })
     .catch(err => console.error('Error al verificar sesión:', err));
 });
+
+function updateUserAvatar(data) {
+  const avatarImg = document.getElementById('user-avatar-img');
+  const avatarInitial = document.getElementById('user-avatar-initial');
+  
+  if (data.foto_perfil && avatarImg && avatarInitial) {
+    // Mostrar foto de perfil
+    avatarImg.src = data.foto_perfil;
+    avatarImg.style.display = 'block';
+    avatarInitial.style.display = 'none';
+  } else if (avatarInitial && data.user_name) {
+    // Mostrar inicial del nombre
+    avatarInitial.textContent = data.user_name.charAt(0).toUpperCase();
+    avatarInitial.style.display = 'flex';
+    if (avatarImg) avatarImg.style.display = 'none';
+  }
+}
 
 function setupUserDropdown() {
   const dropdownBtn = document.getElementById('user-dropdown-btn');

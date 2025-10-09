@@ -35,8 +35,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Vincula los parámetros y ejecuta la consulta
 
     if ($stmt->execute([$nombre, $email, $hashed_password])) {
+        // Start session and set user data
+        session_start();
+        $_SESSION['user_id'] = $pdo->lastInsertId();
+        $_SESSION['user_name'] = $nombre;
+        $_SESSION['logged_in'] = true;
+        
+        // Check if there's a redirect URL stored
+        $redirect_url = $_POST['redirect_url'] ?? $_SESSION['redirect_after_login'] ?? '../index.html';
+        unset($_SESSION['redirect_after_login']); // Clear the redirect URL
+        
         // Redirecciona a la página principal después del registro exitoso
-        header("Location: ../index.html");
+        header("Location: " . $redirect_url);
         exit();
     } else {
         // Muestra un error si la inserción falla
