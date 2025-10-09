@@ -48,7 +48,8 @@ try {
                  servicios, tipo_alojamiento, imagen_principal
           FROM alojamientos
           WHERE $whereSql
-            AND precio_noche BETWEEN :min AND :max";
+          AND precio_noche BETWEEN :min AND :max
+          AND activo = 1";
 
   $st = $pdo->prepare($sql);
   $st->execute($params);

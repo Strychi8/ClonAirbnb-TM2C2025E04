@@ -22,7 +22,8 @@ try {
             calle, altura, localidad, codigo_postal, provincia, pais,
             servicios, tipo_alojamiento, imagen_principal
      FROM alojamientos
-     WHERE precio_noche >= :min AND precio_noche <= :max"
+     WHERE precio_noche >= :min AND precio_noche <= :max
+       AND activo = 1"
   );
   $st->execute([':min' => $min, ':max' => $max]);
   $rows = $st->fetchAll(PDO::FETCH_ASSOC);

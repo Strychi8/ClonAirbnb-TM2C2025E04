@@ -73,7 +73,8 @@ try {
                  servicios, tipo_alojamiento, imagen_principal
           FROM alojamientos
           WHERE ($whereSql)
-            AND CAST(precio_noche AS DECIMAL(10,2)) BETWEEN :min AND :max";
+          AND CAST(precio_noche AS DECIMAL(10,2)) BETWEEN :min AND :max
+          AND activo = 1";
 
   $st = $pdo->prepare($sql);
   $st->execute($params);

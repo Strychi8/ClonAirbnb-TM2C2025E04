@@ -66,7 +66,7 @@ $numeroTarjetaRaw = (string)($_POST['numeroTarjeta'] ?? ''); // NO se guarda
 $errores = [];
 if ($alojamiento_id <= 0)          $errores[] = "Alojamiento inválido.";
 if ($nombre === '')                 $errores[] = "Nombre requerido.";
-// Apellido is now optional
+
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) $errores[] = "Email inválido.";
 if ($telefono === '' || strlen($telefono) < 10) $errores[] = "Teléfono inválido.";
 if ($cantPersonas < 1)              $errores[] = "Cantidad de personas inválida.";
@@ -85,18 +85,19 @@ if (!$fi || !$ff) {
 }
 
 // Confirmar precio_noche desde DB para evitar errores del cliente
+
 try {
-    $stmt = $pdo->prepare("SELECT precio_noche, usuario_id FROM alojamientos WHERE id = :id");
+    $stmt = $pdo->prepare("SELECT precio_noche, activo FROM alojamientos WHERE id = :id");
     $stmt->execute([':id' => $alojamiento_id]);
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
     if (!$row) {
         $errores[] = "El alojamiento no existe.";
     } else {
-        $precioOficial = (float)$row['precio_noche'];
-        
-        // Validar que el usuario no esté reservando su propio alojamiento
-        if (isset($_SESSION['user_id']) && (int)$row['usuario_id'] === (int)$_SESSION['user_id']) {
-            $errores[] = "No puedes reservar tu propio alojamiento.";
+        if (isset($row['activo']) && !$row['activo']) {
+            $errores[] = "Este alojamiento está actualmente deshabilitado y no puede ser reservado.";
+        } else {
+            $precioOficial = (float)$row['precio_noche'];
         }
     }
 } catch (Throwable $e) {

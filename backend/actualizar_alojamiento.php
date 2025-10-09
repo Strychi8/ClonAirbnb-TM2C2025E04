@@ -66,6 +66,20 @@ try {
     $direccion = trim($calle . ' ' . $altura . ', ' . $localidad . ' ' . $codigoPostal . ', ' . $provincia . ', ' . $pais);
     $servicios = json_encode(array_values(array_unique($serviciosArr)), JSON_UNESCAPED_UNICODE);
 
+    // ✅ Nuevo: campo activo (habilitar/deshabilitar)
+    $activo = $_POST['activo'] ?? null;
+    $activoSet = '';
+    if ($activo !== null) {
+        // Normaliza valores posibles: "true", "false", 1, 0
+        $activoBool = filter_var($activo, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+        if ($activoBool === null) {
+            http_response_code(400);
+            echo json_encode(['error' => 'valor_activo_invalido']);
+            exit;
+        }
+        $activoSet = ', activo = :activo';
+    }
+
     // Imagen opcional
     $imagenSet = '';
     $params = [
@@ -83,6 +97,10 @@ try {
         ':provincia'       => $provincia,
         ':pais'            => $pais,
     ];
+
+    if ($activoSet !== '') {
+        $params[':activo'] = (int)$activoBool; // Guarda como 1 o 0
+    }
 
     if (isset($_FILES['imagen']) && is_uploaded_file($_FILES['imagen']['tmp_name'])) {
         $uploadsDir = __DIR__ . '/../uploads';
@@ -110,6 +128,7 @@ try {
                 tipo_alojamiento = :tipo_alojamiento,
                 servicios = :servicios
                 $imagenSet
+                $activoSet
             WHERE id = :id";
 
     $st = $pdo->prepare($sql);
