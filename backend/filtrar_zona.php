@@ -70,10 +70,11 @@ try {
   // Consulta SQL
   $sql = "SELECT id, nombre, descripcion, precio_noche, direccion,
                  calle, altura, localidad, codigo_postal, provincia, pais,
-                 servicios, imagen_principal
+                 servicios, tipo_alojamiento, imagen_principal
           FROM alojamientos
           WHERE ($whereSql)
-            AND CAST(precio_noche AS DECIMAL(10,2)) BETWEEN :min AND :max";
+          AND CAST(precio_noche AS DECIMAL(10,2)) BETWEEN :min AND :max
+          AND activo = 1";
 
   $st = $pdo->prepare($sql);
   $st->execute($params);

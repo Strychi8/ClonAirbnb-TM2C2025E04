@@ -57,7 +57,7 @@ try {
     $tipoWhere = [];
     foreach ($tipos as $i => $tipo) {
       $key = ":tipo_propiedad$i";
-      $tipoWhere[] = "nombre LIKE $key";
+      $tipoWhere[] = "tipo_propiedad LIKE $key";
       $params[$key] = "%$tipo%";
     }
     $where[] = '(' . implode(' OR ', $tipoWhere) . ')';
@@ -65,12 +65,13 @@ try {
 
   $whereSql = !empty($where) ? implode(' AND ', $where) : '1';
 
-  $sql = "SELECT id, nombre, descripcion, precio_noche, direccion,
-                 calle, altura, localidad, codigo_postal, provincia, pais,
-                 servicios, imagen_principal
-          FROM alojamientos
-          WHERE $whereSql
-            AND precio_noche BETWEEN :min AND :max";
+$sql = "SELECT id, nombre, descripcion, precio_noche, direccion,
+               calle, altura, localidad, codigo_postal, provincia, pais,
+               servicios, tipo_alojamiento, imagen_principal
+        FROM alojamientos
+        WHERE $whereSql
+          AND precio_noche BETWEEN :min AND :max
+          AND activo = 1";
 
   $st = $pdo->prepare($sql);
   $st->execute($params);

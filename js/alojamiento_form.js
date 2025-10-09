@@ -7,15 +7,16 @@ document.addEventListener('DOMContentLoaded', async () => {
   const submitBtn = document.getElementById('submit-btn');
   const imagenInput = document.getElementById('imagen');
   const imagenPreview = document.getElementById('imagenPreview');
+
+  const activoContainer = document.getElementById('activo-container'); // div que contiene el checkbox
+  const activoCheckbox = document.getElementById('activo'); // el checkbox real
+
   if (!form) return;
 
-  // Get user session data - required for authentication
+  // Obtener datos de sesión
   const userData = await window.SessionUtils.requireAuth();
-  if (!userData) {
-    // requireAuth will handle redirect if not authenticated
-    return;
-  }
-  
+  if (!userData) return;
+
   console.log('User authenticated:', userData);
 
   // Helpers
@@ -27,20 +28,20 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   function parseDireccionToFields(direccion) {
-    // Very light parsing; manual edits allowed later
-    // Expected stored format: "calle altura, localidad codigo, provincia, pais"
     return { calle: '', altura: '', localidad: '', codigoPostal: '', provincia: '', pais: '' };
   }
 
-  // Edit mode: fetch and prefill
+  // Modo edición
   if (id) {
     title.textContent = 'Editar alojamiento';
     submitBtn.textContent = 'Actualizar';
+    if (activoContainer) activoContainer.style.display = 'block';
 
     try {
       const res = await fetch(`../backend/alojamiento_get.php?id=${encodeURIComponent(id)}`);
       const data = await res.json();
       const aloja = Array.isArray(data) ? data.find(r => String(r.id) === String(id)) : data;
+
       if (aloja) {
         form.nombre.value = aloja.nombre || '';
         form.precio.value = aloja.precio_noche || '';
@@ -48,30 +49,32 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (aloja.servicios) {
           try { setServicios(JSON.parse(aloja.servicios)); } catch { setServicios([]); }
         }
-        // Dirección normalizada
+        // Dirección
         form.calle.value = aloja.calle || '';
         form.altura.value = aloja.altura || '';
         form.localidad.value = aloja.localidad || '';
         form.codigoPostal.value = aloja.codigo_postal || '';
         form.provincia.value = aloja.provincia || '';
         form.pais.value = aloja.pais || '';
-        // Fallback desde "direccion" si faltan campos
         if ((!form.calle.value || !form.localidad.value) && aloja.direccion) {
           const f = parseDireccionToFields(aloja.direccion);
-          form.calle.value ||= f.calle || '';
-          form.altura.value ||= f.altura || '';
-          form.localidad.value ||= f.localidad || '';
-          form.codigoPostal.value ||= f.codigoPostal || '';
-          form.provincia.value ||= f.provincia || '';
-          form.pais.value ||= f.pais || '';
+          form.calle.value ||= f.calle;
+          form.altura.value ||= f.altura;
+          form.localidad.value ||= f.localidad;
+          form.codigoPostal.value ||= f.codigoPostal;
+          form.provincia.value ||= f.provincia;
+          form.pais.value ||= f.pais;
         }
 
-        // ⚡ Prefill tipo de alojamiento
-        if (aloja.tipo_alojamiento) {
-          form.tipo_alojamiento.value = aloja.tipo_alojamiento;
+        // Tipo de alojamiento
+        if (aloja.tipo_alojamiento) form.tipo_alojamiento.value = aloja.tipo_alojamiento;
+
+        // Checkbox activo
+        if (typeof aloja.activo !== 'undefined') {
+          activoCheckbox.checked = !!Number(aloja.activo);
         }
 
-        // Preview de imagen existente
+        // Preview de imagen
         if (aloja.imagen_principal) {
           imagenPreview.src = `../${aloja.imagen_principal}`;
           imagenPreview.style.display = 'block';
@@ -80,12 +83,16 @@ document.addEventListener('DOMContentLoaded', async () => {
     } catch (e) {
       console.error('No se pudo cargar el alojamiento', e);
     }
+
   } else {
+    // Modo creación
     title.textContent = 'Publicar un alojamiento';
     submitBtn.textContent = 'Publicar';
+    if (activoContainer) activoContainer.style.display = 'none';
+    activoCheckbox.checked = true; // por defecto activo
   }
 
-  // Preview en selección de archivo
+  // Preview de imagen
   if (imagenInput && imagenPreview) {
     imagenInput.addEventListener('change', () => {
       const file = imagenInput.files && imagenInput.files[0];
@@ -94,23 +101,24 @@ document.addEventListener('DOMContentLoaded', async () => {
         imagenPreview.removeAttribute('src');
         return;
       }
-      const url = URL.createObjectURL(file);
-      imagenPreview.src = url;
+      imagenPreview.src = URL.createObjectURL(file);
       imagenPreview.style.display = 'block';
     });
   }
 
+  // Envío de formulario
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
     const fd = new FormData(form);
-    
-    // Add user ID to form data
     fd.append('usuario_id', userData.user_id);
-    
+
     if (id) {
       fd.append('id', id);
     }
+
+    // Enviar valor de activo
+    fd.append('activo', activoCheckbox.checked ? '1' : '0');
 
     console.log('Enviando alojamiento con usuario_id:', userData.user_id);
 
@@ -119,15 +127,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     try {
       const res = await fetch(endpoint, { method: 'POST', body: fd });
       const text = await res.text();
-      let payload; try { payload = JSON.parse(text); } catch { payload = { raw: text }; }
+      let payload;
+      try { payload = JSON.parse(text); } catch { payload = { raw: text }; }
       console.log('Respuesta form alojamiento:', res.status, payload);
       if (res.ok) {
-        const message = id ? 'Alojamiento actualizado exitosamente' : 'Alojamiento publicado exitosamente';
-        alert(message);
-        // Optionally redirect to "mis alojamientos" page
+        alert(id ? 'Alojamiento actualizado exitosamente' : 'Alojamiento publicado exitosamente');
         window.location.href = 'mis_alojamientos.html';
       } else {
-        alert('No se pudo guardar el alojamiento. Ver consola para más detalles.');
+        alert('No se pudo guardar el alojamiento. Revisa la consola para más detalles.');
       }
     } catch (err) {
       console.error('Error al enviar formulario:', err);
