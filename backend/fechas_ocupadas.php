@@ -8,8 +8,11 @@ if (!$alojamientoId) {
     exit;
 }
 
-// Trae todas las reservas del alojamiento
-$sql = "SELECT fecha_inicio, fecha_fin FROM reservas WHERE alojamiento_id = :aid";
+// Trae solo reservas activas
+$sql = "SELECT fecha_inicio, fecha_fin 
+        FROM reservas 
+        WHERE alojamiento_id = :aid 
+          AND estado = 'activa'"; // <-- solo activas
 $stmt = $pdo->prepare($sql);
 $stmt->execute([':aid' => $alojamientoId]);
 $reservas = $stmt->fetchAll(PDO::FETCH_ASSOC);

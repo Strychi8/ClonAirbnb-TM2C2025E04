@@ -10,10 +10,11 @@ if (!$alojamientoId || !$fechaInicio) {
     exit;
 }
 
-// 1) Verificar si la fecha de inicio ya está ocupada
+// 1) Verificar si la fecha de inicio ya está ocupada (solo reservas activas)
 $sqlOcupado = "SELECT 1 
                FROM reservas
                WHERE alojamiento_id = :alojamiento_id
+                 AND estado = 'activa'
                  AND :fecha_inicio BETWEEN fecha_inicio AND fecha_fin
                LIMIT 1";
 $stmt = $pdo->prepare($sqlOcupado);
@@ -32,10 +33,11 @@ if ($ocupado) {
     exit;
 }
 
-// 2) Buscar la primera reserva posterior a la fecha de inicio
+// 2) Buscar la primera reserva activa posterior a la fecha de inicio
 $sqlProxima = "SELECT fecha_inicio 
                FROM reservas
                WHERE alojamiento_id = :alojamiento_id
+                 AND estado = 'activa'
                  AND fecha_inicio >= :fecha_inicio
                ORDER BY fecha_inicio ASC
                LIMIT 1";
@@ -53,7 +55,7 @@ if ($reserva) {
         'max_fecha'  => $maxDisponible
     ]);
 } else {
-    // No hay reservas posteriores → se puede reservar libremente
+    // No hay reservas activas posteriores → se puede reservar libremente
     echo json_encode([
         'disponible' => true,
         'max_fecha'  => null
