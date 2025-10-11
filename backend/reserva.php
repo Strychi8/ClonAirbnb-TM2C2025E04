@@ -87,19 +87,25 @@ if (!$fi || !$ff) {
 // Confirmar precio_noche desde DB para evitar errores del cliente
 
 try {
-    $stmt = $pdo->prepare("SELECT precio_noche, activo FROM alojamientos WHERE id = :id");
+    $stmt = $pdo->prepare("SELECT precio_noche, activo, usuario_id FROM alojamientos WHERE id = :id");
     $stmt->execute([':id' => $alojamiento_id]);
     $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if (!$row) {
-        $errores[] = "El alojamiento no existe.";
-    } else {
-        if (isset($row['activo']) && !$row['activo']) {
-            $errores[] = "Este alojamiento está actualmente deshabilitado y no puede ser reservado.";
-        } else {
-            $precioOficial = (float)$row['precio_noche'];
-        }
-    }
+		$errores[] = "El alojamiento no existe.";
+	} else {
+		// ❌ Verificar si el alojamiento está deshabilitado
+		if (isset($row['activo']) && !$row['activo']) {
+			$errores[] = "Este alojamiento está actualmente deshabilitado y no puede ser reservado.";
+		} 
+		// ❌ Verificar si el usuario está intentando reservar su propio alojamiento
+		elseif (isset($_SESSION['user_id']) && (int)$row['usuario_id'] === (int)$_SESSION['user_id']) {
+			$errores[] = "No puedes reservar tu propio alojamiento.";
+		} 
+		else {
+			$precioOficial = (float)$row['precio_noche'];
+		}
+	}
 } catch (Throwable $e) {
     $errores[] = "Error consultando el alojamiento.";
 }

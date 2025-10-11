@@ -4,7 +4,7 @@
   --text: #000; /* texto principal */
   --muted: #6b6b6b;
   --primary: #a56300; /* usado para el header */
-  --primary-600: #ca6040;
+  --primary-600: #a33e1f;
   --card: #ca801117;
   --shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
   --radius: 18px;
@@ -174,6 +174,11 @@ header {
 .btn-primary:active {
   transform: translateY(1px);
 }
+.btn-secondary {
+  background: var(--primary);
+  color: #fff;
+  transition: background 0.18s ease, transform 0.06s ease;
+}
 
 /* Botón genérico <button> (colores originales) */
 button {
@@ -187,7 +192,7 @@ button {
   transition: background-color 0.3s;
 }
 button:hover {
-  background-color: #c9945f;
+  background-color: #bd844b;
 }
 
 /* Ajustes responsive pequeños */

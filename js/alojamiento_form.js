@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (aloja.tipo_alojamiento) form.tipo_alojamiento.value = aloja.tipo_alojamiento;
 
         // Checkbox activo
-        if (typeof aloja.activo !== 'undefined') {
+        if (typeof aloja.activo !== 'undefined' && activoCheckbox) {
           activoCheckbox.checked = !!Number(aloja.activo);
         }
 
@@ -89,7 +89,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     title.textContent = 'Publicar un alojamiento';
     submitBtn.textContent = 'Publicar';
     if (activoContainer) activoContainer.style.display = 'none';
-    activoCheckbox.checked = true; // por defecto activo
+    if (activoCheckbox) activoCheckbox.checked = true; // por defecto activo
   }
 
   // Preview de imagen
@@ -117,8 +117,17 @@ document.addEventListener('DOMContentLoaded', async () => {
       fd.append('id', id);
     }
 
-    // Enviar valor de activo
-    fd.append('activo', activoCheckbox.checked ? '1' : '0');
+  // Enviar valor de activo (si no existe el checkbox asumimos activo)
+  let activoValor = '1';
+  try {
+    if (activoCheckbox) {
+      activoValor = activoCheckbox.checked ? '1' : '0';
+    }
+  } catch (ex) {
+    console.warn('No se pudo leer el estado de activo, asumiendo activo:', ex);
+    activoValor = '1';
+  }
+  fd.append('activo', activoValor);
 
     console.log('Enviando alojamiento con usuario_id:', userData.user_id);
 
