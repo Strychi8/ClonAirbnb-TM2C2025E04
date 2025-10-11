@@ -35,6 +35,7 @@ try {
             r.precio_total, 
             r.metodo_pago,
             r.fecha_reserva,
+			r.estado,
             a.nombre as alojamiento_nombre,
             a.imagen_principal as alojamiento_imagen,
             a.direccion as alojamiento_direccion
@@ -52,4 +53,3 @@ try {
     http_response_code(500);
     echo json_encode(['error' => $e->getMessage()]);
 }
-

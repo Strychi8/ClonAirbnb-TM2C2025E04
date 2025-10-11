@@ -84,3 +84,8 @@ CREATE TABLE `reservas` (
   CONSTRAINT `fk_reservas_alojamiento` FOREIGN KEY (`alojamiento_id`) REFERENCES `alojamientos` (`id`) ON UPDATE CASCADE
 );
 
+
+
+
+ALTER TABLE reservas ADD COLUMN estado ENUM('activa', 'cancelada', 'finalizada') DEFAULT 'activa';
+
