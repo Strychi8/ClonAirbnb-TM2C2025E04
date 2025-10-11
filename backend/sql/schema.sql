@@ -50,6 +50,16 @@ CREATE TABLE `alojamiento_imagenes` (
   CONSTRAINT `alojamiento _imagenes_ibfk_1` FOREIGN KEY (`alojamiento_id`) REFERENCES `alojamientos` (`id`) ON DELETE CASCADE
 );
 
+CREATE TABLE propiedades_guardadas (
+  id int(11) PRIMARY KEY AUTO_INCREMENT,
+  usuario_id int(11) NOT NULL,
+  alojamiento_id int(11) NOT NULL,
+  creado_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE (usuario_id, alojamiento_id),
+  FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE,
+  FOREIGN KEY (alojamiento_id) REFERENCES alojamientos(id) ON DELETE CASCADE
+);
+
 CREATE TABLE `password_reset_tokens` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `usuario_id` int(11) NOT NULL,

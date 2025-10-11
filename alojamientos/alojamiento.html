@@ -30,6 +30,7 @@
       <table cellspacing="20" style="margin-left: 20px; margin-right: 50px; text-align: justify; width: auto; table-layout: fixed">
         <tr>
           <td style="width: 30%;">
+            <div style="display:flex; gap:8px; align-items:center; margin-bottom:1rem;">
             <!-- Botón Compartir -->
             <button id="btn-compartir" class="btn btn-secondary" type="button" title="Compartir"
               style="display: flex; align-items: center; gap: 8px; margin-bottom: 1rem;">
@@ -37,6 +38,13 @@
                 style="width: 18px; height: 18px; filter: invert(1) brightness(2) saturate(0);"/>
               Compartir
             </button>
+              <!-- Botón Guardar (favorito) -->
+              <button id="btn-guardar" class="btn btn-secondary" type="button" title="Guardar" aria-pressed="false"
+                style="display:flex; align-items:center; gap:8px;">
+                <img id="icon-guardar" src="../icons/icono-guardar-normal.png" alt="Guardar" style="width:18px; height:18px;">
+                <span class="guardar-label">Guardar</span>
+              </button>
+            </div>
 			<!-- Imagen del alojamiento -->
             <img id="imagen" alt="Foto del alojamiento" width="500" height="300"/>
           </td>
@@ -64,7 +72,9 @@
 
     <script src="../js/alojamiento.js"></script>
     <script src="../js/compartir_propiedad.js"></script>
+    <script src="../js/guardar_propiedad.js"></script>
     <script src="../js/icono.js"></script>
     <script src="../js/regresar_pag_anterior.js"></script>
   </body>
 </html>
+

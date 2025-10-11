@@ -101,6 +101,99 @@ header {
   }
 }
 
+/** ===== Estilos específicos para favoritos y modal ===== **/
+
+.btn-danger {
+  background: #b00020;
+  color: #fff;
+}
+
+.btn-cancel {
+  background-color: #a56300;
+}
+
+/* Modal genérico estilo centrado */
+.modal {
+  display: none; /* mostrado vía JS */
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.42);
+  z-index: 1200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.modal .modal-content {
+  width: 100%;
+  max-width: 720px;
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px 22px;
+  /* subir ligeramente el pop-up sobre el centro visual */
+  transform: translateY(-30vh);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+}
+
+@media (max-height: 560px), (max-width: 420px) {
+  .modal {
+    align-items: flex-start;
+    padding-top: 28px;
+    padding-bottom: 28px;
+  }
+  .modal .modal-content {
+    transform: none; /* evitar desplazar en pantallas pequeñas */
+    max-height: calc(100vh - 56px);
+  }
+}
+.modal .modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.modal .modal-header h2 {
+  margin: 0;
+  font-size: 20px;
+  color: #111;
+}
+.modal .close {
+  cursor: pointer;
+  font-size: 22px;
+  padding: 4px 8px;
+}
+.modal p {
+  color: #333;
+}
+.modal .btn {
+  border-radius: 8px;
+  padding: 8px 12px;
+}
+.no-data { 
+  padding: 24px; 
+  text-align: center; 
+  background: #f8efe6; 
+}
+
+.no-data a {
+  color: #2ea44f; 
+  font-weight: bold;
+  text-decoration: none;
+}
+
+/* ===== Estado vacío ===== */
+.empty-state {
+  text-align: center;
+  padding: 30px;
+  background: #f4f4f4;
+  border-radius: 10px;
+}
+
+.empty-state a {
+  color: #2ea44f;
+  font-weight: bold;
+  text-decoration: none;
+}
+
 /* ===== Card ===== */
 .card {
   background: var(--card);
@@ -144,6 +237,13 @@ header {
   align-items: center;
   justify-content: space-between;
   gap: 12px;
+}
+
+/* Botón cuando el alojamiento pertenece al usuario (propietario) */
+.btn-disabled-own {
+  opacity: 0.55;
+  cursor: not-allowed;
+  pointer-events: none;
 }
 .price {
   font-weight: 700;
@@ -193,6 +293,11 @@ button {
 }
 button:hover {
   background-color: #bd844b;
+}
+
+/* Iconos dentro de botones: por defecto los mostramos en blanco usando filtro */
+button img {
+  filter: invert(1) brightness(2) saturate(0);
 }
 
 /* Ajustes responsive pequeños */
