@@ -55,7 +55,7 @@ function parseDate(dateString) {
   if (!dateString) return null;
   const [y, m, d] = dateString.split('-');
   const date = new Date(y, m - 1, d);
-  date.setDate(date.getDate() + 1); // Add 1 day to compensate
+  date.setDate(date.getDate()); // Add 1 day to compensate
   return date;
 }
 
@@ -87,7 +87,7 @@ function displayReservations(reservations) {
       ? `../${reservation.alojamiento_imagen}` 
       : 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9IjkwIiB2aWV3Qm94PSIwIDAgMTIwIDkwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cmVjdCB3aWR0aD0iMTIwIiBoZWlnaHQ9IjkwIiBmaWxsPSIjZjBkOWMwIi8+CjxyZWN0IHg9IjMwIiB5PSIyMCIgd2lkdGg9IjYwIiBoZWlnaHQ9IjUwIiBmaWxsPSIjZThjZmFlIi8+Cjx0ZXh0IHg9IjYwIiB5PSI1MCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjEwIiBmaWxsPSIjNzc3IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5TaW4gaW1hZ2VuPC90ZXh0Pgo8L3N2Zz4K';
 
-    // Parse dates with fix
+   
     const fechaInicio = parseDate(reservation.fecha_inicio);
     const fechaFin = parseDate(reservation.fecha_fin);
 

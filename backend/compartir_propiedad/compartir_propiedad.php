@@ -1,4 +1,7 @@
 <?php
+// POSTMAN: http://localhost/Clon-Airbnb/Alquileres-y-alojamientos-/backend/compartir_propiedad/compartir_propiedad.php?id=XX
+// Metodo: GET
+// Funcionalidad: generar y devolver una URL pública para compartir un alojamiento específico.
 declare(strict_types=1);
 header('Content-Type: application/json; charset=utf-8');
 header('Access-Control-Allow-Origin: *');

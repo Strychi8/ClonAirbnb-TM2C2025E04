@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Erbienbi - Mis Favoritos</title>
+  <link rel="stylesheet" href="../css/styles.css" />
+ 
+  <style>
+    .table-wrap { outline: 3px solid #222; padding: 4px; background: white; }
+    table.favoritos { width: 100%; border-collapse: collapse; table-layout: fixed; }
+    col.col-photo { width: 200px; }
+    col.col-name   { width: auto; }
+    col.col-delete { width: 120px; }
+    table.favoritos th, table.favoritos td { border: 1px solid #222; padding: 20px 10px; text-align: center; vertical-align: middle; background: #f0d9c0; }
+    table.favoritos thead th { font-weight: bold; background: #e8cfae; }
+    .btn-eliminar { display: inline-block; width: 100px; padding: 8px 6px; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; }
+    .btn-eliminar { background-color: #e5534b; color: #fff; }
+  </style>
+
+</head>
+
+<body>
+  <header>
+    <div class="marquee-wrapper">
+      <h1 class="marquee-text">-- 🏠 🏡 -- Erbienbi - El Hospedaje que Buscas, al Mejor Precio -- 🏡 🏠 --</h1>
+    </div>
+  </header>
+
+  <main>
+    <section style="margin:24px auto 8px; padding:0 24px;">
+      <a href="../index.html"><button type="button" class="btn btn-primary">Volver</button></a>
+      
+      <h2>Mis Favoritos</h2>
+      <p style="color: #666; margin-bottom: 20px;">Aquí puedes ver todos tus alojamientos favoritos.</p>
+
+      <div id="favoritos-container" style="margin-top:14px">
+        <div class="table-wrap">
+          <table class="favoritos">
+            <colgroup>
+              <col class="col-photo">
+              <col class="col-name">
+              <col class="col-delete">
+            </colgroup>
+            <thead>
+              <tr>
+                <th>Foto</th>
+                <th>Nombre del alojamiento</th>
+                <th>Eliminar</th>
+              </tr>
+            </thead>
+            <tbody id="tabla-body">
+              <tr><td colspan="3" class="loading">Cargando favoritos...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      
+      <!-- Confirmar modal -->
+      <div id="confirmModal" class="modal" style="display:none;">
+        <div class="modal-content-favorito">
+          <div class="modal-header">
+            <h2>Confirmar</h2>
+            <span class="close" id="confirmClose">&times;</span>
+          </div>
+          <div style="padding: 5px;">
+            <p id="confirmText"></p>
+            <div style="display:flex; gap:8px; justify-content:flex-end; margin-top:12px;">
+              <button id="confirmCancel" class="btn btn-cancel">Cancelar</button>
+              <button id="confirmOk" class="btn btn-danger">Quitar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="../js/session_utils.js"></script>
+  <script src="../js/mis_favoritos.js"></script>
+  <script src="../js/icono.js"></script>
+  <script src="../js/regresar_pag_anterior.js"></script>
+</body>
+</html>

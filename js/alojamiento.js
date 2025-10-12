@@ -1,3 +1,4 @@
+
 document.addEventListener("DOMContentLoaded", () => {
   // Leer parámetros de la URL
   const params = new URLSearchParams(window.location.search);
@@ -42,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <iframe
           width="90%"
           height="550"
-          style="border:0; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); display: flex; justify-content: center; margin: 0 auto;"
+          style="border:0;  border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); display: flex; justify-content: center; margin: 0 auto;"
           loading="lazy"
           allowfullscreen
           referrerpolicy="no-referrer-when-downgrade"
