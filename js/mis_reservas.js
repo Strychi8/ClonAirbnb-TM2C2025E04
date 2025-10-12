@@ -110,7 +110,7 @@ function displayReservations(reservations) {
     } else {
       const diffDays = (fechaInicio - hoy) / (1000*60*60*24);
       cancelButton = diffDays >= 2
-        ? `<button class="btn-cancelar" onclick="cancelReservation(${reservation.id}, this)">Cancelar</button>`
+        ? `<button class="btn btn-cancel" onclick="cancelReservation(${reservation.id}, this)">Cancelar</button>`
         : `<button class="btn-cancelar-disabled" disabled>No cancelable</button>`;
     }
 
@@ -176,11 +176,31 @@ async function cancelReservation(reservationId, btnElement) {
     if (result.success) {
       alert('Reserva cancelada correctamente.');
       if (btnElement) {
-        btnElement.outerHTML = `<span style="color: #999;">No cancelable</span>`;
-        const badge = btnElement.closest('tr').querySelector('.estado-badge');
-        if (badge) {
-          badge.textContent = 'Cancelada';
-          badge.className = 'estado-badge estado-cancelada';
+        // Reemplazar el botón por un texto estático
+        try {
+          btnElement.outerHTML = `<span style="color: #999;">No cancelable</span>`;
+        } catch (e) {
+          // fallback: si outerHTML falla, intentar ocultar el botón
+          try { btnElement.style.display = 'none'; } catch (e2) { /* ignore */ }
+        }
+
+        // Buscar la fila contenedora de forma segura. btnElement.closest puede devolver null
+        let tr = null;
+        try {
+          if (btnElement && typeof btnElement.closest === 'function') tr = btnElement.closest('tr');
+        } catch (e) { tr = null; }
+
+        // Fallback: buscar por data attribute reservation id
+        if (!tr) {
+          tr = document.querySelector(`tr[data-reservation-id="${reservationId}"]`);
+        }
+
+        if (tr) {
+          const badge = tr.querySelector('.estado-badge');
+          if (badge) {
+            badge.textContent = 'Cancelada';
+            badge.className = 'estado-badge estado-cancelada';
+          }
         }
       }
     } else {

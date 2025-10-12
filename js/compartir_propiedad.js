@@ -126,8 +126,8 @@ copiarBtn.addEventListener('mouseleave', () => copiarBtn.style.background = '#a3
   linkContainer.appendChild(copiarBtn);
   menu.appendChild(linkContainer);
 
-  // Mensaje temporal
-  function showTemporaryMessage(text, duration = 2000) {
+  // Mensaje temporal (se expone en window para que otras scripts puedan reutilizarlo)
+  window.showTemporaryMessage = function (text, duration = 2000) {
     let msgEl = document.getElementById('copiado-msg');
     const svgCheck = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <circle cx="12" cy="12" r="11" fill="#e6f6ec"/>
@@ -166,7 +166,7 @@ copiarBtn.addEventListener('mouseleave', () => copiarBtn.style.background = '#a3
       msgEl.style.opacity = '0';
       msgEl.style.transform = 'translate(-50%, 6px)';
     }, duration);
-  }
+  };
 
   // Obtener URL del backend
   async function obtenerURL() {

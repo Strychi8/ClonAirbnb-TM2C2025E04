@@ -123,20 +123,42 @@ document.addEventListener('DOMContentLoaded', () => {
       console.error('guardar_propiedad error:', error);
       // revertir UI optimista si hubo error
       setIcon(previousSaved);
-      alert('No se pudo guardar la propiedad: ' + (error.message || error));
+      // Mostrar notificación de error usando la función global si existe
+      if (window && typeof window.showTemporaryMessage === 'function') {
+        window.showTemporaryMessage('No se pudo guardar la propiedad: ' + (error.message || error), 3000);
+      } else if (typeof showTemporaryMessage === 'function') {
+        showTemporaryMessage('No se pudo guardar la propiedad: ' + (error.message || error), 3000);
+      } else {
+        alert('No se pudo guardar la propiedad: ' + (error.message || error));
+      }
     }
   });
 
   function showMsg(text) {
+    // Preferir la función global expuesta por compartir_propiedad.js
+    try { } catch (e) { }
+    if (window && typeof window.showTemporaryMessage === 'function') {
+      window.showTemporaryMessage(text);
+      return;
+    }
     if (typeof showTemporaryMessage === 'function') {
       showTemporaryMessage(text);
-    } else {
-      // fallback
-      const tmp = document.createElement('div');
-      tmp.textContent = text;
-      document.body.appendChild(tmp);
-      setTimeout(() => tmp.remove(), 2000);
+      return;
     }
+    // fallback simple
+    const tmp = document.createElement('div');
+    tmp.textContent = text;
+    tmp.style.position = 'fixed';
+    tmp.style.left = '50%';
+    tmp.style.bottom = '24px';
+    tmp.style.transform = 'translateX(-50%)';
+    tmp.style.background = '#333';
+    tmp.style.color = '#fff';
+    tmp.style.padding = '10px 14px';
+    tmp.style.borderRadius = '8px';
+    tmp.style.zIndex = '9999';
+    document.body.appendChild(tmp);
+    setTimeout(() => tmp.remove(), 2000);
   }
 
 });
