@@ -130,9 +130,19 @@ header {
   background: #fff;
   border-radius: 12px;
   padding: 20px 22px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+  /* subir ligeramente el pop-up sobre el centro visual */
+  transform: translateY(-5vh);
+}
+.modal .modal-content-favorito {
+  width: 100%;
+  max-width: 720px;
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px 22px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
   /* subir ligeramente el pop-up sobre el centro visual */
   transform: translateY(-30vh);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
 }
 
 @media (max-height: 560px), (max-width: 420px) {
