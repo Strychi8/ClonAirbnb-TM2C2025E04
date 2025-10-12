@@ -15,10 +15,21 @@ try {
     }
 
     $usuario_id = isset($_GET['usuario_id']) ? (int)$_GET['usuario_id'] : 0;
-
     if ($usuario_id <= 0) {
         throw new InvalidArgumentException('ID de usuario inválido.');
     }
+
+    // --- Actualizar reservas activas a finalizadas si la fecha_fin ya pasó ---
+    $hoy = date('Y-m-d');
+    $pdo->prepare("
+        UPDATE reservas
+        SET estado = 'finalizada'
+        WHERE estado = 'activa' AND fecha_fin < :hoy AND usuario_id = :usuario_id
+    ")->execute([
+        ':hoy' => $hoy,
+        ':usuario_id' => $usuario_id
+    ]);
+    // ----------------------------------------------------------------------
 
     $stmt = $pdo->prepare("
         SELECT 
@@ -28,22 +39,23 @@ try {
             r.apellido, 
             r.email, 
             r.telefono, 
-            r.fecha_inicio, 
-            r.fecha_fin, 
+            DATE(r.fecha_inicio) AS fecha_inicio,
+            DATE(r.fecha_fin) AS fecha_fin,
             r.cantidad_personas, 
             r.precio_noche,
             r.precio_total, 
             r.metodo_pago,
-            r.fecha_reserva,
-			r.estado,
-            a.nombre as alojamiento_nombre,
-            a.imagen_principal as alojamiento_imagen,
-            a.direccion as alojamiento_direccion
+            DATE(r.fecha_reserva) AS fecha_reserva,
+            r.estado,
+            a.nombre AS alojamiento_nombre,
+            a.imagen_principal AS alojamiento_imagen,
+            a.direccion AS alojamiento_direccion
         FROM reservas r
         INNER JOIN alojamientos a ON r.alojamiento_id = a.id
         WHERE r.usuario_id = :usuario_id
-        ORDER BY r.fecha_reserva DESC
+        ORDER BY r.fecha_inicio ASC
     ");
+
     $stmt->execute([':usuario_id' => $usuario_id]);
     $reservas = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
