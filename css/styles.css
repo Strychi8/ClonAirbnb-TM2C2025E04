@@ -112,6 +112,10 @@ header {
   background-color: #a56300;
 }
 
+.btn-cancelar-disabled {
+  background-color: #a56300;
+}
+
 /* Modal genérico estilo centrado */
 .modal {
   display: none; /* mostrado vía JS */

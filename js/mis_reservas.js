@@ -102,12 +102,12 @@ function displayReservations(reservations) {
     // Botón de cancelación
     let cancelButton = '';
     if (reservation.estado !== 'activa') {
-      cancelButton = `<span style="color:#999;">No cancelable</span>`;
+      cancelButton = `<span style="color:#6b6b6b; font-weight: bold;">No Cancelable</span>`;
     } else {
       const diffDays = (fechaInicio - hoy) / (1000*60*60*24);
       cancelButton = diffDays >= 2
-        ? `<button class="btn-cancelar" onclick="cancelReservation(${reservation.id}, this)">Cancelar</button>`
-        : `<button class="btn-cancelar-disabled" disabled>No cancelable</button>`;
+        ? `<button class="btn-cancel" onclick="cancelReservation(${reservation.id}, this)">Cancelar</button>`
+        : `<button class="btn-cancelar-disabled" disabled>No Cancelable</button>`;
     }
 
     const precioFmt = parseFloat(reservation.precio_total).toLocaleString('es-AR',{minimumFractionDigits:2, maximumFractionDigits:2});
