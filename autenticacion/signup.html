@@ -55,11 +55,29 @@
                 <button type="submit" class="btn btn-primary btn-full">Registrarse</button>
             </form>
 
+      <div id="signup-error" role="alert" style="display:none; color: #e5534b; margin-top: 12px; font-weight: bold; text-align:center;"></div>
+
             <div class="registration-link">
                 <p>¿Ya tiene una cuenta? <a href="signin.html">Iniciar sesión</a></p>
             </div>
         </div>
     </main>
+
+    <!-- Modal para errores de registro -->
+    <div id="signupModal" class="modal" role="alertdialog" aria-modal="true" aria-hidden="true" style="display:none;">
+      <div class="modal-content" role="document" style="max-width:480px;">
+        <div class="modal-header">
+          <h2>Error en el registro</h2>
+          <button id="signupModalClose" class="close" aria-label="Cerrar" style="background:none;border:none;font-size:20px;">×</button>
+        </div>
+        <div class="modal-body" style="padding-top:8px; padding-bottom:8px;">
+          <p id="signupModalMessage" style="margin:0; color:#b00020; font-weight: bold;">Ha ocurrido un error.</p>
+        </div>
+        <div style="display:flex; justify-content:flex-end; gap:8px; padding-top:8px;">
+          <button id="signupModalOk" class="btn btn-primary" type="button">Aceptar</button>
+        </div>
+      </div>
+    </div>
 
     <script src="../js/icono.js"></script>
 	<script>
@@ -82,6 +100,58 @@
 		if (window.location.search.includes('success') || document.cookie.includes('logged_in=true')) {
 			localStorage.removeItem('redirect_after_login');
 		}
+
+    // Mostrar modal con mensaje de error según el código ?error
+    (function showSignupErrorIfNeeded() {
+      try {
+        const params = new URLSearchParams(window.location.search);
+        const code = params.get('error');
+        if (!code) return;
+
+        const msgMap = {
+          '1': 'Todos los campos son obligatorios.',
+          '2': 'Las contraseñas no coinciden.',
+          '3': 'El formato del email es inválido.',
+          '4': 'El email ya está registrado.',
+          '5': 'Error al registrar el usuario. Intenta nuevamente.'
+        };
+
+        const message = msgMap[code] || 'Error en el registro.';
+
+        const errEl = document.getElementById('signup-error');
+        if (errEl) { errEl.style.display = 'none'; }
+
+        const modal = document.getElementById('signupModal');
+        const modalMsg = document.getElementById('signupModalMessage');
+        const modalClose = document.getElementById('signupModalClose');
+        const modalOk = document.getElementById('signupModalOk');
+
+        if (modal) {
+          if (modalMsg) modalMsg.textContent = message;
+          modal.style.display = 'flex';
+          modal.setAttribute('aria-hidden', 'false');
+
+          function hide() {
+            modal.style.display = 'none';
+            modal.setAttribute('aria-hidden', 'true');
+            modalClose && modalClose.removeEventListener('click', onClose);
+            modalOk && modalOk.removeEventListener('click', onClose);
+            modal.removeEventListener('click', onOverlay);
+          }
+          function onClose(e) { e && e.preventDefault(); hide(); }
+          function onOverlay(ev) { if (ev.target === modal) hide(); }
+
+          modalClose && modalClose.addEventListener('click', onClose);
+          modalOk && modalOk.addEventListener('click', onClose);
+          modal.addEventListener('click', onOverlay);
+        }
+
+        // limpiar parámetro de la URL
+        params.delete('error');
+        const newUrl = window.location.pathname + (params.toString() ? ('?' + params.toString()) : '');
+        window.history.replaceState({}, document.title, newUrl);
+      } catch (e) { /* ignore */ }
+    })();
 	</script>
   </body>
 </html>

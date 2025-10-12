@@ -25,10 +25,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             header("Location: " . $redirect_url);
             exit();
         } else {
-            echo "Email o contraseña incorrectos.";
+            // Redirigir de vuelta al formulario de login con un flag de error
+            header('Location: ../autenticacion/signin.html?error=1');
+            exit();
         }
     } else {
-        echo "Email o contraseña incorrectos.";
+        // Redirigir de vuelta al formulario de login con un flag de error
+        header('Location: ../autenticacion/signin.html?error=1');
+        exit();
     }
 
     $stmt->closeCursor();

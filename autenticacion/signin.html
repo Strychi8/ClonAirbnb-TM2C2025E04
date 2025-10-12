@@ -31,6 +31,7 @@
             </div>
             
             <form action="../backend/login.php" method="POST">
+             <div id="login-error" role="alert" style="display:none; color: #e5534b; margin-bottom: 12px; font-weight: bold; text-align: center; border: 1px solid #e5534b;"></div>
                 <div class="form-group">
                     <label for="email">Email</label>
                     <input type="email" name="email" id="email" placeholder="tu@email.com" required>
@@ -50,6 +51,22 @@
             </div>
         </div>
     </main>
+
+        <!-- Modal de error de login -->
+        <div id="loginModal" class="modal" role="alertdialog" aria-modal="true" aria-hidden="true" style="display:none;">
+          <div class="modal-content" role="document" style="max-width:480px;">
+            <div class="modal-header">
+              <h2>Error de autenticación</h2>
+              <button id="loginModalClose" class="close" aria-label="Cerrar" style="background:none;border:none;font-size:20px;">×</button>
+            </div>
+            <div class="modal-body" style="padding-top:8px; padding-bottom:8px;">
+              <p id="loginModalMessage" style="margin:0; color:#b00020; font-weight: bold;">Email o contraseña incorrectos.</p>
+            </div>
+            <div style="display:flex; justify-content:flex-end; gap:8px; padding-top:8px;">
+              <button id="loginModalOk" class="btn btn-primary" type="button">Aceptar</button>
+            </div>
+          </div>
+        </div>
 
 	<script src="../js/icono.js"></script>
 	<script>
@@ -72,6 +89,55 @@
 		if (window.location.search.includes('success') || document.cookie.includes('logged_in=true')) {
 			localStorage.removeItem('redirect_after_login');
 		}
+
+    // Mostrar mensaje de error si el backend redirige con ?error=1
+    (function showLoginErrorIfNeeded() {
+      try {
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('error') === '1') {
+          const errEl = document.getElementById('login-error');
+          if (errEl) {
+            errEl.textContent = 'Email o contraseña incorrectos.';
+            errEl.style.display = 'none'; // lo mostramos via modal en su lugar
+          }
+
+          // Mostrar modal
+          const loginModal = document.getElementById('loginModal');
+          const loginModalMessage = document.getElementById('loginModalMessage');
+          const loginModalClose = document.getElementById('loginModalClose');
+          const loginModalOk = document.getElementById('loginModalOk');
+          if (loginModal) {
+            // establecer mensaje si lo hay
+            if (loginModalMessage) loginModalMessage.textContent = 'Email o contraseña incorrectos.';
+            loginModal.style.display = 'flex';
+            loginModal.setAttribute('aria-hidden', 'false');
+
+            function hideModal() {
+              loginModal.style.display = 'none';
+              loginModal.setAttribute('aria-hidden', 'true');
+              // limpiar listeners
+              loginModalClose && loginModalClose.removeEventListener('click', onClose);
+              loginModalOk && loginModalOk.removeEventListener('click', onClose);
+              loginModal.removeEventListener('click', onOverlayClick);
+            }
+
+            function onClose(e) { e && e.preventDefault(); hideModal(); }
+            function onOverlayClick(ev) {
+              if (ev.target === loginModal) hideModal();
+            }
+
+            if (loginModalClose) loginModalClose.addEventListener('click', onClose);
+            if (loginModalOk) loginModalOk.addEventListener('click', onClose);
+            loginModal.addEventListener('click', onOverlayClick);
+          }
+
+          // eliminar parámetro de la URL sin recargar la página
+          params.delete('error');
+          const newUrl = window.location.pathname + (params.toString() ? ('?' + params.toString()) : '');
+          window.history.replaceState({}, document.title, newUrl);
+        }
+      } catch (e) { /* ignore */ }
+    })();
 	</script>
   </body>
 </html>

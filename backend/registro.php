@@ -12,17 +12,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Valida que los campos no estén vacíos
     if (empty($nombre) || empty($email) || empty($password) || empty($password_confirm)) {
-        die("Todos los campos son obligatorios.");
+        header('Location: ../autenticacion/signup.html?error=1');
+        exit();
     }
 
     // Valida que las contraseñas coincidan
     if ($password !== $password_confirm) {
-        die("Las contraseñas no coinciden.");
+        header('Location: ../autenticacion/signup.html?error=2');
+        exit();
     }
 
     // Valida el formato del email
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        die("El formato del email es inválido.");
+        header('Location: ../autenticacion/signup.html?error=3');
+        exit();
+    }
+
+    // Verificar si el email ya está registrado
+    $checkStmt = $pdo->prepare('SELECT id FROM usuarios WHERE email = ? LIMIT 1');
+    $checkStmt->execute([$email]);
+    if ($checkStmt->fetch(PDO::FETCH_ASSOC)) {
+        header('Location: ../autenticacion/signup.html?error=4');
+        exit();
     }
 
     // Hashea la contraseña para mayor seguridad
@@ -49,8 +60,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header("Location: " . $redirect_url);
         exit();
     } else {
-        // Muestra un error si la inserción falla
-        echo "Error al registrar el usuario: " . $stmt->error;
+        // Redirigir a la forma de registro con un error genérico
+        header('Location: ../autenticacion/signup.html?error=5');
+        exit();
     }
 
     // Cierra la declaración y la conexión
