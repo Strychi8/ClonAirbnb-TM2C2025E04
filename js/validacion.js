@@ -311,6 +311,14 @@
   // Validación de tarjeta
   const form = document.querySelector("form");
   form.addEventListener("submit", function (e) {
+    const pagoManualSection = document.getElementById('pago-manual-section');
+    
+    // Skip validation if manual section is hidden (using saved method)
+    if (pagoManualSection && pagoManualSection.style.display === 'none') {
+      // Saved method is being used, validation handled by metodoPago.js
+      return true;
+    }
+
     numeroTarjeta.value = seg1.value + seg2.value + seg3.value + seg4.value;
 
     if (!seg1.value || !seg2.value || !seg3.value || !seg4.value) {
