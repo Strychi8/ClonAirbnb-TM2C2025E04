@@ -174,27 +174,44 @@
             </div>
 
             <div class="form-group">
-                <label for="metodo">Método de Pago</label>
-                <select id="metodo" name="metodo_pago" required>
-                    <option value="">-- Seleccionar --</option>
-                    <option value="visa-credito">Visa Crédito</option>
-                    <option value="visa-debito">Visa Débito</option>
-                    <option value="master-credito">Mastercard Crédito</option>
-                    <option value="master-debito">Mastercard Débito</option>
-                    <option value="mercadopago">Mercado Pago</option>
+                <label for="metodo-guardado">Método de Pago</label>
+                <select id="metodo-guardado" name="metodo_guardado">
+                    <option value="">-- Cargando métodos guardados... --</option>
                 </select>
+                <small style="color: #666; font-size: 0.85em;">
+                    Selecciona un método guardado o usa "➕ Nuevo método de pago" para ingresar uno nuevo. 
+                    <a href="../cuenta/metodos_pago.html" style="color: #2c5aa0; text-decoration: underline;">Gestionar métodos</a>
+                </small>
             </div>
 
-            <div class="form-group">
-                <label for="numero">Número de Tarjeta</label>
-                <div class="card-inputs">
-                    <input type="text" id="seg1" maxlength="6" class="tarjeta-seg" readonly>
-                    <span>-</span>
-                    <input type="text" id="seg2" maxlength="2" class="tarjeta-seg">
-                    <span>-</span>
-                    <input type="text" id="seg3" maxlength="4" class="tarjeta-seg">
-                    <span>-</span>
-                    <input type="text" id="seg4" maxlength="4" class="tarjeta-seg">
+            <div id="pago-manual-section" style="display: none;">
+                <div class="form-group">
+                    <label for="metodo">Tipo de Tarjeta</label>
+                    <select id="metodo" name="metodo_pago">
+                        <option value="">-- Seleccionar --</option>
+                        <option value="visa-credito">Visa Crédito</option>
+                        <option value="visa-debito">Visa Débito</option>
+                        <option value="master-credito">Mastercard Crédito</option>
+                        <option value="master-debito">Mastercard Débito</option>
+                        <option value="mercadopago">Mercado Pago</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="numero">Número de Tarjeta</label>
+                    <div class="card-inputs">
+                        <input type="text" id="seg1" maxlength="6" class="tarjeta-seg" readonly>
+                        <span>-</span>
+                        <input type="text" id="seg2" maxlength="2" class="tarjeta-seg">
+                        <span>-</span>
+                        <input type="text" id="seg3" maxlength="4" class="tarjeta-seg">
+                        <span>-</span>
+                        <input type="text" id="seg4" maxlength="4" class="tarjeta-seg">
+                    </div>
+                    <small style="color: #888; font-size: 0.85em; margin-top: 5px; display: block;">
+                        💡 Este método NO se guardará automáticamente. Para guardarlo, ve a 
+                        <a href="../cuenta/metodos_pago.html" style="color: #2c5aa0; text-decoration: underline;">Métodos de Pago</a>
+                    </small>
                 </div>
             </div>
 
