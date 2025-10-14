@@ -160,7 +160,7 @@ try {
     $reserva_id = $pdo->lastInsertId();
     $pdo->commit();
 
-    // Enviar email al dueño del alojamiento
+    // Enviar emails de notificación
     try {
         require_once __DIR__ . '/email_service.php';
         $stmt = $pdo->prepare("
@@ -188,7 +188,12 @@ try {
                 'fecha_reserva' => date('Y-m-d H:i:s'),
                 'alojamiento_nombre' => $ownerData['alojamiento_nombre']
             ];
+            
+            // Send email to owner
             $emailService->sendNewReservationNotification($reservationData, $ownerData);
+            
+            // Send confirmation email to guest
+            $emailService->sendReservationConfirmation($reservationData);
         }
     } catch (Exception $e) {
         error_log("Email notification error: " . $e->getMessage());

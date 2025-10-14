@@ -39,6 +39,10 @@ $EMAIL_TEMPLATES = [
     'new_reservation' => [
         'subject' => 'Nueva reserva recibida - Erbienbi',
         'template_file' => 'email_templates/new_reservation.html'
+    ],
+    'reservation_confirmation' => [
+        'subject' => '✅ Confirmación de Reserva - Erbienbi',
+        'template_file' => 'email_templates/reservation_confirmation.html'
     ]
 ];
 

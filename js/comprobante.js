@@ -223,17 +223,6 @@ function imprimirComprobante() {
     });
 }
 
-function enviarPorEmail() {
-    // Función para enviar el comprobante por email
-    // Por ahora, mostramos un mensaje informativo
-    alert('Función de envío por email en desarrollo. Por favor, use la función de impresión para guardar su comprobante.');
-    
-    // En una implementación futura, aquí se podría:
-    // 1. Abrir un modal con un formulario de email
-    // 2. Enviar una petición al backend para enviar el email
-    // 3. Mostrar confirmación de envío
-}
-
 // Función para formatear números con separadores de miles
 function formatearNumero(numero) {
     return numero.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");

@@ -405,6 +405,25 @@ class EmailService {
     }
     
     /**
+     * Send reservation confirmation to guest
+     */
+    public function sendReservationConfirmation(array $reservationData): bool {
+        $subject = $this->templates['reservation_confirmation']['subject'];
+        
+        // Build email content
+        $htmlBody = $this->buildGuestConfirmationEmailHTML($reservationData);
+        $textBody = $this->buildGuestConfirmationEmailText($reservationData);
+        
+        return $this->sendEmail(
+            $reservationData['email'],
+            $reservationData['nombre'],
+            $subject,
+            $htmlBody,
+            $textBody
+        );
+    }
+    
+    /**
      * Build headers for email
      */
     private function buildHeaders(string $toName): string {
@@ -670,6 +689,158 @@ class EmailService {
         $text .= "Fecha de reserva: " . $reservationData['fecha_reserva'] . "\n\n";
         $text .= "Te recomendamos contactar al huésped para confirmar los detalles y coordinar el check-in.\n\n";
         $text .= "Gracias por confiar en Erbienbi.\n\n";
+        $text .= "---\n";
+        $text .= "Este email fue enviado automáticamente por el sistema Erbienbi.";
+        
+        return $text;
+    }
+    
+    /**
+     * Build HTML email for guest confirmation using template
+     */
+    private function buildGuestConfirmationEmailHTML(array $reservationData): string {
+        $templatePath = __DIR__ . '/email_templates/reservation_confirmation.html';
+        
+        // Check if template file exists
+        if (!file_exists($templatePath)) {
+            // Fallback to inline HTML if template file doesn't exist
+            return $this->buildGuestConfirmationEmailHTMLFallback($reservationData);
+        }
+        
+        // Load template
+        $template = file_get_contents($templatePath);
+        
+        if ($template === false) {
+            // Fallback if template can't be read
+            return $this->buildGuestConfirmationEmailHTMLFallback($reservationData);
+        }
+        
+        // Replace placeholders with actual data
+        $replacements = [
+            '{{GUEST_NAME}}'         => htmlspecialchars($reservationData['nombre']),
+            '{{GUEST_LASTNAME}}'     => htmlspecialchars($reservationData['apellido']),
+            '{{ACCOMMODATION_NAME}}' => htmlspecialchars($reservationData['alojamiento_nombre']),
+            '{{GUEST_EMAIL}}'        => htmlspecialchars($reservationData['email']),
+            '{{GUEST_PHONE}}'        => htmlspecialchars($reservationData['telefono']),
+            '{{CHECK_IN_DATE}}'      => htmlspecialchars($this->formatDate($reservationData['fecha_inicio'])),
+            '{{CHECK_OUT_DATE}}'     => htmlspecialchars($this->formatDate($reservationData['fecha_fin'])),
+            '{{GUEST_COUNT}}'        => htmlspecialchars((string)$reservationData['cantidad_personas']),
+            '{{PRICE_PER_NIGHT}}'    => number_format($reservationData['precio_noche'], 2),
+            '{{TOTAL_PRICE}}'        => number_format($reservationData['precio_total'], 2),
+            '{{PAYMENT_METHOD}}'     => htmlspecialchars($reservationData['metodo_pago']),
+            '{{RESERVATION_DATE}}'   => htmlspecialchars($this->formatDateTime($reservationData['fecha_reserva']))
+        ];
+        
+        // Replace all placeholders
+        $html = str_replace(array_keys($replacements), array_values($replacements), $template);
+        
+        return $html;
+    }
+    
+    /**
+     * Fallback HTML email builder for guest confirmation (inline HTML)
+     */
+    private function buildGuestConfirmationEmailHTMLFallback(array $reservationData): string {
+        $html = '<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Confirmación de Reserva - Erbienbi</title>
+    <style>
+        body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; }
+        .header { background-color: #28a745; color: white; padding: 20px; text-align: center; }
+        .content { padding: 20px; background-color: #f9f9f9; }
+        .reservation-details { background-color: white; padding: 15px; margin: 10px 0; border-radius: 5px; }
+        .detail-row { margin: 8px 0; }
+        .label { font-weight: bold; color: #555; }
+        .footer { padding: 20px; text-align: center; font-size: 12px; color: #666; }
+        .success-badge { background-color: #28a745; color: white; padding: 10px 20px; border-radius: 20px; display: inline-block; margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>¡Reserva Confirmada!</h1>
+            <div class="success-badge">Confirmación de Reserva</div>
+        </div>
+        
+        <div class="content">
+            <p>Estimado/a <strong>' . htmlspecialchars($reservationData['nombre']) . '</strong>,</p>
+            
+            <p>¡Excelentes noticias! Tu reserva ha sido confirmada exitosamente para <strong>"' . htmlspecialchars($reservationData['alojamiento_nombre']) . '"</strong>.</p>
+            
+            <div class="reservation-details">
+                <h3>Detalles de tu Reserva</h3>
+                
+                <div class="detail-row">
+                    <span class="label">Fecha de entrada:</span> ' . htmlspecialchars($this->formatDate($reservationData['fecha_inicio'])) . '
+                </div>
+                
+                <div class="detail-row">
+                    <span class="label">Fecha de salida:</span> ' . htmlspecialchars($this->formatDate($reservationData['fecha_fin'])) . '
+                </div>
+                
+                <div class="detail-row">
+                    <span class="label">Cantidad de personas:</span> ' . htmlspecialchars((string)$reservationData['cantidad_personas']) . '
+                </div>
+                
+                <div class="detail-row">
+                    <span class="label">Precio por noche:</span> $' . number_format($reservationData['precio_noche'], 2) . '
+                </div>
+                
+                <div class="detail-row">
+                    <span class="label">Precio total:</span> <strong>$' . number_format($reservationData['precio_total'], 2) . '</strong>
+                </div>
+                
+                <div class="detail-row">
+                    <span class="label">Método de pago:</span> ' . htmlspecialchars($reservationData['metodo_pago']) . '
+                </div>
+            </div>
+            
+            <p><strong>Información de contacto:</strong></p>
+            <p>Email: ' . htmlspecialchars($reservationData['email']) . '<br>
+            Teléfono: ' . htmlspecialchars($reservationData['telefono']) . '</p>
+            
+            <p>El propietario del alojamiento se pondrá en contacto contigo próximamente para coordinar los detalles del check-in.</p>
+            
+            <p>¡Que disfrutes tu estadía!</p>
+        </div>
+        
+        <div class="footer">
+            <p>Este email fue enviado automáticamente por el sistema Erbienbi.<br>
+            Si tienes alguna consulta, no dudes en contactarnos.</p>
+        </div>
+    </div>
+</body>
+</html>';
+        
+        return $html;
+    }
+    
+    /**
+     * Build text email for guest confirmation
+     */
+    private function buildGuestConfirmationEmailText(array $reservationData): string {
+        $text = "CONFIRMACIÓN DE RESERVA - Erbienbi\n\n";
+        $text .= "Estimado/a " . $reservationData['nombre'] . ",\n\n";
+        $text .= "¡Excelentes noticias! Tu reserva ha sido confirmada exitosamente para \"" . $reservationData['alojamiento_nombre'] . "\".\n\n";
+        $text .= "DETALLES DE TU RESERVA:\n";
+        $text .= "------------------------\n";
+        $text .= "Alojamiento: " . $reservationData['alojamiento_nombre'] . "\n";
+        $text .= "Fecha de entrada: " . $reservationData['fecha_inicio'] . "\n";
+        $text .= "Fecha de salida: " . $reservationData['fecha_fin'] . "\n";
+        $text .= "Cantidad de personas: " . $reservationData['cantidad_personas'] . "\n";
+        $text .= "Precio por noche: $" . number_format($reservationData['precio_noche'], 2) . "\n";
+        $text .= "Precio total: $" . number_format($reservationData['precio_total'], 2) . "\n";
+        $text .= "Método de pago: " . $reservationData['metodo_pago'] . "\n";
+        $text .= "Fecha de reserva: " . $reservationData['fecha_reserva'] . "\n\n";
+        $text .= "INFORMACIÓN DE CONTACTO:\n";
+        $text .= "------------------------\n";
+        $text .= "Email: " . $reservationData['email'] . "\n";
+        $text .= "Teléfono: " . $reservationData['telefono'] . "\n\n";
+        $text .= "El propietario del alojamiento se pondrá en contacto contigo próximamente para coordinar los detalles del check-in.\n\n";
+        $text .= "¡Que disfrutes tu estadía!\n\n";
         $text .= "---\n";
         $text .= "Este email fue enviado automáticamente por el sistema Erbienbi.";
         
