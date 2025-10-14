@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Métodos de Pago - Erbienbi</title>
+    <link rel="stylesheet" href="../css/formularios.css">
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/perfil.css">
+    <style>
+        .metodos-list {
+            display: grid;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .metodo-card {
+            background: #fff;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .metodo-card:hover {
+            border-color: #2c5aa0;
+            box-shadow: 0 2px 8px rgba(44, 90, 160, 0.1);
+        }
+        
+        .metodo-card.predeterminado {
+            border-color: #2c5aa0;
+            background: linear-gradient(135deg, #f8f9ff 0%, #ffffff 100%);
+        }
+        
+        .metodo-info {
+            flex: 1;
+        }
+        
+        .metodo-tipo {
+            font-weight: 600;
+            color: #333;
+            font-size: 1.1em;
+            margin-bottom: 5px;
+            text-transform: capitalize;
+        }
+        
+        .metodo-numero {
+            color: #666;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95em;
+        }
+        
+        .metodo-badge {
+            display: inline-block;
+            background: #2c5aa0;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75em;
+            margin-top: 8px;
+            font-weight: 500;
+        }
+        
+        .metodo-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .btn-icon {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.3em;
+            padding: 8px;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+        
+        .btn-icon:hover {
+            background: #f0f0f0;
+        }
+        
+        .btn-icon.delete:hover {
+            background: #ffebee;
+            color: #c62828;
+        }
+        
+        .btn-icon.default:hover {
+            background: #e8f4f8;
+            color: #2c5aa0;
+        }
+        
+        .add-metodo-form {
+            background: #f8f9fa;
+            border: 2px dashed #ccc;
+            border-radius: 12px;
+            padding: 25px;
+            margin-top: 20px;
+        }
+        
+        .add-metodo-form.active {
+            border-style: solid;
+            border-color: #2c5aa0;
+            background: white;
+        }
+        
+        .btn-add-new {
+            width: 100%;
+            padding: 15px;
+            background: white;
+            border: 2px dashed #2c5aa0;
+            color: #2c5aa0;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-add-new:hover {
+            background: #2c5aa0;
+            color: white;
+            border-style: solid;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #666;
+        }
+        
+        .empty-state-icon {
+            font-size: 4em;
+            margin-bottom: 15px;
+            opacity: 0.5;
+        }
+        
+        .card-inputs {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .tarjeta-seg {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 1em;
+            text-align: center;
+        }
+        
+        .tarjeta-seg:focus {
+            outline: none;
+            border-color: #2c5aa0;
+        }
+        
+        #seg1 {
+            width: 80px;
+            background-color: #f5f5f5;
+        }
+        
+        #seg2 {
+            width: 50px;
+        }
+        
+        #seg3, #seg4 {
+            width: 70px;
+        }
+        
+        .alert {
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 0.95em;
+        }
+        
+        .alert-info {
+            background: #e3f2fd;
+            color: #1976d2;
+            border-left: 4px solid #1976d2;
+        }
+        
+        .alert-warning {
+            background: #fff3e0;
+            color: #f57c00;
+            border-left: 4px solid #f57c00;
+        }
+        
+        .alert-error {
+            background: #ffebee;
+            color: #c62828;
+            border-left: 4px solid #c62828;
+        }
+        
+        .alert-success {
+            background: #e8f5e9;
+            color: #2e7d32;
+            border-left: 4px solid #2e7d32;
+        }
+    </style>
+</head>
+
+<body>
+    <script src="../js/session_utils.js"></script>
+    <script>
+        // Check if user is logged in
+        document.addEventListener('DOMContentLoaded', function() {
+            SessionUtils.getSessionData().then(function(sessionData) {
+                if (!sessionData.logged_in) {
+                    window.location.href = '../autenticacion/signin.html';
+                }
+            });
+        });
+    </script>
+
+    <header>
+      <div class="marquee-wrapper">
+        <h1 class="marquee-text">
+          -- 🏠 🏡 -- Erbienbi - El Hospedaje que Buscas, al Mejor Precio -- 🏡 🏠 --
+        </h1>
+      </div>
+    </header>
+
+    <main class="perfil-container">
+        <div class="form-links">
+            <a href="perfil.html"><button type="button" class="btn btn-primary">Volver a Mi Perfil</button></a>
+        </div>
+
+        <div class="perfil-card">
+            <div class="perfil-header">
+                <h1>💳 Mis Métodos de Pago</h1>
+                <p style="margin: 10px 0 0 0; color: #666; font-size: 0.95em;">
+                    Guarda tus tarjetas para realizar reservas más rápidamente (máximo 3)
+                </p>
+            </div>
+
+            <div id="alert-container"></div>
+
+            <!-- Lista de métodos de pago -->
+            <div id="metodos-list" class="metodos-list">
+                <div class="empty-state">
+                    <div class="empty-state-icon">💳</div>
+                    <p>Cargando métodos de pago...</p>
+                </div>
+            </div>
+
+            <!-- Formulario para agregar nuevo método -->
+            <div id="add-metodo-form" class="add-metodo-form" style="display: none;">
+                <h3 style="margin-top: 0; color: #333;">Agregar Nuevo Método de Pago</h3>
+                
+                <form id="form-metodo-pago">
+                    <input type="hidden" id="metodo-id" name="id">
+                    <input type="hidden" id="numeroTarjeta" name="numeroTarjeta">
+                    
+                    <div class="form-group">
+                        <label for="metodo">Método de Pago *</label>
+                        <select id="metodo" name="metodo_pago" required>
+                            <option value="">-- Seleccionar --</option>
+                            <option value="visa-credito">Visa Crédito</option>
+                            <option value="visa-debito">Visa Débito</option>
+                            <option value="master-credito">Mastercard Crédito</option>
+                            <option value="master-debito">Mastercard Débito</option>
+                            <option value="mercadopago">Mercado Pago</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="numero">Número de Tarjeta *</label>
+                        <div class="card-inputs">
+                            <input type="text" id="seg1" maxlength="6" class="tarjeta-seg" readonly>
+                            <span>-</span>
+                            <input type="text" id="seg2" maxlength="2" class="tarjeta-seg" required>
+                            <span>-</span>
+                            <input type="text" id="seg3" maxlength="4" class="tarjeta-seg" required>
+                            <span>-</span>
+                            <input type="text" id="seg4" maxlength="4" class="tarjeta-seg" required>
+                        </div>
+                        <small style="color: #666; font-size: 0.85em;">
+                            Los primeros 6 dígitos se completan automáticamente según el método seleccionado
+                        </small>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">💾 Guardar Método</button>
+                        <button type="button" class="btn btn-secondary" id="btn-cancelar-form">❌ Cancelar</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Botón para mostrar formulario -->
+            <button id="btn-mostrar-form" class="btn-add-new">
+                ➕ Agregar Método de Pago
+            </button>
+        </div>
+    </main>
+
+    <script src="../js/metodos_pago.js"></script>
+    <script src="../js/icono.js"></script>
+
+</body>
+</html>
+

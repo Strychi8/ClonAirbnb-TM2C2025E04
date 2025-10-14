@@ -97,6 +97,7 @@ CREATE TABLE `reservas` (
 
 ALTER TABLE reservas ADD COLUMN estado ENUM('activa', 'cancelada', 'finalizada') DEFAULT 'activa';
 
+
 -- Estado del usuario y datos de desactivación
 ALTER TABLE usuarios
   ADD COLUMN estado ENUM('activo','desactivado','eliminado') NOT NULL DEFAULT 'activo' AFTER created_at,
@@ -113,4 +114,16 @@ CREATE TABLE IF NOT EXISTS usuario_desactivaciones (
   detalle TEXT NULL,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
+);
+
+CREATE TABLE `metodos_pago` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `usuario_id` int(11) NOT NULL,
+  `metodo_pago` varchar(30) NOT NULL,
+  `numero_tarjeta` varchar(16) NOT NULL,
+  `es_predeterminado` tinyint(1) DEFAULT 0,
+  `creado_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`),
+  KEY `usuario_id` (`usuario_id`),
+  CONSTRAINT `fk_metodos_pago_usuario` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE
 );
