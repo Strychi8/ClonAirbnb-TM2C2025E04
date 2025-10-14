@@ -229,3 +229,29 @@
   color: #999;
   font-size: 18px;
 }
+
+#modal-desactivar.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: none;              /* se cambia a flex al abrir */
+  align-items: center;        /* centra vertical */
+  justify-content: center;    /* centra horizontal */
+}
+#modal-desactivar .modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,.45);
+}
+#modal-desactivar .modal-content {
+  position: relative;
+  width: min(92vw, 560px);
+  max-height: 85vh;
+  overflow: auto;
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.2);
+  z-index: 1;
+  margin: 0;             
+}

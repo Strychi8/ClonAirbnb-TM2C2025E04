@@ -7,7 +7,7 @@
     <title>Login - Erbienbi</title>
     <link rel="stylesheet" href="../css/styles.css" />
     <link rel="stylesheet" href="../css/formularios.css" />
-    
+
   </head>
 
   <body>
@@ -21,123 +21,182 @@
     </header>
 
     <main class="perfil-container">
-        <div class="form-links">
-            <a href="../index.html"><button type="button" class="btn btn-primary">Ir a la página principal</button></a>
+      <div class="form-links">
+        <a href="../index.html"><button type="button" class="btn btn-primary">Ir a la página principal</button></a>
+      </div>
+
+      <div class="perfil-card">
+        <div class="perfil-header">
+          <h1>Iniciar Sesión</h1>
         </div>
-        
-        <div class="perfil-card">
-            <div class="perfil-header">
-                <h1>Iniciar Sesión</h1>
-            </div>
-            
-            <form action="../backend/login.php" method="POST">
-             <div id="login-error" role="alert" style="display:none; color: #e5534b; margin-bottom: 12px; font-weight: bold; text-align: center; border: 1px solid #e5534b;"></div>
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" name="email" id="email" placeholder="tu@email.com" required>
-                </div>
 
-                <div class="form-group">
-                    <label for="password">Contraseña</label>
-                    <input type="password" name="password" id="password" placeholder="Contraseña" required>
-                </div>
+        <form action="../backend/login.php" method="POST">
+          <div id="login-error" role="alert" style="display:none; color:#e5534b; margin-bottom:12px; font-weight:bold; text-align:center; border:1px solid #e5534b;"></div>
 
-                <button type="submit" class="btn btn-primary btn-full">Iniciar Sesión</button>
-            </form>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" name="email" id="email" placeholder="tu@email.com" required>
+          </div>
 
-            <div class="registration-link">
-                <p>¿No tienes una cuenta? <a href="signup.html">Registrarse</a></p>
-                <p><a href="recuperar_contrasenia.html">¿Olvidaste tu contraseña?</a></p>
-            </div>
+          <div class="form-group">
+            <label for="password">Contraseña</label>
+            <input type="password" name="password" id="password" placeholder="Contraseña" required>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-full">Iniciar Sesión</button>
+        </form>
+
+        <div class="registration-link">
+          <p>¿No tienes una cuenta? <a href="signup.html">Registrarse</a></p>
+          <p><a href="recuperar_contrasenia.html">¿Olvidaste tu contraseña?</a></p>
         </div>
+      </div>
     </main>
 
-        <!-- Modal de error de login -->
-        <div id="loginModal" class="modal" role="alertdialog" aria-modal="true" aria-hidden="true" style="display:none;">
-          <div class="modal-content" role="document" style="max-width:480px;">
-            <div class="modal-header">
-              <h2>Error de autenticación</h2>
-              <button id="loginModalClose" class="close" aria-label="Cerrar" style="background:none;border:none;font-size:20px;">×</button>
-            </div>
-            <div class="modal-body" style="padding-top:8px; padding-bottom:8px;">
-              <p id="loginModalMessage" style="margin:0; color:#b00020; font-weight: bold;">Email o contraseña incorrectos.</p>
-            </div>
-            <div style="display:flex; justify-content:flex-end; gap:8px; padding-top:8px;">
-              <button id="loginModalOk" class="btn btn-primary" type="button">Aceptar</button>
-            </div>
-          </div>
+    <!-- Modal de error de login -->
+    <div id="loginModal" class="modal" role="alertdialog" aria-modal="true" aria-hidden="true" style="display:none;">
+      <div class="modal-content" role="document" style="max-width:480px;">
+        <div class="modal-header">
+          <h2>Error de autenticación</h2>
+          <button id="loginModalClose" class="close" aria-label="Cerrar" style="background:none;border:none;font-size:20px;">×</button>
         </div>
+        <div class="modal-body" style="padding-top:8px; padding-bottom:8px;">
+          <p id="loginModalMessage" style="margin:0; color:#b00020; font-weight:bold;">Email o contraseña incorrectos.</p>
+        </div>
+        <div style="display:flex; justify-content:flex-end; gap:8px; padding-top:8px;">
+          <button id="loginModalOk" class="btn btn-primary" type="button">Aceptar</button>
+        </div>
+      </div>
+    </div>
 
-	<script src="../js/icono.js"></script>
-	<script>
-		// Check if there's a redirect URL stored in localStorage
-		document.addEventListener('DOMContentLoaded', function() {
-			const redirectUrl = localStorage.getItem('redirect_after_login');
-			if (redirectUrl) {
-				// Add hidden input to the form to pass the redirect URL
-				const form = document.querySelector('form');
-				const hiddenInput = document.createElement('input');
-				hiddenInput.type = 'hidden';
-				hiddenInput.name = 'redirect_url';
-				hiddenInput.value = redirectUrl;
-				form.appendChild(hiddenInput);
-			}
-		});
-		
-		// Clear redirect URL from localStorage after successful login
-		// This will be called when the page loads after a successful login
-		if (window.location.search.includes('success') || document.cookie.includes('logged_in=true')) {
-			localStorage.removeItem('redirect_after_login');
-		}
+    <script src="../js/icono.js"></script>
+    <script>
+      // Inyectar redirect_url desde localStorage si existe
+      document.addEventListener('DOMContentLoaded', function () {
+        const redirectUrl = localStorage.getItem('redirect_after_login');
+        if (redirectUrl) {
+          const form = document.querySelector('form');
+          const hiddenInput = document.createElement('input');
+          hiddenInput.type = 'hidden';
+          hiddenInput.name = 'redirect_url';
+          hiddenInput.value = redirectUrl;
+          form.appendChild(hiddenInput);
+        }
+      });
 
-    // Mostrar mensaje de error si el backend redirige con ?error=1
-    (function showLoginErrorIfNeeded() {
-      try {
-        const params = new URLSearchParams(window.location.search);
-        if (params.get('error') === '1') {
-          const errEl = document.getElementById('login-error');
-          if (errEl) {
-            errEl.textContent = 'Email o contraseña incorrectos.';
-            errEl.style.display = 'none'; // lo mostramos via modal en su lugar
+      // Limpiar redirect_after_login si ya se inició sesión
+      if (window.location.search.includes('success') || document.cookie.includes('logged_in=true')) {
+        localStorage.removeItem('redirect_after_login');
+      }
+
+      (function authFlow() {
+        const params = new URLSearchParams(location.search);
+        const error  = params.get('error');
+        const emailParam = params.get('email') ? decodeURIComponent(params.get('email')) : '';
+
+        const form       = document.querySelector('form');
+        const emailInput = document.getElementById('email');
+        const passInput  = document.getElementById('password');
+
+        const modal      = document.getElementById('loginModal');
+        const modalTitle = modal?.querySelector('.modal-header h2');
+        const modalMsg   = document.getElementById('loginModalMessage');
+        const modalClose = document.getElementById('loginModalClose');
+        const modalOk    = document.getElementById('loginModalOk');
+
+        const inlineErr  = document.getElementById('login-error');
+        const wasDeactivated = (error === 'deactivated'); // guardamos el flag antes de limpiar la URL
+
+        function showInline(msg) { if (inlineErr) { inlineErr.textContent = msg; inlineErr.style.display = 'block'; } }
+        function hideInline()    { if (inlineErr) { inlineErr.textContent = ''; inlineErr.style.display = 'none'; } }
+
+        function openModal()  { if (modal) { modal.style.display = 'flex'; modal.setAttribute('aria-hidden','false'); } }
+        function closeModal() { if (modal) { modal.style.display = 'none'; modal.setAttribute('aria-hidden','true'); } }
+        function setMsg(title, text){ if (modalTitle) modalTitle.textContent = title; if (modalMsg) modalMsg.textContent = text; }
+
+        // Prefill email
+        if (emailParam && emailInput) emailInput.value = emailParam;
+
+        // Cerrar modal con X o click fuera
+        if (modal) {
+          modalClose && (modalClose.onclick = closeModal);
+          modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+        }
+
+        // ===== función única para intentar reactivar =====
+        async function attemptReactivate() {
+          const email = (emailInput?.value || '').trim();
+          const password = passInput?.value || '';
+          if (!email || !password) {
+            closeModal();
+            showInline('Ingresá tu email y contraseña para reactivar la cuenta.');
+            (email ? passInput : emailInput)?.focus();
+            return;
           }
+          try {
+            hideInline();
+            if (modalOk) { modalOk.disabled = true; modalOk.textContent = 'Reactivando...'; }
+            const r = await fetch('../backend/reactivar_cuenta.php', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ email, password })
+            });
+            const raw = await r.text();
+            let data = null; try { data = JSON.parse(raw); } catch {}
+            console.log('reactivar_cuenta.php →', r.status, data || raw);
 
-          // Mostrar modal
-          const loginModal = document.getElementById('loginModal');
-          const loginModalMessage = document.getElementById('loginModalMessage');
-          const loginModalClose = document.getElementById('loginModalClose');
-          const loginModalOk = document.getElementById('loginModalOk');
-          if (loginModal) {
-            // establecer mensaje si lo hay
-            if (loginModalMessage) loginModalMessage.textContent = 'Email o contraseña incorrectos.';
-            loginModal.style.display = 'flex';
-            loginModal.setAttribute('aria-hidden', 'false');
-
-            function hideModal() {
-              loginModal.style.display = 'none';
-              loginModal.setAttribute('aria-hidden', 'true');
-              // limpiar listeners
-              loginModalClose && loginModalClose.removeEventListener('click', onClose);
-              loginModalOk && loginModalOk.removeEventListener('click', onClose);
-              loginModal.removeEventListener('click', onOverlayClick);
+            if (!r.ok || !data || !data.success) {
+              const msg = (data && data.message) ? data.message : `No se pudo reactivar (HTTP ${r.status})`;
+              closeModal();
+              showInline(msg);
+              return;
             }
-
-            function onClose(e) { e && e.preventDefault(); hideModal(); }
-            function onOverlayClick(ev) {
-              if (ev.target === loginModal) hideModal();
-            }
-
-            if (loginModalClose) loginModalClose.addEventListener('click', onClose);
-            if (loginModalOk) loginModalOk.addEventListener('click', onClose);
-            loginModal.addEventListener('click', onOverlayClick);
+            // OK → entrar
+            history.replaceState({}, document.title, location.pathname);
+            window.location.href = '../index.html';
+          } catch (e) {
+            closeModal();
+            showInline(e.message || 'Error de red al reactivar.');
+          } finally {
+            if (modalOk) { modalOk.disabled = false; modalOk.textContent = 'Reactivar ahora'; }
           }
+        }
+        // =================================================
 
-          // eliminar parámetro de la URL sin recargar la página
-          params.delete('error');
+        // Mostrar modal según error
+        if (error === '1') {
+          hideInline();
+          setMsg('Error de autenticación','Email o contraseña incorrectos.');
+          modalOk && (modalOk.textContent = 'Aceptar', modalOk.onclick = closeModal);
+          openModal();
+        } else if (error === 'deactivated') {
+          hideInline();
+          setMsg('Cuenta desactivada','Tu cuenta está desactivada. Podés reactivarla ahora para volver a ingresar.');
+          modalOk && (modalOk.textContent = 'Reactivar ahora', modalOk.onclick = attemptReactivate);
+          openModal();
+
+          // 🔒 Interceptar el submit del form mientras esté desactivada
+          if (form) {
+            form.addEventListener('submit', function (e) {
+              if (!wasDeactivated) return; // si no venimos desactivados, login normal
+              e.preventDefault();
+              attemptReactivate(); // en lugar de mandar a login.php
+            });
+          }
+        } else if (error === 'deleted') {
+          hideInline();
+          setMsg('Cuenta eliminada','La cuenta fue eliminada y no puede reactivarse.');
+          modalOk && (modalOk.textContent = 'Aceptar', modalOk.onclick = closeModal);
+          openModal();
+        }
+
+        // Limpiar parámetros para no reabrir modal al refrescar
+        if (error) {
+          params.delete('error'); params.delete('email');
           const newUrl = window.location.pathname + (params.toString() ? ('?' + params.toString()) : '');
           window.history.replaceState({}, document.title, newUrl);
         }
-      } catch (e) { /* ignore */ }
-    })();
-	</script>
+      })();
+    </script>
   </body>
 </html>
