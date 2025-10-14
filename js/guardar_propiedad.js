@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const label = btn.querySelector('.guardar-label');
                 if (label) label.textContent = 'Tu propiedad';
                 // cambiar icon a estado bloqueado si se desea
-                icon.src = '../icons/icono-guardar-disabled.png';
+                icon.src = '../assets/icono-guardar-disabled.png';
               }
             }
           }
@@ -70,10 +70,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const setIcon = (isSaved) => {
     saved = !!isSaved;
     if (saved) {
-      icon.src = '../icons/icono-guardar.png';
+      icon.src = '../assets/icono-guardar.png';
       btn.setAttribute('aria-pressed', 'true');
     } else {
-      icon.src = '../icons/icono-guardar-normal.png';
+      icon.src = '../assets/icono-guardar-normal.png';
       btn.setAttribute('aria-pressed', 'false');
     }
     // actualizar label

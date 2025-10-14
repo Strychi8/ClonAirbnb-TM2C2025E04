@@ -44,9 +44,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Iconos de compartir
   const redes = [
-    { nombre: 'WhatsApp', icon: '../icons/whatsapp.png', url: (encoded) => `https://wa.me/?text=${encoded}` },
-    { nombre: 'X', icon: '../icons/twitter.png', url: (encoded) => `https://twitter.com/intent/tweet?url=${encoded}` },
-    { nombre: 'Mail', icon: '../icons/mail.png', url: (encoded) => `https://mail.google.com/mail/?view=cm&fs=1&su=Te%20comparto%20este%20alojamiento&body=${encoded}` },
+    { nombre: 'WhatsApp', icon: '../assets/whatsapp.png', url: (encoded) => `https://wa.me/?text=${encoded}` },
+    { nombre: 'X', icon: '../assets/twitter.png', url: (encoded) => `https://twitter.com/intent/tweet?url=${encoded}` },
+    { nombre: 'Mail', icon: '../assets/mail.png', url: (encoded) => `https://mail.google.com/mail/?view=cm&fs=1&su=Te%20comparto%20este%20alojamiento&body=${encoded}` },
   ];
 
   redes.forEach(r => {
