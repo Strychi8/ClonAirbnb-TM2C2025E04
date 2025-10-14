@@ -35,7 +35,7 @@ CREATE TABLE `alojamientos` (
   `tipo_propiedad` varchar(25) DEFAULT NULL,     -- Esta linea esta de mas, es la misma que "tipo_alojamiento"
   `imagen_principal` varchar(200) DEFAULT NULL,
   `fecha_alta` timestamp NOT NULL DEFAULT current_timestamp(),
-  `activo` tinyint(1) DEFAULT '1'
+  `activo` tinyint(1) DEFAULT '1',
   PRIMARY KEY (`id`),
   KEY `fk_alojamientos_usuario` (`usuario_id`),
   CONSTRAINT `fk_alojamientos_usuario` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON UPDATE CASCADE
@@ -95,9 +95,26 @@ CREATE TABLE `reservas` (
 );
 
 
-
-
 ALTER TABLE reservas ADD COLUMN estado ENUM('activa', 'cancelada', 'finalizada') DEFAULT 'activa';
+
+
+-- Estado del usuario y datos de desactivación
+ALTER TABLE usuarios
+  ADD COLUMN estado ENUM('activo','desactivado','eliminado') NOT NULL DEFAULT 'activo' AFTER created_at,
+  ADD COLUMN desactivado_at DATETIME NULL AFTER estado,
+  ADD COLUMN desactivado_motivo VARCHAR(50) NULL AFTER desactivado_at,
+  ADD COLUMN desactivado_detalle TEXT NULL AFTER desactivado_motivo;
+
+-- Desactivaciones/activaciones
+CREATE TABLE IF NOT EXISTS usuario_desactivaciones (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  usuario_id INT NOT NULL,
+  accion ENUM('desactivar','reactivar') NOT NULL,
+  motivo VARCHAR(50) NULL,
+  detalle TEXT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
+);
 
 CREATE TABLE `metodos_pago` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -110,4 +127,3 @@ CREATE TABLE `metodos_pago` (
   KEY `usuario_id` (`usuario_id`),
   CONSTRAINT `fk_metodos_pago_usuario` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE
 );
-

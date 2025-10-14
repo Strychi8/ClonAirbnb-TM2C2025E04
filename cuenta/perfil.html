@@ -164,6 +164,15 @@
                     <span class="action-arrow">›</span>
                 </a>
 
+                 <button id="btn-desactivar-cuenta" class="action-btn-danger">
+                    <span class="action-icon">🛑</span>
+                    <div class="action-text">
+                        <div class="action-title">Desactivar Cuenta</div>
+                        <div class="action-desc">Oculta tu perfil y desactiva actividad</div>
+                    </div>
+                    <span class="action-arrow">›</span>
+                </button>
+
                 <button id="btn-eliminar-cuenta" class="action-btn-danger">
                     <span class="action-icon">🗑️</span>
                     <div class="action-text">
@@ -175,6 +184,32 @@
             </div>
         </div>
     </main>
+
+    <div id="modal-desactivar" class="modal" aria-hidden="true" role="dialog">
+    <div class="modal-backdrop"></div>
+    <div class="modal-content" role="document">
+        <h3>Desactivar tu cuenta</h3>
+        <p>Tu perfil y alojamientos quedarán ocultos. Debes cancelar tus reservas futuras como huésped. Podrás reactivar tu cuenta cuando quieras.</p>
+
+        <label for="motivo-desactivar">Motivo principal</label>
+        <select id="motivo-desactivar" required>
+        <option value="">Seleccioná…</option>
+        <option value="descanso">Necesito un descanso</option>
+        <option value="seguridad">Seguridad/privacidad</option>
+        <option value="notificaciones">Demasiadas notificaciones</option>
+        <option value="problemas">Problemas con reservas/pagos</option>
+        <option value="otro">Otro</option>
+        </select>
+
+        <label for="detalle-desactivar">Detalles (opcional)</label>
+        <textarea id="detalle-desactivar" placeholder="Contanos si querés…"></textarea>
+
+        <div class="modal-actions">
+        <button id="confirmar-desactivar" class="btn btn-primary">Desactivar</button>
+        <button id="cerrar-desactivar" class="btn btn-secondary">Cancelar</button>
+        </div>
+    </div>
+    </div>
 
     <script src="../js/session_utils.js"></script>
     <script src="../js/perfil_usuario.js"></script>
